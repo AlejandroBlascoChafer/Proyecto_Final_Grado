@@ -1,0 +1,18 @@
+query GetUserAnimeList($userName: String!) {
+  MediaListCollection(userName: $userName, type: ANIME, sort: SCORE_DESC) {
+    lists {
+      entries {
+        status
+        score
+        media {
+          title {
+            english
+          }
+          coverImage {
+            medium
+          }
+        }
+      }
+    }
+  }
+}
