@@ -1,0 +1,39 @@
+query GetUserProfileInfo {
+    Viewer {
+        id
+        name
+        avatar {
+            large
+        }
+        favourites {
+            anime {
+                nodes {
+                    coverImage {
+                        large
+                    }
+                }
+            }
+            manga {
+                nodes {
+                    coverImage {
+                        large
+                    }
+                }
+            }
+            characters {
+                nodes {
+                    image {
+                        large
+                    }
+                }
+            }
+            staff {
+                nodes {
+                    image {
+                        large
+                    }
+                }
+            }
+        }
+    }
+}

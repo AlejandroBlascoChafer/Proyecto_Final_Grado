@@ -62,6 +62,5 @@ dependencies {
     implementation(libs.androidx.viewpager2)
     implementation(libs.material.v1110)
     implementation(libs.flexbox)
-
-
+    implementation(libs.squareup.picasso)
 }

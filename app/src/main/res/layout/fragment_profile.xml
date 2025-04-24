@@ -12,11 +12,12 @@
         android:padding="16dp">
 
         <!-- Imagen de perfil -->
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
+            android:contentDescription="Profile Picture"
             android:scaleType="centerCrop"
             android:background="@drawable/circle_background" />
 
@@ -33,6 +34,7 @@
 
         <!-- Anime Likes -->
         <TextView
+            android:id="@+id/tvAnime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Anime"
@@ -41,16 +43,17 @@
             android:layout_marginTop="24dp"
             android:textColor="@color/textPrimary" />
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/favAnimeContainer"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favAnimeRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:flexWrap="wrap"
-            app:justifyContent="flex_start"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal" />
 
         <!-- Manga Likes -->
         <TextView
+            android:id="@+id/tvManga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Manga"
@@ -59,16 +62,17 @@
             android:layout_marginTop="24dp"
             android:textColor="@color/textPrimary" />
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/favMangaContainer"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favMangaRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:flexWrap="wrap"
-            app:justifyContent="flex_start"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal" />
 
         <!-- Characters Likes -->
         <TextView
+            android:id="@+id/tvCharacters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Characters"
@@ -77,16 +81,17 @@
             android:layout_marginTop="24dp"
             android:textColor="@color/textPrimary" />
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/favCharactersContainer"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favCharactersRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:flexWrap="wrap"
-            app:justifyContent="flex_start"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal" />
 
         <!-- Staff Likes -->
         <TextView
+            android:id="@+id/tvStaff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Staff"
@@ -95,14 +100,18 @@
             android:layout_marginTop="24dp"
             android:textColor="@color/textPrimary" />
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/favStaffContainer"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favStaffRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:flexWrap="wrap"
-            app:justifyContent="flex_start"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
+
 
     </LinearLayout>
 </ScrollView>
