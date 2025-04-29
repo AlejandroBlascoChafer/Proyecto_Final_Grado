@@ -1,13 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mangaFragmentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MangaFragment">
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:padding="8dp">
 
     <TextView
-        android:text="Manga Fragment"
+        android:id="@+id/tvAnimeTitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Manga List"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/textPrimary"
+        android:layout_marginBottom="12dp"/>
 
-</FrameLayout>
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipReading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="Reading" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipCompleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="Completed" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipPlanning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="Planning" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipDropped"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="Dropped" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mangaRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        android:scrollbars="vertical" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
+
+</LinearLayout>

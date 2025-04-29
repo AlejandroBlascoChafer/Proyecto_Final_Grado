@@ -6,4 +6,8 @@
     <string name="nombre_de_usuario">Nombre de Usuario</string>
     <string name="contrasena">Contraseña</string>
     <string name="entrar">Entrar</string>
+    <string name="anime">Anime</string>
+    <string name="manga">Manga</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
 </resources>

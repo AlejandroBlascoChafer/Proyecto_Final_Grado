@@ -21,5 +21,6 @@
     <color name="dividerColor">#333C57</color>
     <color name="highlightColor">#2A2F3D</color>
     <color name="errorColor">#CF6679</color>
+    <color name="transparent">#00000000</color>
 </resources>
 

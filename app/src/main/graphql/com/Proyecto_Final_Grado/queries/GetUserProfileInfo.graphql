@@ -5,6 +5,22 @@ query GetUserProfileInfo {
         avatar {
             large
         }
+        statistics {
+            anime {
+                count
+                meanScore
+                minutesWatched
+                episodesWatched
+            }
+            manga {
+                count
+                meanScore
+                chaptersRead
+                volumesRead
+            }
+        }
+        about(asHtml: false)
+        siteUrl
         favourites {
             anime {
                 nodes {
@@ -33,6 +49,20 @@ query GetUserProfileInfo {
                         large
                     }
                 }
+            }
+        }
+        statistics {
+            anime {
+                count
+                meanScore
+                minutesWatched
+                episodesWatched
+            }
+            manga {
+                count
+                meanScore
+                chaptersRead
+                volumesRead
             }
         }
     }

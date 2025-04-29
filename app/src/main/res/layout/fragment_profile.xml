@@ -1,117 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <LinearLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="@color/background">
+
+                <!-- Imagen de perfil -->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="Profile Picture"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/circle_background"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Nombre de usuario -->
+                <TextView
+                    android:id="@+id/usernameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/textPrimary"
+                    app:layout_constraintTop_toBottomOf="@id/profileImage"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Botones menú -->
+                <ImageButton
+                    android:id="@+id/editProfileButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_activity"
+                    android:contentDescription="Editar Perfil"
+                    app:layout_constraintEnd_toStartOf="@id/settingsButton"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/settingsButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_more"
+                    android:contentDescription="Configuración"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Imagen de perfil -->
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/profileImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"
-            android:contentDescription="Profile Picture"
-            android:scaleType="centerCrop"
-            android:background="@drawable/circle_background" />
-
-        <!-- Nombre de usuario -->
-        <TextView
-            android:id="@+id/usernameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/textPrimary"
-            android:layout_gravity="center_horizontal" />
-
-        <!-- Anime Likes -->
-        <TextView
-            android:id="@+id/tvAnime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Anime"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            android:textColor="@color/textPrimary" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/favAnimeRecyclerView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <!-- Manga Likes -->
-        <TextView
-            android:id="@+id/tvManga"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Manga"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            android:textColor="@color/textPrimary" />
+            <TextView
+                android:id="@+id/bioTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bio"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/textPrimary"
+                app:layout_constraintTop_toBottomOf="@id/usernameText"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/favMangaRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal" />
+            <TextView
+                android:id="@+id/bioText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginTop="4dp"
+                android:textColor="@color/textPrimary"
+                app:layout_constraintTop_toBottomOf="@id/bioTitle"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- Characters Likes -->
-        <TextView
-            android:id="@+id/tvCharacters"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Characters"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            android:textColor="@color/textPrimary" />
+            <GridLayout
+                android:id="@+id/statsGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:columnCount="2"
+                app:layout_constraintTop_toBottomOf="@id/bioText"
+                app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/favCharactersRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal" />
+                <!-- Aquí pones pares: título / valor -->
+                <TextView android:text="Total Anime" android:textColor="@color/textPrimary"/>
+                <TextView android:id="@+id/statTotalAnime" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
 
-        <!-- Staff Likes -->
-        <TextView
-            android:id="@+id/tvStaff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Staff"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            android:textColor="@color/textPrimary" />
+                <TextView android:text="Episodes Watched" android:textColor="@color/textPrimary"/>
+                <TextView android:id="@+id/statEpisodes" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/favStaffRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"
-            android:orientation="horizontal" />
+                <TextView android:text="Days Watched" android:textColor="@color/textPrimary"/>
+                <TextView android:id="@+id/statDays" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="80dp" />
+                <TextView android:text="Anime Mean Score" android:textColor="@color/textPrimary"/>
+                <TextView android:id="@+id/statAnimeScore" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+
+                <TextView android:text="Total Manga" android:textColor="@color/textPrimary"/>
+                <TextView android:id="@+id/statTotalManga" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+
+                <TextView android:text="Chapters Read" android:textColor="@color/textPrimary"/>
+                <TextView android:id="@+id/statChapters" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+
+                <TextView android:text="Volumes Read" android:textColor="@color/textPrimary"/>
+                <TextView android:id="@+id/statVolumes" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+
+                <TextView android:text="Manga Mean Score" android:textColor="@color/textPrimary"/>
+                <TextView android:id="@+id/statMangaScore" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+
+            </GridLayout>
+
+            <!-- Anime Likes -->
+            <TextView
+                android:id="@+id/tvAnime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Anime"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="24dp"
+                android:textColor="@color/textPrimary" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favAnimeRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal" />
+
+            <!-- Manga Likes -->
+            <TextView
+                android:id="@+id/tvManga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manga"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="24dp"
+                android:textColor="@color/textPrimary" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favMangaRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal" />
+
+            <!-- Characters Likes -->
+            <TextView
+                android:id="@+id/tvCharacters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Characters"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="24dp"
+                android:textColor="@color/textPrimary" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favCharactersRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal" />
+
+            <!-- Staff Likes -->
+            <TextView
+                android:id="@+id/tvStaff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Staff"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="24dp"
+                android:textColor="@color/textPrimary" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favStaffRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:orientation="horizontal" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp" />
 
 
-    </LinearLayout>
-</ScrollView>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

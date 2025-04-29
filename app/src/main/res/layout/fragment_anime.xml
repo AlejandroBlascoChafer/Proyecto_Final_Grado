@@ -1,13 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/animeRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.AnimeFragment">
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:padding="16dp">
 
+    <!-- Título -->
     <TextView
-        android:text="Anime Fragment"
+        android:id="@+id/tvAnimeTitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Anime List"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/textPrimary"
+        android:layout_marginBottom="12dp"/>
 
-</FrameLayout>
+    <!-- Chips de filtro -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:singleSelection="true"
+        app:selectionRequired="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipWatching"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="Watching" />
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chipCompleted"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="Completed" />
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chipDropped"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="Dropped" />
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chipPlanning"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="Planning" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Lista de animes -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/animeRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
+</LinearLayout>

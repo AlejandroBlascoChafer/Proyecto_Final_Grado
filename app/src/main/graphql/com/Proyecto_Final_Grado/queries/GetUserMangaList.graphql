@@ -1,0 +1,22 @@
+query GetUserMangaList($userName: String!, $status: MediaListStatus) {
+    MediaListCollection(userName: $userName, type: MANGA, status: $status) {
+        lists {
+            name
+            entries {
+                media {
+                    id
+                    title {
+                        romaji
+                        english
+                    }
+                    coverImage {
+                        large
+                    }
+                }
+                score
+                progress
+                status
+            }
+        }
+    }
+}

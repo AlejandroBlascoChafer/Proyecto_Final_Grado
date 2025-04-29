@@ -73,6 +73,7 @@ class ProfileFragment : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = LikesAdapter(staffList, FAV_TYPE_STAFF)
         }
+
         if (animeList.isEmpty()) {
             binding.favAnimeRecyclerView.visibility = View.GONE
             binding.tvAnime.visibility = View.GONE
@@ -133,12 +134,31 @@ class ProfileFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     if (viewer != null) {
                         binding.usernameText.text = viewer.name
-                    }
-                    if (viewer != null) {
                         viewer.avatar?.large?.let { url ->
                             Picasso.get().load(url).into(binding.profileImage)
                         }
+                        binding.bioText.text = viewer.about
                     }
+                    if (viewer != null) {
+                        binding.usernameText.text = viewer.name
+                        viewer.avatar?.large?.let { url ->
+                            Picasso.get().load(url).into(binding.profileImage)
+                        }
+                        binding.bioText.text = viewer.about
+                    }
+
+                    // Estadísticas de anime
+                    binding.statTotalAnime.text = viewer?.statistics?.anime?.count?.toString() ?: "0"
+                    binding.statEpisodes.text = viewer?.statistics?.anime?.episodesWatched?.toString() ?: "0"
+                    val daysWatched = viewer?.statistics?.anime?.minutesWatched?.div(60 * 24) ?: 0
+                    binding.statDays.text = daysWatched.toString()
+                    binding.statAnimeScore.text = viewer?.statistics?.anime?.meanScore?.toString() ?: "-"
+
+                    // Estadísticas de manga
+                    binding.statTotalManga.text = viewer?.statistics?.manga?.count?.toString() ?: "0"
+                    binding.statChapters.text = viewer?.statistics?.manga?.chaptersRead?.toString() ?: "0"
+                    binding.statVolumes.text = viewer?.statistics?.manga?.volumesRead?.toString() ?: "0"
+                    binding.statMangaScore.text = viewer?.statistics?.manga?.meanScore?.toString() ?: "-"
 
                 }
                 setupRecyclerView(animeList, mangaList, charactersList, staffList)
