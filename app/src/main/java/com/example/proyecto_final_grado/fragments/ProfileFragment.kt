@@ -1,16 +1,20 @@
 package com.example.proyecto_final_grado.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.Proyecto_Final_Grado.queries.GetUserProfileInfoQuery.*
 import com.Proyecto_Final_Grado.queries.GetUserProfileInfoQuery
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
+import com.example.proyecto_final_grado.R
+import com.example.proyecto_final_grado.activities.LoginActivity
 import com.example.proyecto_final_grado.adapters.FAV_TYPE_ANIME
 import com.example.proyecto_final_grado.adapters.FAV_TYPE_CHARACTER
 import com.example.proyecto_final_grado.adapters.FAV_TYPE_MANGA
@@ -24,6 +28,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Locale
 
 class ProfileFragment : Fragment() {
 
@@ -36,14 +41,19 @@ class ProfileFragment : Fragment() {
 
 
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         sessionManager = SessionManager(requireContext())
+
+
+
+        binding.settingsButton.setOnClickListener {
+            showPopupMenu(it)
+
+        }
 
 
         fetchUserData()
@@ -123,14 +133,6 @@ class ProfileFragment : Fragment() {
                 val charactersList = viewer?.favourites?.characters?.nodes?.filterNotNull() ?: emptyList()
                 val staffList = viewer?.favourites?.staff?.nodes?.filterNotNull() ?: emptyList()
 
-
-
-
-
-
-
-
-
                 withContext(Dispatchers.Main) {
                     if (viewer != null) {
                         binding.usernameText.text = viewer.name
@@ -151,7 +153,8 @@ class ProfileFragment : Fragment() {
                     binding.statTotalAnime.text = viewer?.statistics?.anime?.count?.toString() ?: "0"
                     binding.statEpisodes.text = viewer?.statistics?.anime?.episodesWatched?.toString() ?: "0"
                     val daysWatched = viewer?.statistics?.anime?.minutesWatched?.div(60 * 24) ?: 0
-                    binding.statDays.text = daysWatched.toString()
+                    binding.statDays.text = String.format(Locale.getDefault(), "%.1f", daysWatched)
+                    String.format(daysWatched.toString())
                     binding.statAnimeScore.text = viewer?.statistics?.anime?.meanScore?.toString() ?: "-"
 
                     // Estadísticas de manga
@@ -174,5 +177,23 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showPopupMenu(view: View) {
+        val popup = PopupMenu(requireContext(), view)
+        popup.menuInflater.inflate(R.menu.menu_profile_popup, popup.menu)
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.action_logout -> {
+                    sessionManager.clearSession()
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+        popup.show()
     }
 }

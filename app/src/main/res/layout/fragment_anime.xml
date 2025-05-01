@@ -13,7 +13,7 @@
         android:id="@+id/tvAnimeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Anime List"
+        android:text="@string/anime_list"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/textPrimary"
@@ -24,7 +24,6 @@
         android:id="@+id/chipGroupStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         app:singleSelection="true"
         app:selectionRequired="true">
 
@@ -32,29 +31,29 @@
             android:id="@+id/chipWatching"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Widget.Material3.Chip.Filter"
-            android:text="Watching" />
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/watching" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/chipCompleted"
-            style="@style/Widget.Material3.Chip.Filter"
-            android:text="Completed" />
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/completed" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/chipDropped"
-            style="@style/Widget.Material3.Chip.Filter"
-            android:text="Dropped" />
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/dropped" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/chipPlanning"
-            style="@style/Widget.Material3.Chip.Filter"
-            android:text="Planning" />
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/planning" />
 
     </com.google.android.material.chip.ChipGroup>
 

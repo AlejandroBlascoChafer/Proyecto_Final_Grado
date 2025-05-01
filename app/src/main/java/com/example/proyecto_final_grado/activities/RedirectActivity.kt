@@ -39,7 +39,7 @@ class RedirectActivity : AppCompatActivity() {
             .build()
 
         val request = Request.Builder()
-            .url(Constants.TOKEN_URL) // debería ser https://anilist.co/api/v2/oauth/token
+            .url(Constants.TOKEN_URL)
             .post(requestBody)
             .build()
 
