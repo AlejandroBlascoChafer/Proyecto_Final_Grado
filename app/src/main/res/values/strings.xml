@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Proyecto_Final_Grado</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="anitrack">AniTrack</string>
     <string name="nombre_de_usuario">Nombre de Usuario</string>
@@ -10,4 +9,12 @@
     <string name="manga">Manga</string>
     <string name="following">Following</string>
     <string name="followers">Followers</string>
+    <string name="log_out">Log Out</string>
+    <string name="manga_list">Manga List</string>
+    <string name="reading">Reading</string>
+    <string name="completed">Completed</string>
+    <string name="planning">Planning</string>
+    <string name="dropped">Dropped</string>
+    <string name="anime_list">Anime List</string>
+    <string name="watching">Watching</string>
 </resources>
