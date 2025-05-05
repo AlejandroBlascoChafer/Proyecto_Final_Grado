@@ -32,10 +32,29 @@ class AnimeAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(anime: GetUserAnimeListQuery.Entry) {
-            binding.tvTitle.text = anime.media?.title?.romaji
-            binding.tvScore.text = anime.score?.toString() ?: "Sin puntuación"
-            binding.tvStatus.text = anime.status?.name
-            binding.tvProgress.text = "Progreso: ${anime.progress ?: 0}"
+            val totalEpisodes = anime.media?.episodes
+            val episodesWatched = anime.progress ?: 0
+
+            binding.tvProgress.text = if (totalEpisodes != null) {
+                "$episodesWatched / $totalEpisodes episodes"
+            } else {
+                "$episodesWatched / ? episodes"
+            }
+            val percentage = if (totalEpisodes != null && totalEpisodes > 0) {
+                episodesWatched*100 / totalEpisodes
+            } else {
+                0
+            }
+            binding.progressBar.progress = percentage
+            binding.tvTitle.text = anime.media?.title?.userPreferred
+            binding.tvScore.text = anime.score?.toString() ?: "No score"
+            binding.tvMedia.text = anime.media?.format?.name
+
+
+
+
+
+
 
             Picasso.get()
                 .load(anime.media?.coverImage?.medium)

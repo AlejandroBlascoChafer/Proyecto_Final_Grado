@@ -15,16 +15,16 @@ const val FAV_TYPE_STAFF = 3
 class LikesAdapter(
     private val items: List<Any>,
     private val type: Int
-) : RecyclerView.Adapter<LikesAdapter.FavouritesViewHolder>() {
+) : RecyclerView.Adapter<LikesAdapter.LikesViewHolder>() {
 
-    inner class FavouritesViewHolder(val binding: ItemProfileLikeBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class LikesViewHolder(val binding: ItemProfileLikeBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LikesViewHolder {
         val binding = ItemProfileLikeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return FavouritesViewHolder(binding)
+        return LikesViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: FavouritesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LikesViewHolder, position: Int) {
         val imageUrl = when (type) {
             FAV_TYPE_ANIME -> (items[position] as GetUserProfileInfoQuery.Node).coverImage?.large
             FAV_TYPE_MANGA -> (items[position] as GetUserProfileInfoQuery.Node1).coverImage?.large

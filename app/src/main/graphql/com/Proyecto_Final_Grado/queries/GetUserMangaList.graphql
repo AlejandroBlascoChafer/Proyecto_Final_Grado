@@ -6,12 +6,14 @@ query GetUserMangaList($userName: String!, $status: MediaListStatus) {
                 media {
                     id
                     title {
-                        romaji
-                        english
+                        userPreferred
                     }
                     coverImage {
                         large
                     }
+                    chapters
+                    format
+                    volumes
                 }
                 score
                 progress

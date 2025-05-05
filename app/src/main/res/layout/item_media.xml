@@ -18,42 +18,118 @@
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:contentDescription="Anime Cover" />
+            android:contentDescription="@string/cover" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingStart="12dp">
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Título"
+                android:text="@string/title"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvMedia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/media"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <TextView
                 android:id="@+id/tvScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Score"
+                android:text="@string/score"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
-            <TextView
-                android:id="@+id/tvStatus"
-                android:layout_width="wrap_content"
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                android:progress="0"
+                android:progressTint="?attr/colorPrimary" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Estado"
-                android:textAppearance="?attr/textAppearanceBody2" />
-            <TextView
-                android:id="@+id/tvProgress"
-                android:layout_width="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tvProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <Button
+                    android:id="@+id/btnAddEpisode"
+                    android:layout_width="60dp"
+                    android:layout_height="48dp"
+                    android:text="@string/plus1_ep"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:backgroundTint="?attr/colorPrimary"
+                    style="@style/Widget.Material3.Button"
+                    android:padding="0dp"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvProgress"
+                    app:layout_constraintBottom_toBottomOf="@id/tvProgress" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/volumeLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Progress"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:layout_marginTop="4dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvVolumes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <Button
+                    android:id="@+id/btnAddVolume"
+                    android:layout_width="60dp"
+                    android:layout_height="32dp"
+                    android:text="@string/plus1_vo"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:backgroundTint="?attr/colorPrimary"
+                    style="@style/Widget.Material3.Button"
+                    android:padding="0dp"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvVolumes"
+                    app:layout_constraintBottom_toBottomOf="@id/tvVolumes" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

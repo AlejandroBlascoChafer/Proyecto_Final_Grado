@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.loginButton.setOnClickListener {
-            val authUri = Uri.parse("https://anilist.co/api/v2/oauth/authorize")
+            val authUri = Uri.parse(Constants.AUTH_URL)
                 .buildUpon()
                 .appendQueryParameter("client_id", clientId.toString())
                 .appendQueryParameter("redirect_uri", redirectUri)
