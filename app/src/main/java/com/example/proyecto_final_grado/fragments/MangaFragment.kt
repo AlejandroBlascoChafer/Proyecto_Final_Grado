@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.Proyecto_Final_Grado.queries.GetUserMangaListQuery
 import com.Proyecto_Final_Grado.queries.GetUserMangaListQuery.*
 import com.Proyecto_Final_Grado.queries.GetUserProfileInfoQuery
+import com.Proyecto_Final_Grado.queries.UpdateProgressMutation
 import com.Proyecto_Final_Grado.queries.type.MediaListStatus
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
@@ -18,13 +19,14 @@ import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.adapters.MangaAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentMangaBinding
+import com.example.proyecto_final_grado.listeners.OnAddChClickListener
 import com.example.proyecto_final_grado.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MangaFragment : Fragment() {
+class MangaFragment : Fragment(), OnAddChClickListener {
 
     private var _binding: FragmentMangaBinding? = null
     private val binding get() = _binding!!
@@ -53,7 +55,10 @@ class MangaFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        mangaAdapter = MangaAdapter(emptyList())
+        mangaAdapter = MangaAdapter(
+            emptyList(),
+            listener = this
+        )
         binding.mangaRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = mangaAdapter
@@ -98,6 +103,49 @@ class MangaFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onAddCh(mediaId: Int, progress: Int) {
+        val newProgress = progress +1
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response: ApolloResponse<UpdateProgressMutation.Data> = apolloClient.mutation(
+                    UpdateProgressMutation(mediaId, Optional.Present(newProgress))
+                ).execute()
+                val updatedEntry = response.data?.SaveMediaListEntry
+                if (updatedEntry != null){
+                    loadMangaList("CURRENT")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Log.d("Error", "${e.message}")
+                }
+            }
+
+        }
+    }
+
+    override fun onAddVo(mediaId: Int, progressVolumes: Int) {
+        val newProgress = progressVolumes +1
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response: ApolloResponse<UpdateProgressMutation.Data> = apolloClient.mutation(
+                    UpdateProgressMutation(
+                        mediaId = mediaId,
+                        progress = Optional.Absent,
+                        progressVolumes = Optional.Present(newProgress))
+                ).execute()
+                val updatedEntry = response.data?.SaveMediaListEntry
+                if (updatedEntry != null){
+                    loadMangaList("CURRENT")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Log.d("Error", "${e.message}")
+                }
+            }
+
+        }
     }
 }
 

@@ -1,0 +1,8 @@
+mutation UpdateProgress($mediaId: Int!, $progress: Int, $progressVolumes: Int) {
+    SaveMediaListEntry(mediaId: $mediaId, progress: $progress, progressVolumes: $progressVolumes) {
+        id
+        progress
+        updatedAt
+        progressVolumes
+    }
+}

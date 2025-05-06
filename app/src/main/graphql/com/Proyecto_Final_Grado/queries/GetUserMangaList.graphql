@@ -1,8 +1,9 @@
 query GetUserMangaList($userName: String!, $status: MediaListStatus) {
-    MediaListCollection(userName: $userName, type: MANGA, status: $status) {
+    MediaListCollection(userName: $userName, type: MANGA, status: $status, sort: SCORE_DESC) {
         lists {
             name
             entries {
+                mediaId
                 media {
                     id
                     title {
@@ -18,6 +19,7 @@ query GetUserMangaList($userName: String!, $status: MediaListStatus) {
                 score
                 progress
                 status
+                progressVolumes
             }
         }
     }

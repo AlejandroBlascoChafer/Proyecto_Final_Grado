@@ -1,7 +1,8 @@
-query GetUserAnimeList($userName: String!, $status: MediaListStatus) {
+query GetUserAnimeList($userName: String!, $status: MediaListStatus!) {
   MediaListCollection(userName: $userName, status: $status, type: ANIME, sort: SCORE_DESC) {
     lists {
       entries {
+        mediaId
         status
         score
         progress

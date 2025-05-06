@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.Proyecto_Final_Grado.queries.GetUserAnimeListQuery
 import com.example.proyecto_final_grado.databinding.ItemMediaBinding
+import com.example.proyecto_final_grado.listeners.OnAddEpClickListener
 import com.squareup.picasso.Picasso
 
 class AnimeAdapter(
-    private var animeList: List<GetUserAnimeListQuery.Entry>
+    private var animeList: List<GetUserAnimeListQuery.Entry>,
+    private val listener: OnAddEpClickListener
 ) : RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
@@ -28,6 +30,7 @@ class AnimeAdapter(
         notifyDataSetChanged()
     }
 
+
     inner class AnimeViewHolder(private val binding: ItemMediaBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -40,20 +43,20 @@ class AnimeAdapter(
             } else {
                 "$episodesWatched / ? episodes"
             }
-            val percentage = if (totalEpisodes != null && totalEpisodes > 0) {
-                episodesWatched*100 / totalEpisodes
-            } else {
-                0
+            val percentage = when {
+                totalEpisodes != null && totalEpisodes > 0 -> {
+                    episodesWatched * 100 / totalEpisodes
+                }
+                totalEpisodes == null -> {
+                    50
+                }
+                else -> 0
             }
+
             binding.progressBar.progress = percentage
             binding.tvTitle.text = anime.media?.title?.userPreferred
             binding.tvScore.text = anime.score?.toString() ?: "No score"
             binding.tvMedia.text = anime.media?.format?.name
-
-
-
-
-
 
 
             Picasso.get()
@@ -61,6 +64,16 @@ class AnimeAdapter(
                 .fit()
                 .centerCrop()
                 .into(binding.ivCover)
+
+
+
+            binding.btnAddEpisode.setOnClickListener {
+                val mediaId = anime.mediaId
+                val progress = anime.progress
+                if (progress != null) {
+                    listener.onAddEp(mediaId, progress)
+                }
+            }
         }
     }
 }

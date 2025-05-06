@@ -17,4 +17,10 @@
     <string name="dropped">Dropped</string>
     <string name="anime_list">Anime List</string>
     <string name="watching">Watching</string>
+    <string name="cover">Cover</string>
+    <string name="title">Title</string>
+    <string name="media">Media</string>
+    <string name="score">Score</string>
+    <string name="plus1_ep">+1 EP</string>
+    <string name="plus1_vo">+1 VO</string>
 </resources>

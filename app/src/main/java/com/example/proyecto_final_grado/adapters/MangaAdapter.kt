@@ -5,10 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.Proyecto_Final_Grado.queries.GetUserMangaListQuery
 import com.example.proyecto_final_grado.databinding.ItemMediaBinding
+import com.example.proyecto_final_grado.listeners.OnAddChClickListener
 import com.squareup.picasso.Picasso
 
 class MangaAdapter(
-    private var mangaList: List<GetUserMangaListQuery.Entry>
+    private var mangaList: List<GetUserMangaListQuery.Entry>,
+    private val listener: OnAddChClickListener
 ) : RecyclerView.Adapter<MangaAdapter.MangaViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaViewHolder {
@@ -33,7 +35,7 @@ class MangaAdapter(
         fun bind(manga: GetUserMangaListQuery.Entry) {
             val chaptersRead = manga.progress ?: 0
             val totalChapters = manga.media?.chapters
-            val volumesRead = manga.media?.volumes ?: 0
+            val volumesRead = manga.progressVolumes ?: 0
             val totalVolumes = manga.media?.volumes ?: "?"
             val volumeText = "$volumesRead / $totalVolumes volumes"
 
@@ -43,10 +45,14 @@ class MangaAdapter(
                 "$chaptersRead / ? capítulos"
             }
 
-            val percentage = if (totalChapters != null && totalChapters > 0) {
-                chaptersRead * 100 / totalChapters
-            } else {
-                0
+            val percentage = when {
+                totalChapters != null && totalChapters > 0 -> {
+                    chaptersRead * 100 / totalChapters
+                }
+                totalChapters == null -> {
+                    50 // Sin datos del total, asumimos progreso medio
+                }
+                else -> 0
             }
             binding.progressBar.progress = percentage
 
@@ -63,6 +69,21 @@ class MangaAdapter(
 
             binding.volumeLayout.visibility = android.view.View.VISIBLE
             binding.btnAddEpisode.text = "+1 CH"
+
+            binding.btnAddEpisode.setOnClickListener {
+                val mediaId = manga.mediaId
+                val progress = manga.progress
+                if (progress != null) {
+                    listener.onAddCh(mediaId, progress)
+                }
+            }
+            binding.btnAddVolume.setOnClickListener {
+                val mediaId = manga.mediaId
+                val progress = manga.progressVolumes
+                if (progress != null) {
+                    listener.onAddVo(mediaId, progress)
+                }
+            }
         }
     }
 }

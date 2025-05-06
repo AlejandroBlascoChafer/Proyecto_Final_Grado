@@ -52,7 +52,6 @@ class ProfileFragment : Fragment() {
 
         binding.settingsButton.setOnClickListener {
             showPopupMenu(it)
-
         }
 
 
@@ -144,10 +143,10 @@ class ProfileFragment : Fragment() {
 
                     // Estadísticas de anime
                     binding.statTotalAnime.text = viewer?.statistics?.anime?.count?.toString() ?: "0"
+
                     binding.statEpisodes.text = viewer?.statistics?.anime?.episodesWatched?.toString() ?: "0"
-                    val daysWatched = viewer?.statistics?.anime?.minutesWatched?.div(60 * 24) ?: 0
+                    val daysWatched = viewer?.statistics?.anime?.minutesWatched?.toDouble()?.div(60 * 24) ?: 0
                     binding.statDays.text = String.format(Locale.getDefault(), "%.1f", daysWatched)
-                    String.format(daysWatched.toString())
                     binding.statAnimeScore.text = viewer?.statistics?.anime?.meanScore?.toString() ?: "-"
 
                     // Estadísticas de manga
