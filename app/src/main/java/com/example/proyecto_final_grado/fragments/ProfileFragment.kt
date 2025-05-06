@@ -141,13 +141,6 @@ class ProfileFragment : Fragment() {
                         }
                         binding.bioText.text = viewer.about
                     }
-                    if (viewer != null) {
-                        binding.usernameText.text = viewer.name
-                        viewer.avatar?.large?.let { url ->
-                            Picasso.get().load(url).into(binding.profileImage)
-                        }
-                        binding.bioText.text = viewer.about
-                    }
 
                     // Estadísticas de anime
                     binding.statTotalAnime.text = viewer?.statistics?.anime?.count?.toString() ?: "0"
