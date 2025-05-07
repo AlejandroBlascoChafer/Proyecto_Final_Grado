@@ -3,7 +3,7 @@ package com.example.proyecto_final_grado.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.Proyecto_Final_Grado.queries.GetUserProfileInfoQuery
+import graphql.GetUserProfileInfoQuery
 import com.example.proyecto_final_grado.databinding.ItemProfileLikeBinding
 import com.squareup.picasso.Picasso
 

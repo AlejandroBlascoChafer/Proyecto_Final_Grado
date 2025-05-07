@@ -7,11 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.Proyecto_Final_Grado.queries.GetUserMangaListQuery
-import com.Proyecto_Final_Grado.queries.GetUserMangaListQuery.*
-import com.Proyecto_Final_Grado.queries.GetUserProfileInfoQuery
-import com.Proyecto_Final_Grado.queries.UpdateProgressMutation
-import com.Proyecto_Final_Grado.queries.type.MediaListStatus
+import graphql.GetUserMangaListQuery
+import graphql.GetUserMangaListQuery.*
+import graphql.GetUserProfileInfoQuery
+import graphql.UpdateProgressMutation
+import graphql.type.MediaListStatus
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Optional

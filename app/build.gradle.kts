@@ -6,7 +6,8 @@ plugins {
 
 apollo {
     service("anilist") {
-        packageName.set("src/main/graphql")
+        packageName.set("graphql")
+        schemaFile.set(file("src/main/graphql/schema.graphqls"))
     }
 }
 

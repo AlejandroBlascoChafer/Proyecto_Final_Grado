@@ -3,33 +3,62 @@ package com.example.proyecto_final_grado.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.Proyecto_Final_Grado.queries.GetUserMangaListQuery
-import com.example.proyecto_final_grado.databinding.ItemMediaBinding
+import graphql.GetUserMangaListQuery
+import com.example.proyecto_final_grado.databinding.ItemMediaFullBinding
+import com.example.proyecto_final_grado.databinding.ItemMediaSimpleBinding
 import com.example.proyecto_final_grado.listeners.OnAddChClickListener
 import com.squareup.picasso.Picasso
+import graphql.type.MediaListStatus
 
 class MangaAdapter(
     private var mangaList: List<GetUserMangaListQuery.Entry>,
     private val listener: OnAddChClickListener
-) : RecyclerView.Adapter<MangaAdapter.MangaViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaViewHolder {
-        val binding = ItemMediaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MangaViewHolder(binding)
+    companion object {
+        private const val VIEW_TYPE_FULL = 0
+        private const val VIEW_TYPE_SIMPLE = 1
     }
 
-    override fun onBindViewHolder(holder: MangaViewHolder, position: Int) {
-        holder.bind(mangaList[position])
+    override fun getItemViewType(position: Int): Int {
+        return when (mangaList[position].status) {
+            MediaListStatus.CURRENT -> VIEW_TYPE_FULL
+            else -> VIEW_TYPE_SIMPLE
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_FULL -> {
+                val binding = ItemMediaFullBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                FullViewHolder(binding)
+            }
+            else -> {
+                val binding = ItemMediaSimpleBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+                SimpleViewHolder(binding)
+            }
+        }
     }
 
     override fun getItemCount(): Int = mangaList.size
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val manga = mangaList[position]
+        when (holder) {
+            is FullViewHolder -> holder.bind(manga)
+            is SimpleViewHolder -> holder.bind(manga)
+        }
+    }
+
 
     fun submitList(newList: List<GetUserMangaListQuery.Entry>) {
         mangaList = newList
         this.notifyDataSetChanged()
     }
 
-    inner class MangaViewHolder(private val binding: ItemMediaBinding) :
+    inner class FullViewHolder(private val binding: ItemMediaFullBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(manga: GetUserMangaListQuery.Entry) {
@@ -37,12 +66,12 @@ class MangaAdapter(
             val totalChapters = manga.media?.chapters
             val volumesRead = manga.progressVolumes ?: 0
             val totalVolumes = manga.media?.volumes ?: "?"
-            val volumeText = "$volumesRead / $totalVolumes volumes"
+            val volumeText = "$volumesRead / $totalVolumes"
 
             binding.tvProgress.text = if (totalChapters != null) {
-                "$chaptersRead / $totalChapters capítulos"
+                "$chaptersRead / $totalChapters"
             } else {
-                "$chaptersRead / ? capítulos"
+                "$chaptersRead / ?"
             }
 
             val percentage = when {
@@ -68,6 +97,7 @@ class MangaAdapter(
                 .into(binding.ivCover)
 
             binding.volumeLayout.visibility = android.view.View.VISIBLE
+            binding.progressBar.visibility = android.view.View.GONE
             binding.btnAddEpisode.text = "+1 CH"
 
             binding.btnAddEpisode.setOnClickListener {
@@ -84,6 +114,47 @@ class MangaAdapter(
                     listener.onAddVo(mediaId, progress)
                 }
             }
+        }
+    }
+
+    inner class SimpleViewHolder(private val binding: ItemMediaSimpleBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(manga: GetUserMangaListQuery.Entry) {
+            val volumesRead = manga.progressVolumes ?: 0
+            val totalVolumes = manga.media?.volumes ?: "?"
+            val volumeText = "$volumesRead / $totalVolumes"
+
+            val totalChapters = manga.media?.chapters
+            val chaptersRead = manga.progress ?: 0
+
+            val percentage = when {
+                totalChapters != null && totalChapters > 0 -> {
+                    chaptersRead * 100 / totalChapters
+                }
+                totalChapters == null -> {
+                    50
+                }
+                else -> 0
+            }
+
+            binding.tvProgress.text = if (totalChapters != null) {
+                "$chaptersRead / $totalChapters"
+            } else {
+                "$chaptersRead / ?"
+            }
+
+            binding.tvTitle.text = manga.media?.title?.userPreferred
+            binding.tvScore.text = manga.score?.toString() ?: "No score"
+            binding.tvMedia.text = manga.media?.format?.name
+            binding.tvVolumes.text = volumeText
+            binding.progressBar.progress = percentage
+
+            Picasso.get()
+                .load(manga.media?.coverImage?.large)
+                .fit()
+                .centerCrop()
+                .into(binding.ivCover)
         }
     }
 }

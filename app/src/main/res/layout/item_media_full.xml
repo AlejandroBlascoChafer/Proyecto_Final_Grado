@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Imagen sin padding -->
+        <ImageView
+            android:id="@+id/ivCover"
+            android:layout_width="80dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/cover"
+            android:adjustViewBounds="true" />
+
+        <!-- Contenido con padding -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <!-- Título -->
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tvMedia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Media"
+                android:textSize="13sp"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+            <!-- Fila inferior: Score + Contenedores -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical" >
+
+                <!-- Score con icono -->
+                <LinearLayout
+                    android:id="@+id/scoreContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/ivScoreIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_star"
+                        app:tint="?attr/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/tvScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8.5"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:layout_marginStart="4dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Contenedor capítulos y volúmenes -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="end">
+
+                    <!-- Episodios -->
+                    <LinearLayout
+                        android:id="@+id/episodeLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical|end">
+
+                        <TextView
+                            android:id="@+id/tvProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textAppearance="?attr/textAppearanceCaption"
+                            android:layout_marginEnd="8dp" />
+
+                        <Button
+                            android:id="@+id/btnAddEpisode"
+                            android:layout_width="60dp"
+                            android:layout_height="36dp"
+                            android:text="+1 EP"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"
+                            android:backgroundTint="?attr/colorPrimary"
+                            android:padding="0dp"
+                            android:minHeight="0dp"
+                            android:minWidth="0dp"
+                            style="@style/Widget.Material3.Button" />
+                    </LinearLayout>
+
+                    <!-- Volúmenes -->
+                    <LinearLayout
+                        android:id="@+id/volumeLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center_vertical|end">
+
+                        <TextView
+                            android:id="@+id/tvVolumes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textAppearance="?attr/textAppearanceCaption"
+                            android:layout_marginEnd="8dp" />
+
+                        <Button
+                            android:id="@+id/btnAddVolume"
+                            android:layout_width="60dp"
+                            android:layout_height="36dp"
+                            android:text="+1 VO"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"
+                            android:backgroundTint="?attr/colorPrimary"
+                            android:padding="0dp"
+                            android:minHeight="0dp"
+                            android:minWidth="0dp"
+                            style="@style/Widget.Material3.Button" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Barra de progreso al fondo -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="0dp"
+                android:progress="50"
+                android:max="100"
+                android:visibility="visible"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

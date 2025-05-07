@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.Proyecto_Final_Grado.queries.GetUserProfileInfoQuery.*
-import com.Proyecto_Final_Grado.queries.GetUserProfileInfoQuery
+import graphql.GetUserProfileInfoQuery.*
+import graphql.GetUserProfileInfoQuery
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
 import com.example.proyecto_final_grado.R
