@@ -60,7 +60,7 @@ class AnimeAdapter(
 
 
             Picasso.get()
-                .load(anime.media?.coverImage?.medium)
+                .load(anime.media?.coverImage?.large)
                 .fit()
                 .centerCrop()
                 .into(binding.ivCover)

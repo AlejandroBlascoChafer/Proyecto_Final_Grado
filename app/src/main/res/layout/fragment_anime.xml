@@ -65,7 +65,8 @@
         android:layout_weight="1"
         android:paddingBottom="16dp"
         android:clipToPadding="false"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        />
     <View
         android:layout_width="match_parent"
         android:layout_height="80dp" />

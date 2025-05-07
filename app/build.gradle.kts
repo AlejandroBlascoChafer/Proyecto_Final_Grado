@@ -6,7 +6,7 @@ plugins {
 
 apollo {
     service("anilist") {
-        packageName.set("com.Proyecto_Final_Grado.queries")
+        packageName.set("src/main/graphql")
     }
 }
 

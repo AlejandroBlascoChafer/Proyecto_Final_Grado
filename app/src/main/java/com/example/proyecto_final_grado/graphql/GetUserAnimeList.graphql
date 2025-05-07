@@ -11,7 +11,7 @@ query GetUserAnimeList($userName: String!, $status: MediaListStatus!) {
             userPreferred
           }
           coverImage {
-            medium
+            large
           }
           episodes
           format
