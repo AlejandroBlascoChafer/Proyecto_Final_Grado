@@ -1,19 +1,24 @@
 package com.example.proyecto_final_grado.adapters
 
 
+import android.content.res.Resources
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyecto_final_grado.databinding.ItemMediaFullAnimeBinding
 import graphql.GetUserAnimeListQuery
-import com.example.proyecto_final_grado.databinding.ItemMediaFullBinding
 import com.example.proyecto_final_grado.databinding.ItemMediaSimpleBinding
 import com.example.proyecto_final_grado.listeners.OnAddEpClickListener
+import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.squareup.picasso.Picasso
 import graphql.type.MediaListStatus
 
 class AnimeAdapter(
     private var animeList: List<GetUserAnimeListQuery.Entry>,
-    private val listener: OnAddEpClickListener
+    private val listener: OnAddEpClickListener,
+    private val listenerScore: OnScoreClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -31,7 +36,7 @@ class AnimeAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_FULL -> {
-                val binding = ItemMediaFullBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding = ItemMediaFullAnimeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 FullViewHolder(binding)
             }
             else -> {
@@ -58,7 +63,7 @@ class AnimeAdapter(
         notifyDataSetChanged()
     }
 
-    inner class FullViewHolder(private val binding: ItemMediaFullBinding) :
+    inner class FullViewHolder(private val binding: ItemMediaFullAnimeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(anime: GetUserAnimeListQuery.Entry) {
@@ -97,6 +102,14 @@ class AnimeAdapter(
                     listener.onAddEp(mediaId, progress)
                 }
             }
+            binding.tvScore.setOnClickListener{
+                val score = anime.score
+                val mediaId = anime.mediaId
+                val status = anime.status.toString()
+                if (score != null){
+                    listenerScore.onScoreClick(score, mediaId, status)
+                }
+            }
         }
     }
 
@@ -131,6 +144,16 @@ class AnimeAdapter(
                 .fit()
                 .centerCrop()
                 .into(binding.ivCover)
+
+
+            binding.tvScore.setOnClickListener{
+                val score = anime.score
+                val mediaId = anime.mediaId
+                val status = anime.status.toString()
+                if (score != null){
+                    listenerScore.onScoreClick(score, mediaId, status)
+                }
+            }
         }
     }
 }

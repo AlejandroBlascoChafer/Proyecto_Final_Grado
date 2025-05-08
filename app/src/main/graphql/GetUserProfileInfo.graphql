@@ -1,6 +1,9 @@
 query GetUserProfileInfo {
     Viewer {
         id
+        mediaListOptions {
+            scoreFormat
+        }
         name
         avatar {
             large

@@ -4,15 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import graphql.GetUserMangaListQuery
-import com.example.proyecto_final_grado.databinding.ItemMediaFullBinding
+import com.example.proyecto_final_grado.databinding.ItemMediaFullMangaBinding
 import com.example.proyecto_final_grado.databinding.ItemMediaSimpleBinding
 import com.example.proyecto_final_grado.listeners.OnAddChClickListener
+import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.squareup.picasso.Picasso
 import graphql.type.MediaListStatus
 
 class MangaAdapter(
     private var mangaList: List<GetUserMangaListQuery.Entry>,
-    private val listener: OnAddChClickListener
+    private val listener: OnAddChClickListener,
+    private val listenerScore: OnScoreClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -30,7 +32,7 @@ class MangaAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_FULL -> {
-                val binding = ItemMediaFullBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding = ItemMediaFullMangaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 FullViewHolder(binding)
             }
             else -> {
@@ -58,7 +60,7 @@ class MangaAdapter(
         this.notifyDataSetChanged()
     }
 
-    inner class FullViewHolder(private val binding: ItemMediaFullBinding) :
+    inner class FullViewHolder(private val binding: ItemMediaFullMangaBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(manga: GetUserMangaListQuery.Entry) {
@@ -97,7 +99,7 @@ class MangaAdapter(
                 .into(binding.ivCover)
 
             binding.volumeLayout.visibility = android.view.View.VISIBLE
-            binding.progressBar.visibility = android.view.View.GONE
+            //binding.progressBar.visibility = android.view.View.GONE
             binding.btnAddEpisode.text = "+1 CH"
 
             binding.btnAddEpisode.setOnClickListener {
@@ -112,6 +114,14 @@ class MangaAdapter(
                 val progress = manga.progressVolumes
                 if (progress != null) {
                     listener.onAddVo(mediaId, progress)
+                }
+            }
+            binding.tvScore.setOnClickListener{
+                val score = manga.score
+                val mediaId = manga.mediaId
+                val status = manga.status.toString()
+                if (score != null){
+                    listenerScore.onScoreClick(score, mediaId, status)
                 }
             }
         }
@@ -155,6 +165,16 @@ class MangaAdapter(
                 .fit()
                 .centerCrop()
                 .into(binding.ivCover)
+
+
+            binding.tvScore.setOnClickListener{
+                val score = manga.score
+                val mediaId = manga.mediaId
+                val status = manga.status.toString()
+                if (score != null){
+                    listenerScore.onScoreClick(score, mediaId, status)
+                }
+            }
         }
     }
 }
