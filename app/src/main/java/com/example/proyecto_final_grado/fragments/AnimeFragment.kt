@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import graphql.GetUserAnimeListQuery
 import graphql.GetUserAnimeListQuery.*
@@ -25,6 +26,7 @@ import com.example.proyecto_final_grado.databinding.FragmentAnimeBinding
 import com.example.proyecto_final_grado.listeners.OnAddEpClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.example.proyecto_final_grado.utils.SessionManager
+import com.example.proyecto_final_grado.utils.SharedViewModel
 import graphql.UpdateScoreMutation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +44,8 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener {
 
     private lateinit var apolloClient: ApolloClient
 
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,9 +59,30 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener {
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
         setupRecyclerView()
         setupChipListeners()
-        binding.chipWatching.isChecked = true
-        loadAnimeList("CURRENT")
 
+        sharedViewModel.animeList.observe(viewLifecycleOwner) { fullList ->
+            val currentStatus = getSelectedStatus()
+            val filteredList = fullList?.filter { it?.status?.name == currentStatus }
+            filteredList?.filterNotNull()?.let { animeAdapter.submitList(it) }
+        }
+
+
+        if (sharedViewModel.animeList.value == null) {
+            sharedViewModel.loadInitialData()
+        }
+
+        binding.chipWatching.isChecked = true
+
+    }
+
+    private fun getSelectedStatus(): String {
+        return when (binding.chipGroupStatus.checkedChipId) {
+            R.id.chipWatching -> "CURRENT"
+            R.id.chipCompleted -> "COMPLETED"
+            R.id.chipDropped -> "DROPPED"
+            R.id.chipPlanning -> "PLANNING"
+            else -> "CURRENT"
+        }
     }
 
     private fun setupRecyclerView() {
@@ -73,15 +98,11 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener {
     }
 
     private fun setupChipListeners() {
-        binding.chipGroupStatus.setOnCheckedChangeListener { _, checkedId ->
-            val status = when (checkedId) {
-                R.id.chipWatching -> "CURRENT"
-                R.id.chipCompleted -> "COMPLETED"
-                R.id.chipDropped -> "DROPPED"
-                R.id.chipPlanning -> "PLANNING"
-                else -> "CURRENT"
-            }
-            loadAnimeList(status)
+        binding.chipGroupStatus.setOnCheckedChangeListener { _, _ ->
+            val currentStatus = getSelectedStatus()
+            val fullList = sharedViewModel.animeList.value
+            val filteredList = fullList?.filter { it?.status?.name == currentStatus }
+            filteredList?.filterNotNull()?.let { animeAdapter.submitList(it) }
         }
     }
 
@@ -95,7 +116,7 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener {
                     userName.toString(),
                     status = MediaListStatus.valueOf(status)
                 )).execute()
-                
+
 
                 val animeList = response.data?.MediaListCollection?.lists?.get(0)?.entries
                 Log.d("AnimeList", "Anime List: $animeList")

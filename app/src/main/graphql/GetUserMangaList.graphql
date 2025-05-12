@@ -1,4 +1,4 @@
-query GetUserMangaList($userName: String!, $status: MediaListStatus) {
+query GetUserMangaList($userName: String!, $status: MediaListStatus!) {
     MediaListCollection(userName: $userName, type: MANGA, status: $status, sort: SCORE_DESC) {
         lists {
             name

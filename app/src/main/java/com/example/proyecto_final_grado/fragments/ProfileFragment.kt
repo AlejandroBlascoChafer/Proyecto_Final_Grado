@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import graphql.GetUserProfileInfoQuery.*
 import graphql.GetUserProfileInfoQuery
@@ -23,6 +24,7 @@ import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentProfileBinding
 import com.example.proyecto_final_grado.adapters.LikesAdapter
 import com.example.proyecto_final_grado.utils.SessionManager
+import com.example.proyecto_final_grado.utils.SharedViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +40,8 @@ class ProfileFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
 
     private lateinit var apolloClient: ApolloClient
+
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
 
 
@@ -55,9 +59,54 @@ class ProfileFragment : Fragment() {
         }
 
 
-        fetchUserData()
+
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        sharedViewModel.userProfile.observe(viewLifecycleOwner) { viewer ->
+            if (viewer != null) {
+                binding.usernameText.text = viewer.name
+                viewer.avatar?.large?.let { url ->
+                    Picasso.get().load(url).into(binding.profileImage)
+                }
+                binding.bioText.text = viewer.about
+
+                // Estadísticas de anime
+                binding.statTotalAnime.text = viewer.statistics?.anime?.count?.toString() ?: "0"
+                binding.statEpisodes.text = viewer.statistics?.anime?.episodesWatched?.toString() ?: "0"
+                val daysWatched = viewer.statistics?.anime?.minutesWatched?.toDouble()?.div(60 * 24) ?: 0.0
+                binding.statDays.text = String.format(Locale.getDefault(), "%.1f", daysWatched)
+                binding.statAnimeScore.text = viewer.statistics?.anime?.meanScore?.toString() ?: "-"
+
+                // Estadísticas de manga
+                binding.statTotalManga.text = viewer.statistics?.manga?.count?.toString() ?: "0"
+                binding.statChapters.text = viewer.statistics?.manga?.chaptersRead?.toString() ?: "0"
+                binding.statVolumes.text = viewer.statistics?.manga?.volumesRead?.toString() ?: "0"
+                binding.statMangaScore.text = viewer.statistics?.manga?.meanScore?.toString() ?: "-"
+            }
+        }
+
+        sharedViewModel.likedAnime.observe(viewLifecycleOwner) { anime ->
+            sharedViewModel.likedManga.value?.let { manga ->
+                sharedViewModel.likedCharacters.value?.let { characters ->
+                    sharedViewModel.likedStaff.value?.let { staff ->
+                        if (anime != null) {
+                            setupRecyclerView(
+                                animeList = anime.filterNotNull(),
+                                mangaList = manga.filterNotNull(),
+                                charactersList = characters.filterNotNull(),
+                                staffList = staff.filterNotNull()
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun setupRecyclerView(animeList: List<Any>,
                                   mangaList: List<Any>,
@@ -116,55 +165,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun fetchUserData() {
 
-        apolloClient = ApolloClientProvider.getApolloClient(requireContext())
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response: ApolloResponse<Data> =
-                    apolloClient.query(GetUserProfileInfoQuery()).execute()
-
-                val viewer = response.data?.Viewer
-
-                val animeList = viewer?.favourites?.anime?.nodes?.filterNotNull() ?: emptyList()
-                val mangaList = viewer?.favourites?.manga?.nodes?.filterNotNull() ?: emptyList()
-                val charactersList = viewer?.favourites?.characters?.nodes?.filterNotNull() ?: emptyList()
-                val staffList = viewer?.favourites?.staff?.nodes?.filterNotNull() ?: emptyList()
-
-                withContext(Dispatchers.Main) {
-                    if (viewer != null) {
-                        binding.usernameText.text = viewer.name
-                        viewer.avatar?.large?.let { url ->
-                            Picasso.get().load(url).into(binding.profileImage)
-                        }
-                        binding.bioText.text = viewer.about
-                    }
-
-                    // Estadísticas de anime
-                    binding.statTotalAnime.text = viewer?.statistics?.anime?.count?.toString() ?: "0"
-
-                    binding.statEpisodes.text = viewer?.statistics?.anime?.episodesWatched?.toString() ?: "0"
-                    val daysWatched = viewer?.statistics?.anime?.minutesWatched?.toDouble()?.div(60 * 24) ?: 0
-                    binding.statDays.text = String.format(Locale.getDefault(), "%.1f", daysWatched)
-                    binding.statAnimeScore.text = viewer?.statistics?.anime?.meanScore?.toString() ?: "-"
-
-                    // Estadísticas de manga
-                    binding.statTotalManga.text = viewer?.statistics?.manga?.count?.toString() ?: "0"
-                    binding.statChapters.text = viewer?.statistics?.manga?.chaptersRead?.toString() ?: "0"
-                    binding.statVolumes.text = viewer?.statistics?.manga?.volumesRead?.toString() ?: "0"
-                    binding.statMangaScore.text = viewer?.statistics?.manga?.meanScore?.toString() ?: "-"
-
-                }
-                setupRecyclerView(animeList, mangaList, charactersList, staffList)
-
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
-                }
-            }
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

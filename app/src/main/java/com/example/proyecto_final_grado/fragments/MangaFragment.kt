@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import graphql.GetUserMangaListQuery
 import graphql.GetUserMangaListQuery.*
@@ -25,6 +26,7 @@ import com.example.proyecto_final_grado.databinding.FragmentMangaBinding
 import com.example.proyecto_final_grado.listeners.OnAddChClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.example.proyecto_final_grado.utils.SessionManager
+import com.example.proyecto_final_grado.utils.SharedViewModel
 import graphql.UpdateScoreMutation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +44,8 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
 
     private lateinit var apolloClient: ApolloClient
 
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,8 +59,17 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
         setupRecyclerView()
         setupChipListeners()
+        sharedViewModel.mangaList.observe(viewLifecycleOwner) { fullList ->
+            val currentStatus = getSelectedStatus()
+            val filteredList = fullList?.filter { it?.status?.name == currentStatus }
+            filteredList?.filterNotNull()?.let { mangaAdapter.submitList(it) }
+        }
+
+        if (sharedViewModel.animeList.value == null) {
+            sharedViewModel.loadInitialData()
+        }
+
         binding.chipReading.isChecked = true
-        loadMangaList("CURRENT")
     }
 
     private fun setupRecyclerView() {
@@ -71,16 +84,22 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
         }
     }
 
+    private fun getSelectedStatus(): String {
+        return when (binding.chipGroupStatus.checkedChipId) {
+            R.id.chipReading -> "CURRENT"
+            R.id.chipCompleted -> "COMPLETED"
+            R.id.chipDropped -> "DROPPED"
+            R.id.chipPlanning -> "PLANNING"
+            else -> "CURRENT"
+        }
+    }
+
     private fun setupChipListeners() {
-        binding.chipGroupStatus.setOnCheckedChangeListener { _, checkedId ->
-            val status = when (checkedId) {
-                R.id.chipReading -> "CURRENT"
-                R.id.chipCompleted -> "COMPLETED"
-                R.id.chipDropped -> "DROPPED"
-                R.id.chipPlanning -> "PLANNING"
-                else -> "CURRENT"
-            }
-            loadMangaList(status)
+        binding.chipGroupStatus.setOnCheckedChangeListener { _, _ ->
+            val currentStatus = getSelectedStatus()
+            val fullList = sharedViewModel.mangaList.value
+            val filteredList = fullList?.filter { it?.status?.name == currentStatus }
+            filteredList?.filterNotNull()?.let { mangaAdapter.submitList(it) }
         }
     }
 
@@ -91,7 +110,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
                 val userName = userNameResponse.data?.Viewer?.name
                 val response: ApolloResponse<Data> = apolloClient.query(GetUserMangaListQuery(
                     userName = userName.toString(),
-                    status = Optional.present(MediaListStatus.valueOf(status))
+                    status = MediaListStatus.valueOf(status)
                 )).execute()
 
                 val mangaList = response.data?.MediaListCollection?.lists?.get(0)?.entries
@@ -176,7 +195,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
                     "POINT_10" -> 10 to 1
                     "POINT_5" -> 5 to 1
                     "POINT_3" -> 3 to 1
-                    else -> 100 to 1 // fallback
+                    else -> 100 to 1
                 }
 
 

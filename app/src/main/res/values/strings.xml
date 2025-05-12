@@ -1,7 +1,5 @@
 <resources>
-    <string name="app_name">Proyecto_Final_Grado</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="anitrack">AniTrack</string>
+    <string name="app_name">AniTrack</string>
     <string name="nombre_de_usuario">Nombre de Usuario</string>
     <string name="contrasena">Contraseña</string>
     <string name="entrar">Entrar</string>
@@ -23,4 +21,5 @@
     <string name="score">Score</string>
     <string name="plus1_ep">+1 EP</string>
     <string name="plus1_vo">+1 VO</string>
+    <string name="powered">Powered by AniList</string>
 </resources>
