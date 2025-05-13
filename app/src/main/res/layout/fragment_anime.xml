@@ -1,73 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/animeRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background"
-    android:padding="16dp">
+    android:background="@color/background">
 
-    <!-- Título -->
-    <TextView
-        android:id="@+id/tvAnimeTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/anime_list"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/textPrimary"
-        android:layout_marginBottom="12dp"/>
-
-    <!-- Chips de filtro -->
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroupStatus"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:singleSelection="true"
-        app:selectionRequired="true">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipWatching"
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tvAnimeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:text="@string/watching" />
+            android:text="@string/anime_list"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/textPrimary"
+            android:layout_marginBottom="12dp"/>
 
-        <com.google.android.material.chip.Chip
-            android:layout_width="wrap_content"
+        <!-- Chips de filtro -->
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupStatus"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/chipCompleted"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:text="@string/completed" />
+            app:singleSelection="true"
+            app:selectionRequired="true">
 
-        <com.google.android.material.chip.Chip
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/chipDropped"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:text="@string/dropped" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipWatching"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:text="@string/watching" />
 
-        <com.google.android.material.chip.Chip
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/chipPlanning"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:text="@string/planning" />
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chipCompleted"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:text="@string/completed" />
 
-    </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chipDropped"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:text="@string/dropped" />
 
-    <!-- Lista de animes -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/animeRecyclerView"
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chipPlanning"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:text="@string/planning" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- Lista de animes -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/animeRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingBottom="16dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loadingLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingBottom="16dp"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="80dp" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressCircle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+        <TextView
+            android:id="@+id/loadingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp"
+            android:layout_marginTop="12dp"/>
+    </LinearLayout>
+</FrameLayout>

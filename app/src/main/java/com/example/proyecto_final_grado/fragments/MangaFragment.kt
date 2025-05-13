@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,14 +60,28 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
         setupRecyclerView()
         setupChipListeners()
+
+        val fadeIn = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        val fadeOut = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_out)
+
         sharedViewModel.mangaList.observe(viewLifecycleOwner) { fullList ->
             val currentStatus = getSelectedStatus()
             val filteredList = fullList?.filter { it?.status?.name == currentStatus }
             filteredList?.filterNotNull()?.let { mangaAdapter.submitList(it) }
         }
 
-        if (sharedViewModel.animeList.value == null) {
-            sharedViewModel.loadInitialData()
+        sharedViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading == true) {
+                binding.loadingLayout.apply {
+                    visibility = View.VISIBLE
+                    startAnimation(fadeIn)
+                }
+            } else {
+                binding.loadingLayout.apply {
+                    startAnimation(fadeOut)
+                    postDelayed({ visibility = View.GONE }, 250) // Espera a que termine el fadeOut
+                }
+            }
         }
 
         binding.chipReading.isChecked = true
@@ -103,28 +118,6 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
         }
     }
 
-    private fun loadMangaList(status: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val userNameResponse: ApolloResponse<GetUserProfileInfoQuery.Data> = apolloClient.query(GetUserProfileInfoQuery()).execute()
-                val userName = userNameResponse.data?.Viewer?.name
-                val response: ApolloResponse<Data> = apolloClient.query(GetUserMangaListQuery(
-                    userName = userName.toString(),
-                    status = MediaListStatus.valueOf(status)
-                )).execute()
-
-                val mangaList = response.data?.MediaListCollection?.lists?.get(0)?.entries
-                withContext(Dispatchers.Main) {
-                    mangaAdapter.submitList(mangaList as List<Entry>)
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
-                }
-            }
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -139,7 +132,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
                 ).execute()
                 val updatedEntry = response.data?.SaveMediaListEntry
                 if (updatedEntry != null){
-                    loadMangaList("CURRENT")
+                    sharedViewModel.loadInitialData()
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -162,7 +155,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
                 ).execute()
                 val updatedEntry = response.data?.SaveMediaListEntry
                 if (updatedEntry != null){
-                    loadMangaList("CURRENT")
+                    sharedViewModel.loadInitialData()
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -239,7 +232,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
                                 val updatedEntry = response.data?.SaveMediaListEntry
                                 if (updatedEntry != null) {
                                     withContext(Dispatchers.Main) {
-                                        loadMangaList(status)
+                                        sharedViewModel.loadInitialData()
                                     }
                                 }
                             } catch (e: Exception) {

@@ -2,9 +2,11 @@ package com.example.proyecto_final_grado.activities
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.apollographql.apollo.ApolloClient
@@ -15,6 +17,7 @@ import com.example.proyecto_final_grado.fragments.AnimeFragment
 import com.example.proyecto_final_grado.fragments.HomeFragment
 import com.example.proyecto_final_grado.fragments.MangaFragment
 import com.example.proyecto_final_grado.fragments.ProfileFragment
+import com.example.proyecto_final_grado.utils.SharedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var bottomNav: BottomNavigationView
+
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +56,10 @@ class MainActivity : AppCompatActivity() {
             MangaFragment(),
             ProfileFragment()
         )
+
+        if (sharedViewModel.animeList.value == null) {
+            sharedViewModel.loadInitialData()
+        }
 
         val pagerAdapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = fragments.size

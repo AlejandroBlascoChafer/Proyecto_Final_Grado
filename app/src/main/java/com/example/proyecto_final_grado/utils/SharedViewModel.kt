@@ -45,24 +45,26 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadInitialData() {
         viewModelScope.launch {
-            _loading.value = true
+            _loading.postValue(true)
             try {
                 val profileResponse = apolloClient.query(GetUserProfileInfoQuery()).execute()
                 val userName = profileResponse.data?.Viewer?.name.toString()
-                val animeResponse = apolloClient.query(GetUserAnimeListQuery(userName, MediaListStatus.valueOf("CURRENT"))).execute()
-                val mangaResponse = apolloClient.query(GetUserMangaListQuery(userName, MediaListStatus.valueOf("CURRENT"))).execute()
+                val animeResponse = apolloClient.query(GetUserAnimeListQuery(userName)).execute()
+                val mangaResponse = apolloClient.query(GetUserMangaListQuery(userName)).execute()
 
                 _userProfile.value = profileResponse.data?.Viewer
-                _animeList.value = animeResponse.data?.MediaListCollection?.lists?.get(0)?.entries
-                _mangaList.value = mangaResponse.data?.MediaListCollection?.lists?.get(0)?.entries
+                _animeList.value = animeResponse.data?.MediaListCollection?.lists?.flatMap { it?.entries ?: emptyList() }
+                _mangaList.value = mangaResponse.data?.MediaListCollection?.lists?.flatMap { it?.entries ?: emptyList()  }
                 _likedAnime.value = profileResponse.data?.Viewer?.favourites?.anime?.nodes
                 _likedManga.value = profileResponse.data?.Viewer?.favourites?.manga?.nodes
                 _likedCharacters.value = profileResponse.data?.Viewer?.favourites?.characters?.nodes
                 _likedStaff.value = profileResponse.data?.Viewer?.favourites?.staff?.nodes
+
+
             } catch (e: Exception) {
                 Log.e("SharedViewModel", "Error loading data", e)
             } finally {
-                _loading.value = false
+                _loading.postValue(false)
             }
         }
     }

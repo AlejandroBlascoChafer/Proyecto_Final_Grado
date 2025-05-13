@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,16 +61,31 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener {
         setupRecyclerView()
         setupChipListeners()
 
+        val fadeIn = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        val fadeOut = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_out)
+
         sharedViewModel.animeList.observe(viewLifecycleOwner) { fullList ->
             val currentStatus = getSelectedStatus()
             val filteredList = fullList?.filter { it?.status?.name == currentStatus }
             filteredList?.filterNotNull()?.let { animeAdapter.submitList(it) }
         }
 
-
-        if (sharedViewModel.animeList.value == null) {
-            sharedViewModel.loadInitialData()
+        sharedViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading == true) {
+                binding.loadingLayout.apply {
+                    visibility = View.VISIBLE
+                    startAnimation(fadeIn)
+                }
+            } else {
+                binding.loadingLayout.apply {
+                    startAnimation(fadeOut)
+                    postDelayed({ visibility = View.GONE }, 250) // Espera a que termine el fadeOut
+                }
+            }
         }
+
+
+
 
         binding.chipWatching.isChecked = true
 
@@ -106,35 +122,6 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener {
         }
     }
 
-    private fun loadAnimeList(status: String) {
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val userNameResponse: ApolloResponse<GetUserProfileInfoQuery.Data> = apolloClient.query(GetUserProfileInfoQuery()).execute()
-                val userName = userNameResponse.data?.Viewer?.name
-                val response: ApolloResponse<Data> = apolloClient.query(GetUserAnimeListQuery(
-                    userName.toString(),
-                    status = MediaListStatus.valueOf(status)
-                )).execute()
-
-
-                val animeList = response.data?.MediaListCollection?.lists?.get(0)?.entries
-                Log.d("AnimeList", "Anime List: $animeList")
-                withContext(Dispatchers.Main){
-                    animeAdapter.submitList(animeList as List<Entry>)
-                }
-            } catch (e: Exception) {
-            withContext(Dispatchers.Main) {
-                Log.d("Error", "${e.message}")
-            }
-        }
-
-
-
-        }
-
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -147,7 +134,7 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener {
                 val response: ApolloResponse<UpdateProgressMutation.Data> = apolloClient.mutation(UpdateProgressMutation(mediaId, Optional.Present(newProgress))).execute()
                 val updatedEntry = response.data?.SaveMediaListEntry
                 if (updatedEntry != null){
-                    loadAnimeList("CURRENT")
+                    sharedViewModel.loadInitialData()
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -225,7 +212,7 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener {
                                 val updatedEntry = response.data?.SaveMediaListEntry
                                 if (updatedEntry != null) {
                                     withContext(Dispatchers.Main) {
-                                        loadAnimeList(status)
+                                        sharedViewModel.loadInitialData()
                                     }
                                 }
                             } catch (e: Exception) {

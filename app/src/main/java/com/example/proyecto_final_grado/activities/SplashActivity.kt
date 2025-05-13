@@ -10,22 +10,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.proyecto_final_grado.R
+import com.example.proyecto_final_grado.utils.SessionManager
 import com.example.proyecto_final_grado.utils.SharedViewModel
 
 class SplashActivity : AppCompatActivity() {
 
-    private val sharedViewModel: SharedViewModel by viewModels()
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Retraso temporal simulado de 2 segundos antes de pasar a MainActivity
+        sessionManager = SessionManager(this)
+
+
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            if (sessionManager.isLoggedIn()) {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
         }, 2000)
+
 
 
     }

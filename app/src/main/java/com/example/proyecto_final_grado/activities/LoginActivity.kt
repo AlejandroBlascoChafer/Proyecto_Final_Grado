@@ -34,12 +34,6 @@ class LoginActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        // Si ya hay sesión activa, saltamos directamente a MainActivity
-        if (sessionManager.isLoggedIn()) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
-
         binding.loginButton.setOnClickListener {
             val authUri = Uri.parse(Constants.AUTH_URL)
                 .buildUpon()

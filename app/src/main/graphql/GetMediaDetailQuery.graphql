@@ -1,0 +1,96 @@
+query GetDetailQuery($id: Int!, $sort: [CharacterSort]) {
+    Media(id: $id) {
+        type
+        genres
+        description
+        characters(sort: $sort) {
+            nodes {
+                name {
+                    userPreferred
+                }
+                image {
+                    large
+                }
+            }
+        }
+        title {
+            english
+            native
+            romaji
+        }
+        synonyms
+        format
+        chapters
+        source
+        status
+        startDate {
+            day
+            month
+            year
+        }
+        endDate {
+            day
+            month
+            year
+        }
+        studios {
+            nodes {
+                name
+            }
+        }
+        favourites
+        averageScore
+        popularity
+        tags {
+            name
+            rank
+        }
+        staff {
+            edges {
+                role
+                node {
+                    name {
+                        full
+                    }
+                    image {
+                        large
+                    }
+                }
+            }
+        }
+        relations {
+            nodes {
+                title {
+                    userPreferred
+                }
+                source
+                coverImage {
+                    large
+                }
+            }
+        }
+        recommendations {
+            nodes {
+                media {
+                    title {
+                        userPreferred
+                    }
+                    type
+                    startDate {
+                        year
+                    }
+                    meanScore
+                    popularity
+                    chapters
+                }
+            }
+        }
+        externalLinks {
+            color
+            icon
+            language
+            site
+            url
+        }
+    }
+}
