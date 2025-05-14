@@ -20,11 +20,13 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Optional
 import com.example.proyecto_final_grado.R
+import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.MangaAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.DialogScoreBinding
 import com.example.proyecto_final_grado.databinding.FragmentMangaBinding
 import com.example.proyecto_final_grado.listeners.OnAddChClickListener
+import com.example.proyecto_final_grado.listeners.OnCoverImageClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.example.proyecto_final_grado.utils.SessionManager
 import com.example.proyecto_final_grado.utils.SharedViewModel
@@ -34,7 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
+class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, OnCoverImageClickListener {
 
     private var _binding: FragmentMangaBinding? = null
     private val binding get() = _binding!!
@@ -91,7 +93,8 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
         mangaAdapter = MangaAdapter(
             emptyList(),
             listener = this,
-            listenerScore = this
+            listenerScore = this,
+            listenerCover = this
         )
         binding.mangaRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -247,6 +250,19 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener {
             }
         }
 
+
+
+    }
+    override fun onCoverClick(mediaId: Int) {
+        val mangaDetailFragment = MangaDetailsFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaId)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(mangaDetailFragment)
 
     }
 }

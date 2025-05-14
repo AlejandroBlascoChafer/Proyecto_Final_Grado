@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detailsRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Banner como fondo -->
+        <ImageView
+            android:id="@+id/bannerImageView"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/banner"
+            android:adjustViewBounds="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <View
+            android:id="@+id/bannerOverlay"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="#80000000"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- Cover Image -->
+            <ImageView
+                android:id="@+id/coverImageView"
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"/>
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="16dp" />
+
+            <!-- Native Title -->
+            <TextView
+                android:id="@+id/nativeTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="18sp"
+                android:layout_marginTop="8dp" />
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/synopsisTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/synopsis"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:maxLines="3"
+                android:layout_marginTop="8dp" />
+
+            <ImageButton
+                android:id="@+id/showMoreButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_down"
+                android:background="@color/transparent"
+                android:layout_gravity="center" />
+
+            <!-- Genres -->
+            <TextView
+                android:id="@+id/genresTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Genres"
+                android:textStyle="italic"
+                android:layout_marginTop="8dp" />
+
+            <!-- Score, Popularity, Favourites -->
+            <TextView
+                android:id="@+id/scoreTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Score: 80 | Pop: 10000 | Favs: 500"
+                android:layout_marginTop="8dp" />
+
+            <!-- Format, Status, Source -->
+            <TextView
+                android:id="@+id/formatTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TV | Finished | Manga"
+                android:layout_marginTop="8dp" />
+
+            <!-- Dates -->
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aired: 2019-04-01 to 2020-03-31"
+                android:layout_marginTop="8dp" />
+
+            <!-- Studios -->
+            <TextView
+                android:id="@+id/studiosTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Studios: A-1 Pictures"
+                android:layout_marginTop="8dp" />
+            <TextView
+                android:id="@+id/producersTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Studios: A-1 Pictures"
+                android:layout_marginTop="8dp" />
+
+            <!-- Synonyms -->
+            <TextView
+                android:id="@+id/synonymsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Also known as: ..."
+                android:layout_marginTop="8dp" />
+
+            <!-- Tags -->
+            <TextView
+                android:id="@+id/tagTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tags:"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/tagsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tags: Action (rank 1), Drama (rank 2)"
+                android:layout_marginTop="8dp" />
+
+            <!-- Characters RecyclerView -->
+            <TextView
+                android:id="@+id/charactersTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Characters"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/charactersRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"/>
+
+            <!-- Staff RecyclerView -->
+            <TextView
+                android:id="@+id/staffTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Staff"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/staffRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"/>
+
+            <!-- Relations RecyclerView -->
+            <TextView
+                android:id="@+id/relationsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Relations"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/relationsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"/>
+
+            <!-- Recommendations RecyclerView -->
+            <TextView
+                android:id="@+id/recommendationsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recommendations"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recommendationsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"/>
+
+            <!-- External Links -->
+            <TextView
+                android:id="@+id/externalLinksTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="External Links"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/externalLinksRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="16dp"/>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

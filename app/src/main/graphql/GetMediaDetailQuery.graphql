@@ -1,9 +1,13 @@
-query GetDetailQuery($id: Int!, $sort: [CharacterSort]) {
+query GetDetailQuery($id: Int!) {
     Media(id: $id) {
         type
+        coverImage {
+            large
+        }
+        bannerImage
         genres
         description
-        characters(sort: $sort) {
+        characters {
             nodes {
                 name {
                     userPreferred
@@ -17,6 +21,7 @@ query GetDetailQuery($id: Int!, $sort: [CharacterSort]) {
             english
             native
             romaji
+            userPreferred
         }
         synonyms
         format
@@ -34,8 +39,11 @@ query GetDetailQuery($id: Int!, $sort: [CharacterSort]) {
             year
         }
         studios {
-            nodes {
-                name
+            edges {
+                isMain
+                node {
+                    name
+                }
             }
         }
         favourites
@@ -59,13 +67,15 @@ query GetDetailQuery($id: Int!, $sort: [CharacterSort]) {
             }
         }
         relations {
-            nodes {
-                title {
-                    userPreferred
-                }
-                source
-                coverImage {
-                    large
+            edges {
+                relationType
+                node {
+                    title {
+                        userPreferred
+                    }
+                    coverImage {
+                        large
+                    }
                 }
             }
         }

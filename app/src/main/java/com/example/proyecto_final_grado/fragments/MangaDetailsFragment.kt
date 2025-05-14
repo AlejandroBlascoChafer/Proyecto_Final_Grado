@@ -13,9 +13,7 @@ import com.example.proyecto_final_grado.adapters.CharactersAdapter
 import com.example.proyecto_final_grado.adapters.RelationsAdapter
 import com.example.proyecto_final_grado.adapters.StaffAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
-import com.example.proyecto_final_grado.databinding.FragmentAnimeBinding
 import com.example.proyecto_final_grado.databinding.FragmentDetailsBinding
-import com.example.proyecto_final_grado.utils.SessionManager
 import com.squareup.picasso.Picasso
 import graphql.GetDetailQuery
 import kotlinx.coroutines.CoroutineScope
@@ -24,8 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 
-
-class AnimeDetailsFragment : Fragment() {
+class MangaDetailsFragment : Fragment() {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -43,26 +40,19 @@ class AnimeDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Obtener el mediaId del Bundle
         mediaId = arguments?.getInt("MEDIA_ID")
-
-        // Realizar la consulta si el mediaId no es null
-        mediaId?.let { id ->
-            fetchAnimeDetails(id)
-        }
+        mediaId?.let { fetchMangaDetails(it) }
     }
 
-    private fun fetchAnimeDetails(mediaID: Int){
+    private fun fetchMangaDetails(mediaID: Int) {
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = apolloClient.query(GetDetailQuery(mediaID)).execute()
                 val media = response.data?.Media
-                Log.d("MediaID", mediaID.toString())
 
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     Picasso.get().load(media?.bannerImage).into(binding.bannerImageView)
                     Picasso.get().load(media?.coverImage?.large).into(binding.coverImageView)
 
@@ -72,18 +62,14 @@ class AnimeDetailsFragment : Fragment() {
                     binding.descriptionTextView.text = cleanedDescription
 
                     var isExpanded = false
-
                     showMoreButton.setOnClickListener {
                         if (isExpanded) {
                             binding.descriptionTextView.maxLines = 3
-                            binding.descriptionTextView.text = cleanedDescription
                             showMoreButton.setImageResource(R.drawable.ic_arrow_down)
                         } else {
                             binding.descriptionTextView.maxLines = Integer.MAX_VALUE
-                            binding.descriptionTextView.text = cleanedDescription
                             showMoreButton.setImageResource(R.drawable.ic_arrow_up)
                         }
-
                         isExpanded = !isExpanded
                     }
 
@@ -92,6 +78,8 @@ class AnimeDetailsFragment : Fragment() {
                     binding.scoreTextView.text = scorePopFav
                     val formatStatusSource = "${media?.format} | ${media?.status} | ${media?.source}"
                     binding.formatTextView.text = formatStatusSource
+
+
                     val start = media?.startDate
                     val end = media?.endDate
 
@@ -105,25 +93,11 @@ class AnimeDetailsFragment : Fragment() {
                     } else {
                         "Ongoing"
                     }
-                    val dates = "Aired: $startDate to $endDate"
-                    binding.dateTextView.text = dates
+                    binding.dateTextView.text = "Published: $startDate to $endDate"
 
-                    val studios = mutableListOf<String>()
-                    val producers = mutableListOf<String>()
 
-                    media?.studios?.edges?.forEach { edge ->
-                        val name = edge?.node?.name ?: return@forEach
-                        if (edge.isMain) {
-                            studios.add(name)
-                        } else {
-                            producers.add(name)
-                        }
-                    }
-                    val studiosText = "Studios: \n${studios.joinToString(separator = "\n")}"
-                    val producersText = "Producers: \n${producers.joinToString(separator = "\n")}"
-
-                    binding.studiosTextView.text = studiosText
-                    binding.producersTextView.text = producersText
+                    binding.studiosTextView.visibility = View.GONE
+                    binding.producersTextView.visibility = View.GONE
 
                     val synonymsList = media?.synonyms?.filterNotNull().orEmpty()
                     binding.synonymsTextView.text = "Synonyms:\n${synonymsList.joinToString("\n")}"
@@ -131,49 +105,35 @@ class AnimeDetailsFragment : Fragment() {
                     val tagsList = media?.tags?.mapNotNull { tag ->
                         val name = tag?.name
                         val rank = tag?.rank
-                        if (!name.isNullOrBlank() && rank != null) {
-                            "$name - ${rank}%"
-                        } else null
+                        if (!name.isNullOrBlank() && rank != null) "$name - ${rank}%" else null
                     }.orEmpty()
 
                     binding.tagsTextView.text = tagsList.joinToString("\n")
 
                     binding.charactersRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        val characters = media?.characters?.nodes?.filterNotNull() ?: emptyList()
-                        adapter = CharactersAdapter(characters)
+                        adapter = CharactersAdapter(media?.characters?.nodes?.filterNotNull() ?: emptyList())
                     }
 
                     binding.staffRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        val staff = media?.staff?.edges?.filterNotNull() ?: emptyList()
-                        adapter = StaffAdapter(staff)
+                        adapter = StaffAdapter(media?.staff?.edges?.filterNotNull() ?: emptyList())
                     }
 
                     binding.relationsRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        val relations = media?.relations?.edges?.filterNotNull() ?: emptyList()
-                        adapter = RelationsAdapter(relations)
+                        adapter = RelationsAdapter(media?.relations?.edges?.filterNotNull() ?: emptyList())
                     }
-
-
-                    //binding.nativeTitleTextView.text = media?.title?.native
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Log.e("Error", "Error fetching manga details: ${e.message}")
                 }
             }
         }
     }
 
     private fun cleanDescription(description: String): String {
-        return description.replace("<br>", "\n")
-            .replace("<br />", "\n")
-            .trim()
+        return description.replace("<br>", "\n").replace("<br />", "\n").trim()
     }
-
-
-
-
 }

@@ -11,6 +11,7 @@ import com.example.proyecto_final_grado.databinding.ItemMediaFullAnimeBinding
 import graphql.GetUserAnimeListQuery
 import com.example.proyecto_final_grado.databinding.ItemMediaSimpleBinding
 import com.example.proyecto_final_grado.listeners.OnAddEpClickListener
+import com.example.proyecto_final_grado.listeners.OnCoverImageClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.squareup.picasso.Picasso
 import graphql.type.MediaListStatus
@@ -18,7 +19,8 @@ import graphql.type.MediaListStatus
 class AnimeAdapter(
     private var animeList: List<GetUserAnimeListQuery.Entry>,
     private val listener: OnAddEpClickListener,
-    private val listenerScore: OnScoreClickListener
+    private val listenerScore: OnScoreClickListener,
+    private val listenerCover: OnCoverImageClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -110,6 +112,10 @@ class AnimeAdapter(
                     listenerScore.onScoreClick(score, mediaId, status)
                 }
             }
+            binding.ivCover.setOnClickListener {
+                val mediaId = anime.mediaId
+                listenerCover.onCoverClick(mediaId)
+            }
         }
     }
 
@@ -153,6 +159,10 @@ class AnimeAdapter(
                 if (score != null){
                     listenerScore.onScoreClick(score, mediaId, status)
                 }
+            }
+            binding.ivCover.setOnClickListener {
+                val mediaId = anime.mediaId
+                listenerCover.onCoverClick(mediaId)
             }
         }
     }

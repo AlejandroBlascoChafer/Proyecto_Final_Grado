@@ -23,4 +23,6 @@
     <string name="plus1_vo">+1 VO</string>
     <string name="powered">Powered by AniList</string>
     <string name="loading">Loading</string>
+    <string name="banner">Banner</string>
+    <string name="synopsis">Synopsis</string>
 </resources>
