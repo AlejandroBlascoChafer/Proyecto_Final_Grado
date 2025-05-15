@@ -21,6 +21,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
+import androidx.core.text.HtmlCompat
+import android.text.Spanned
 
 class MangaDetailsFragment : Fragment() {
 
@@ -133,7 +135,7 @@ class MangaDetailsFragment : Fragment() {
         }
     }
 
-    private fun cleanDescription(description: String): String {
-        return description.replace("<br>", "\n").replace("<br />", "\n").trim()
+    private fun cleanDescription(description: String): Spanned {
+        return HtmlCompat.fromHtml(description, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 }
