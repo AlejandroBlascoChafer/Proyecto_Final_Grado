@@ -1,0 +1,35 @@
+query GetCharacterDetailQuery($characterId: Int!) {
+  Character(id: $characterId) {
+    name {
+      userPreferred
+      alternative
+      native
+    }
+    description
+    gender
+    favourites
+    image {
+      large
+    }
+    media {
+      edges {
+        node {
+          title {
+            userPreferred
+          }
+          format
+          
+        }
+        voiceActorRoles {
+          voiceActor {
+            name {
+              userPreferred
+            }
+            languageV2
+          }
+        }
+        characterRole
+      }
+    }
+  }
+}
