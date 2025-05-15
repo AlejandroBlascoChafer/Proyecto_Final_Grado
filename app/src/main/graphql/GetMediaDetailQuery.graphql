@@ -8,14 +8,17 @@ query GetDetailQuery($id: Int!) {
         genres
         description
         characters {
-            nodes {
-                name {
-                    userPreferred
-                }
-                image {
-                    large
-                }
+          edges {
+            role
+            node {
+              name {
+                userPreferred
+              }
+              image {
+                large
+              }
             }
+          }
         }
         title {
             english
