@@ -201,7 +201,7 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
     }
 
     override fun onAnimeClick(mediaID: Int) {
-        val anime_mangaDetailFragment = MangaDetailsFragment().apply {
+        val animeDetailFragment = AnimeDetailsFragment().apply {
             // Pasar el ID del anime al fragmento de detalle usando un Bundle
             arguments = Bundle().apply {
                 putInt("MEDIA_ID", mediaID)
@@ -209,10 +209,11 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
         }
 
         // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(anime_mangaDetailFragment)
+        (activity as? MainActivity)?.openDetailFragment(animeDetailFragment)
     }
+
     override fun onMangaClick(mediaID: Int) {
-        val anime_mangaDetailFragment = AnimeDetailsFragment().apply {
+        val mangaDetailFragment = MangaDetailsFragment().apply {
             // Pasar el ID del anime al fragmento de detalle usando un Bundle
             arguments = Bundle().apply {
                 putInt("MEDIA_ID", mediaID)
@@ -220,6 +221,6 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
         }
 
         // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(anime_mangaDetailFragment)
+        (activity as? MainActivity)?.openDetailFragment(mangaDetailFragment)
     }
 }

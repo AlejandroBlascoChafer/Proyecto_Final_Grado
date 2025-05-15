@@ -7,10 +7,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_grado.R
+import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
+import com.example.proyecto_final_grado.listeners.OnMangaClickListener
+import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.squareup.picasso.Picasso
 import graphql.GetCharacterDetailQuery
 
-class MediaAdapter(private val mediaList: List<GetCharacterDetailQuery.Edge?>) : RecyclerView.Adapter<MediaAdapter.MediaViewHolder>() {
+class MediaAdapter(
+    private val mediaList: List<GetCharacterDetailQuery.Edge?>,
+    private val listenerManga: OnMangaClickListener,
+    private val listenerAnime: OnAnimeClickListener
+    ) : RecyclerView.Adapter<MediaAdapter.MediaViewHolder>() {
 
     inner class MediaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.mediaImageView)
@@ -31,6 +38,14 @@ class MediaAdapter(private val mediaList: List<GetCharacterDetailQuery.Edge?>) :
         Picasso.get().load(media?.node?.coverImage?.large).into(holder.imageView)
         holder.nameView.text = media?.node?.title?.userPreferred ?: ""
         holder.roleView.text = media?.node?.format?.name ?: ""
+        holder.imageView.setOnClickListener {
+            val mediaID = media?.node?.id
+            if (media?.node?.type?.name == "ANIME" && mediaID != null){
+                listenerAnime.onAnimeClick(mediaID)
+            } else if (media?.node?.type?.name == "MANGA" && mediaID != null){
+                listenerManga.onMangaClick(mediaID)
+            }
+        }
     }
 
 }

@@ -7,10 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_grado.R
+import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.squareup.picasso.Picasso
 import graphql.GetCharacterDetailQuery
 
-class SeiyuuAdapter(private val mediaList: List<GetCharacterDetailQuery.VoiceActorRole?>) : RecyclerView.Adapter<SeiyuuAdapter.SeiyuuViewHolder>() {
+class SeiyuuAdapter(
+    private val mediaList: List<GetCharacterDetailQuery.VoiceActorRole?>,
+    private val listenerStaff: OnStaffClickListener
+) : RecyclerView.Adapter<SeiyuuAdapter.SeiyuuViewHolder>() {
 
     inner class SeiyuuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.seiyuuImageView)
@@ -31,6 +35,12 @@ class SeiyuuAdapter(private val mediaList: List<GetCharacterDetailQuery.VoiceAct
         Picasso.get().load(media?.voiceActor?.image?.large).into(holder.imageView)
         holder.nameView.text = media?.voiceActor?.name?.userPreferred ?: ""
         holder.roleView.text = media?.voiceActor?.languageV2 ?: ""
+        holder.imageView.setOnClickListener {
+            val mediaID = media?.voiceActor?.id
+            if (mediaID != null){
+                listenerStaff.onStaffClick(mediaID)
+            }
+        }
     }
 
 }

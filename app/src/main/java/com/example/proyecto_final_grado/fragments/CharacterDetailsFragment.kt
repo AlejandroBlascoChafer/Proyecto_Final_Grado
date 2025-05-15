@@ -8,17 +8,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
+import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.MediaAdapter
 import com.example.proyecto_final_grado.adapters.SeiyuuAdapter
 import com.example.proyecto_final_grado.adapters.StaffAdapter
 import graphql.GetCharacterDetailQuery
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentCharacterDetailsBinding
+import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
+import com.example.proyecto_final_grado.listeners.OnMangaClickListener
+import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 
-class CharacterDetailFragment : Fragment() {
+class CharacterDetailFragment : Fragment(), OnAnimeClickListener, OnMangaClickListener, OnStaffClickListener {
 
     private var _binding: FragmentCharacterDetailsBinding? = null
     private val binding get() = _binding!!
@@ -70,7 +74,7 @@ class CharacterDetailFragment : Fragment() {
                     binding.characterMediaRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                         val media = character.media?.edges?.filterNotNull() ?: emptyList()
-                        adapter = MediaAdapter(media)
+                        adapter = MediaAdapter(media, this@CharacterDetailFragment, this@CharacterDetailFragment)
                     }
                     binding.characterSeiyuuRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -79,7 +83,7 @@ class CharacterDetailFragment : Fragment() {
                             ?.distinctBy { it?.voiceActor?.id }
                             ?: emptyList()
 
-                        adapter = SeiyuuAdapter(seiyuu)
+                        adapter = SeiyuuAdapter(seiyuu, this@CharacterDetailFragment)
                     }
                 }
 
@@ -93,5 +97,41 @@ class CharacterDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onMangaClick(mediaID: Int) {
+        val mangaDetailFragment = MangaDetailsFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaID)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(mangaDetailFragment)
+    }
+
+    override fun onAnimeClick(mediaID: Int) {
+        val animeDetailFragment = AnimeDetailsFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaID)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(animeDetailFragment)
+    }
+
+    override fun onStaffClick(mediaID: Int) {
+//        val staffDetailFragment = StaffDetailsFragment().apply {
+//            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+//            arguments = Bundle().apply {
+//                putInt("MEDIA_ID", mediaID)
+//            }
+//        }
+//
+//        // Iniciar la transacción del fragmento
+//        (activity as? MainActivity)?.openDetailFragment(staffDetailFragment)
     }
 }

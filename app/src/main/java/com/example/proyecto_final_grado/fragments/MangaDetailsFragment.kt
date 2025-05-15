@@ -24,10 +24,12 @@ import java.util.Locale
 import androidx.core.text.HtmlCompat
 import android.text.Spanned
 import com.example.proyecto_final_grado.activities.MainActivity
+import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
+import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
 
-class MangaDetailsFragment : Fragment(), OnCharacterClickListener {
+class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickListener, OnAnimeClickListener {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -130,7 +132,7 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener {
 
                     binding.relationsRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        adapter = RelationsAdapter(media?.relations?.edges?.filterNotNull() ?: emptyList())
+                        adapter = RelationsAdapter(media?.relations?.edges?.filterNotNull() ?: emptyList(), this@MangaDetailsFragment, this@MangaDetailsFragment)
                     }
                 }
             } catch (e: Exception) {
@@ -151,5 +153,29 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener {
 
         // Iniciar la transacción del fragmento
         (activity as? MainActivity)?.openDetailFragment(characterDetailFragment)
+    }
+
+    override fun onAnimeClick(mediaID: Int) {
+        val animeDetailFragment = AnimeDetailsFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaID)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(animeDetailFragment)
+    }
+
+    override fun onMangaClick(mediaID: Int) {
+        val mangaDetailFragment = MangaDetailsFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaID)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(mangaDetailFragment)
     }
 }
