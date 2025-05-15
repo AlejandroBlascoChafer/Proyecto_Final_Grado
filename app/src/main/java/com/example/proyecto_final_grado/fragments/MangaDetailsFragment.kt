@@ -15,7 +15,7 @@ import com.example.proyecto_final_grado.adapters.StaffAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentDetailsBinding
 import com.squareup.picasso.Picasso
-import graphql.GetDetailQuery
+import graphql.GetMediaDetailQuery
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,14 +23,18 @@ import kotlinx.coroutines.withContext
 import java.util.Locale
 import androidx.core.text.HtmlCompat
 import android.text.Spanned
+import com.example.proyecto_final_grado.activities.MainActivity
+import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
+import com.example.proyecto_final_grado.utils.MarkdownUtils
 
-class MangaDetailsFragment : Fragment() {
+class MangaDetailsFragment : Fragment(), OnCharacterClickListener {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var apolloClient: ApolloClient
     private var mediaId: Int? = null
+    private val markwon = MarkdownUtils
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +55,7 @@ class MangaDetailsFragment : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apolloClient.query(GetDetailQuery(mediaID)).execute()
+                val response = apolloClient.query(GetMediaDetailQuery(mediaID)).execute()
                 val media = response.data?.Media
 
                 withContext(Dispatchers.Main) {
@@ -60,8 +64,7 @@ class MangaDetailsFragment : Fragment() {
 
                     binding.titleTextView.text = media?.title?.userPreferred
                     val showMoreButton = binding.showMoreButton
-                    val cleanedDescription = cleanDescription(media?.description.toString())
-                    binding.descriptionTextView.text = cleanedDescription
+                    markwon.setMarkdownText(requireContext(), binding.descriptionTextView, media?.description)
 
                     var isExpanded = false
                     showMoreButton.setOnClickListener {
@@ -111,10 +114,13 @@ class MangaDetailsFragment : Fragment() {
                     }.orEmpty()
 
                     binding.tagsTextView.text = tagsList.joinToString("\n")
+                    val mainCharacters = media?.characters?.edges?.filter { it?.role?.name == "MAIN" }
+                    val suppCharacters = media?.characters?.edges?.filter { it?.role?.name == "SUPPORTING" }
+                    val backCharacters = media?.characters?.edges?.filter { it?.role?.name == "BACKGROUND" }
 
                     binding.charactersRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        adapter = CharactersAdapter(media?.characters?.nodes?.filterNotNull() ?: emptyList())
+                        adapter = CharactersAdapter(mainCharacters?.filterNotNull() ?: emptyList(), this@MangaDetailsFragment)
                     }
 
                     binding.staffRecyclerView.apply {
@@ -135,7 +141,15 @@ class MangaDetailsFragment : Fragment() {
         }
     }
 
-    private fun cleanDescription(description: String): Spanned {
-        return HtmlCompat.fromHtml(description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    override fun onCharacterClick(mediaID: Int) {
+        val characterDetailFragment = CharacterDetailFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaID)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(characterDetailFragment)
     }
 }

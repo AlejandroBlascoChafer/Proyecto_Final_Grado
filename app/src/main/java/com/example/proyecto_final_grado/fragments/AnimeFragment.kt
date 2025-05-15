@@ -11,11 +11,8 @@ import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import graphql.GetUserAnimeListQuery
-import graphql.GetUserAnimeListQuery.*
 import graphql.GetUserProfileInfoQuery
 import graphql.UpdateProgressMutation
-import graphql.type.MediaListStatus
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Optional
@@ -26,7 +23,7 @@ import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.DialogScoreBinding
 import com.example.proyecto_final_grado.databinding.FragmentAnimeBinding
 import com.example.proyecto_final_grado.listeners.OnAddEpClickListener
-import com.example.proyecto_final_grado.listeners.OnCoverImageClickListener
+import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.example.proyecto_final_grado.utils.SessionManager
 import com.example.proyecto_final_grado.utils.SharedViewModel
@@ -36,7 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, OnCoverImageClickListener {
+class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, OnAnimeClickListener {
 
     private var _binding: FragmentAnimeBinding? = null
     private val binding get() = _binding!!
@@ -108,7 +105,7 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
             animeList = emptyList(),
             listener = this,
             listenerScore = this,
-            listenerCover = this
+            listenerAnime = this
         )
         binding.animeRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -233,11 +230,11 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
 
     }
 
-    override fun onCoverClick(mediaId: Int) {
+    override fun onAnimeClick(mediaID: Int) {
         val animeDetailFragment = AnimeDetailsFragment().apply {
             // Pasar el ID del anime al fragmento de detalle usando un Bundle
             arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaId)
+                putInt("MEDIA_ID", mediaID)
             }
         }
 

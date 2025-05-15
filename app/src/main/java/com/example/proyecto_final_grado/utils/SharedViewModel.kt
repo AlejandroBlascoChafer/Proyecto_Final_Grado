@@ -27,17 +27,17 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _mangaList = MutableLiveData<List<GetUserMangaListQuery.Entry?>?>()
     val mangaList: LiveData<List<GetUserMangaListQuery.Entry?>?> = _mangaList
 
-    private val _likedAnime = MutableLiveData<List<Node?>?>()
-    val likedAnime: LiveData<List<Node?>?> = _likedAnime
+    private val _likedAnime = MutableLiveData<List<Edge?>?>()
+    val likedAnime: LiveData<List<Edge?>?> = _likedAnime
 
-    private val _likedManga = MutableLiveData<List<Node1?>?>()
-    val likedManga: LiveData<List<Node1?>?> = _likedManga
+    private val _likedManga = MutableLiveData<List<Edge1?>?>()
+    val likedManga: LiveData<List<Edge1?>?> = _likedManga
 
-    private val _likedCharacters = MutableLiveData<List<Node2?>?>()
-    val likedCharacters: LiveData<List<Node2?>?> = _likedCharacters
+    private val _likedCharacters = MutableLiveData<List<Edge2?>?>()
+    val likedCharacters: LiveData<List<Edge2?>?> = _likedCharacters
 
-    private val _likedStaff = MutableLiveData<List<Node3?>?>()
-    val likedStaff: LiveData<List<Node3?>?> = _likedStaff
+    private val _likedStaff = MutableLiveData<List<Edge3?>?>()
+    val likedStaff: LiveData<List<Edge3?>?> = _likedStaff
 
 
     private val _loading = MutableLiveData<Boolean>()
@@ -55,10 +55,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 _userProfile.value = profileResponse.data?.Viewer
                 _animeList.value = animeResponse.data?.MediaListCollection?.lists?.flatMap { it?.entries ?: emptyList() }
                 _mangaList.value = mangaResponse.data?.MediaListCollection?.lists?.flatMap { it?.entries ?: emptyList()  }
-                _likedAnime.value = profileResponse.data?.Viewer?.favourites?.anime?.nodes
-                _likedManga.value = profileResponse.data?.Viewer?.favourites?.manga?.nodes
-                _likedCharacters.value = profileResponse.data?.Viewer?.favourites?.characters?.nodes
-                _likedStaff.value = profileResponse.data?.Viewer?.favourites?.staff?.nodes
+                _likedAnime.value = profileResponse.data?.Viewer?.favourites?.anime?.edges
+                _likedManga.value = profileResponse.data?.Viewer?.favourites?.manga?.edges
+                _likedCharacters.value = profileResponse.data?.Viewer?.favourites?.characters?.edges
+                _likedStaff.value = profileResponse.data?.Viewer?.favourites?.staff?.edges
 
 
             } catch (e: Exception) {

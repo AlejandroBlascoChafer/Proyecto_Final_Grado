@@ -65,4 +65,7 @@ dependencies {
     implementation(libs.material.v1110)
     implementation(libs.flexbox)
     implementation(libs.squareup.picasso)
+    implementation(libs.core)
+    implementation(libs.html)
+
 }

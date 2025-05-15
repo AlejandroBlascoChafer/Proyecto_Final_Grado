@@ -5,7 +5,7 @@ query GetCharacterDetailQuery($characterId: Int!) {
       alternative
       native
     }
-    description
+    description(asHtml: false)
     gender
     favourites
     image {
@@ -18,10 +18,16 @@ query GetCharacterDetailQuery($characterId: Int!) {
             userPreferred
           }
           format
-          
+          coverImage {
+            large
+          }
         }
         voiceActorRoles {
           voiceActor {
+            id
+            image {
+              large
+            }
             name {
               userPreferred
             }

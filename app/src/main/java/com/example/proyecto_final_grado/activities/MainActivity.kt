@@ -2,13 +2,10 @@ package com.example.proyecto_final_grado.activities
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.apollographql.apollo.ApolloClient
@@ -17,7 +14,6 @@ import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.ActivityMainBinding
 import com.example.proyecto_final_grado.fragments.AnimeFragment
 import com.example.proyecto_final_grado.fragments.HomeFragment
-import com.example.proyecto_final_grado.fragments.MangaFragment
 import com.example.proyecto_final_grado.fragments.ProfileFragment
 import com.example.proyecto_final_grado.utils.SharedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -55,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         val fragments = listOf(
             HomeFragment(),
             AnimeFragment(),
-            MangaFragment(),
+            com.example.proyecto_final_grado.fragments.MangaFragment(),
             ProfileFragment()
         )
 
@@ -88,9 +84,15 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+        supportFragmentManager.addOnBackStackChangedListener {
+            val isDetailVisible = supportFragmentManager.backStackEntryCount > 0
+            binding.bottomNav.visibility = if (isDetailVisible) View.GONE else View.VISIBLE
+            binding.viewPager.visibility = if (isDetailVisible) View.GONE else View.VISIBLE
+        }
     }
 
-    fun openDetailFragment(fragment: Fragment) {
+    fun openDetailFragment(fragment: androidx.fragment.app.Fragment) {
         // Oculta el menú y el ViewPager
         binding.bottomNav.visibility = View.GONE
         binding.viewPager.visibility = View.GONE
@@ -100,13 +102,5 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.main, fragment)
             .addToBackStack(null) // Permite volver atrás
             .commit()
-    }
-
-    override fun onBackPressed() = if (supportFragmentManager.backStackEntryCount > 0) {
-        supportFragmentManager.popBackStack()
-        binding.bottomNav.visibility = View.VISIBLE
-        binding.viewPager.visibility = View.VISIBLE
-    } else {
-        super.onBackPressed()
     }
 }

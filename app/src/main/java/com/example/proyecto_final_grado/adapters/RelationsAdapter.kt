@@ -10,9 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_grado.R
 import com.squareup.picasso.Picasso
-import graphql.GetDetailQuery
+import graphql.GetMediaDetailQuery
 
-class RelationsAdapter(private val relationsList: List<GetDetailQuery.Edge2>) :
+class RelationsAdapter(private val relationsList: List<GetMediaDetailQuery.Edge3>) :
     RecyclerView.Adapter<RelationsAdapter.RelationsViewHolder>() {
 
     inner class RelationsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

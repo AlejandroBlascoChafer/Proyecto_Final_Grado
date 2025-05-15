@@ -84,7 +84,7 @@
                 android:id="@+id/descriptionTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description"
+                android:text=""
                 android:maxLines="3"
                 android:layout_marginTop="8dp" />
 
@@ -101,7 +101,7 @@
                 android:id="@+id/genresTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Genres"
+                android:text=""
                 android:textStyle="italic"
                 android:layout_marginTop="8dp" />
 
@@ -110,7 +110,7 @@
                 android:id="@+id/scoreTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Score: 80 | Pop: 10000 | Favs: 500"
+                android:text=""
                 android:layout_marginTop="8dp" />
 
             <!-- Format, Status, Source -->
@@ -118,7 +118,7 @@
                 android:id="@+id/formatTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TV | Finished | Manga"
+                android:text=""
                 android:layout_marginTop="8dp" />
 
             <!-- Dates -->
@@ -126,7 +126,7 @@
                 android:id="@+id/dateTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Aired: 2019-04-01 to 2020-03-31"
+                android:text=""
                 android:layout_marginTop="8dp" />
 
             <!-- Studios -->
@@ -134,13 +134,13 @@
                 android:id="@+id/studiosTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Studios: A-1 Pictures"
+                android:text=""
                 android:layout_marginTop="8dp" />
             <TextView
                 android:id="@+id/producersTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Studios: A-1 Pictures"
+                android:text=""
                 android:layout_marginTop="8dp" />
 
             <!-- Synonyms -->
@@ -148,7 +148,7 @@
                 android:id="@+id/synonymsTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Also known as: ..."
+                android:text=""
                 android:layout_marginTop="8dp" />
 
             <!-- Tags -->
@@ -163,7 +163,7 @@
                 android:id="@+id/tagsTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tags: Action (rank 1), Drama (rank 2)"
+                android:text=""
                 android:layout_marginTop="8dp" />
 
             <!-- Characters RecyclerView -->
@@ -171,7 +171,7 @@
                 android:id="@+id/charactersTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Characters"
+                android:text="@string/characters"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp" />
 
@@ -187,7 +187,7 @@
                 android:id="@+id/staffTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Staff"
+                android:text="@string/staff"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp" />
 
@@ -203,7 +203,7 @@
                 android:id="@+id/relationsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Relations"
+                android:text="@string/relations"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp" />
 
@@ -219,7 +219,7 @@
                 android:id="@+id/recommendationsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Recommendations"
+                android:text="@string/recommendations"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp" />
 
@@ -235,7 +235,7 @@
                 android:id="@+id/externalLinksTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="External Links"
+                android:text="@string/external_links"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp" />
 

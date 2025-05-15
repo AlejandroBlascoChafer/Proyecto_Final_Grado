@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/seiyuuImageView"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/seiyuuNameTextView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="?attr/textAppearanceBodySmall"
+        android:paddingTop="4dp"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+    <TextView
+        android:id="@+id/seiyuuLanguageTextView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="?attr/textAppearanceBodySmall"
+        android:paddingTop="4dp"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+</LinearLayout>

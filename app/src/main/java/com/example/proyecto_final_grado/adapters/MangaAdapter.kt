@@ -7,7 +7,7 @@ import graphql.GetUserMangaListQuery
 import com.example.proyecto_final_grado.databinding.ItemMediaFullMangaBinding
 import com.example.proyecto_final_grado.databinding.ItemMediaSimpleBinding
 import com.example.proyecto_final_grado.listeners.OnAddChClickListener
-import com.example.proyecto_final_grado.listeners.OnCoverImageClickListener
+import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.squareup.picasso.Picasso
 import graphql.type.MediaListStatus
@@ -16,7 +16,7 @@ class MangaAdapter(
     private var mangaList: List<GetUserMangaListQuery.Entry>,
     private val listener: OnAddChClickListener,
     private val listenerScore: OnScoreClickListener,
-    private val listenerCover: OnCoverImageClickListener
+    private val listenerManga: OnMangaClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -128,7 +128,7 @@ class MangaAdapter(
             }
             binding.ivCover.setOnClickListener {
                 val mediaId = manga.mediaId
-                listenerCover.onCoverClick(mediaId)
+                listenerManga.onMangaClick(mediaId)
             }
         }
     }
@@ -183,7 +183,7 @@ class MangaAdapter(
             }
             binding.ivCover.setOnClickListener {
                 val mediaId = manga.mediaId
-                listenerCover.onCoverClick(mediaId)
+                listenerManga.onMangaClick(mediaId)
             }
         }
     }

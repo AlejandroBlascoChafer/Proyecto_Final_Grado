@@ -26,46 +26,48 @@ query GetUserProfileInfo {
         siteUrl
         favourites {
             anime {
-                nodes {
-                    coverImage {
-                        large
+                edges {
+                    id
+                    node {
+                        id
+                        coverImage {
+                            large
+                        }
                     }
                 }
             }
             manga {
-                nodes {
-                    coverImage {
-                        large
+                edges {
+                    id
+                    node {
+                        id
+                        coverImage {
+                            large
+                        }
                     }
                 }
             }
             characters {
-                nodes {
-                    image {
-                        large
+                edges {
+                    id
+                    node {
+                        id
+                        image {
+                            large
+                        }
                     }
                 }
             }
             staff {
-                nodes {
-                    image {
-                        large
+                edges {
+                    id
+                    node {
+                        id
+                        image {
+                            large
+                        }
                     }
                 }
-            }
-        }
-        statistics {
-            anime {
-                count
-                meanScore
-                minutesWatched
-                episodesWatched
-            }
-            manga {
-                count
-                meanScore
-                chaptersRead
-                volumesRead
             }
         }
     }

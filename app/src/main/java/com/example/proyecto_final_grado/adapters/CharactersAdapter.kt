@@ -8,10 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_grado.R
+import com.example.proyecto_final_grado.databinding.ItemCharacterBinding
+import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.squareup.picasso.Picasso
-import graphql.GetDetailQuery
+import graphql.GetMediaDetailQuery
 
-class CharactersAdapter(private val characters: List<GetDetailQuery.Node>) :
+class CharactersAdapter(
+    private val characters: List<GetMediaDetailQuery.Edge>,
+    private val characterListener: OnCharacterClickListener) :
     RecyclerView.Adapter<CharactersAdapter.CharacterViewHolder>() {
 
     inner class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -20,17 +24,24 @@ class CharactersAdapter(private val characters: List<GetDetailQuery.Node>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_character, parent, false)
-        return CharacterViewHolder(view)
+        val binding = ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CharacterViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
         val character = characters[position]
-        Picasso.get().load(character.image?.large).into(holder.imageView)
-        Log.d("CharacterAdapter", "Name: ${character.name?.userPreferred}")
 
-        holder.nameView.text = character.name?.userPreferred
+        Picasso.get().load(character.node?.image?.large).into(holder.imageView)
+        Log.d("CharacterAdapter", "Name: ${character.node?.name?.userPreferred}")
+        holder.nameView.text = character.node?.name?.userPreferred
+
+        holder.imageView.setOnClickListener {
+            val characterID = character.node?.id
+            if (characterID != null) {
+                characterListener.onCharacterClick(characterID)
+            }
+        }
+
     }
 
     override fun getItemCount(): Int = characters.size

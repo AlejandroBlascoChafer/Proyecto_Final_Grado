@@ -10,9 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_grado.R
 import com.squareup.picasso.Picasso
-import graphql.GetDetailQuery
+import graphql.GetMediaDetailQuery
 
-class StaffAdapter(private val staffList: List<GetDetailQuery.Edge1>) :
+class StaffAdapter(private val staffList: List<GetMediaDetailQuery.Edge2>) :
     RecyclerView.Adapter<StaffAdapter.StaffViewHolder>() {
 
     inner class StaffViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

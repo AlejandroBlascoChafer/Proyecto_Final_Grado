@@ -2,7 +2,6 @@ package com.example.proyecto_final_grado.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,36 +9,31 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import graphql.GetUserProfileInfoQuery.*
-import graphql.GetUserProfileInfoQuery
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.ApolloResponse
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.LoginActivity
+import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.FAV_TYPE_ANIME
 import com.example.proyecto_final_grado.adapters.FAV_TYPE_CHARACTER
 import com.example.proyecto_final_grado.adapters.FAV_TYPE_MANGA
 import com.example.proyecto_final_grado.adapters.FAV_TYPE_STAFF
-import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentProfileBinding
 import com.example.proyecto_final_grado.adapters.LikesAdapter
+import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
+import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
+import com.example.proyecto_final_grado.listeners.OnMangaClickListener
+import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.SessionManager
 import com.example.proyecto_final_grado.utils.SharedViewModel
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.Locale
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListener, OnAnimeClickListener, OnMangaClickListener {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var sessionManager: SessionManager
 
-    private lateinit var apolloClient: ApolloClient
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
@@ -114,22 +108,22 @@ class ProfileFragment : Fragment() {
                                   staffList: List<Any>) {
         binding.favAnimeRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = LikesAdapter(animeList, FAV_TYPE_ANIME)
+            adapter = LikesAdapter(animeList, FAV_TYPE_ANIME, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         binding.favMangaRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = LikesAdapter(mangaList, FAV_TYPE_MANGA)
+            adapter = LikesAdapter(mangaList, FAV_TYPE_MANGA, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         binding.favCharactersRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = LikesAdapter(charactersList, FAV_TYPE_CHARACTER)
+            adapter = LikesAdapter(charactersList, FAV_TYPE_CHARACTER, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         binding.favStaffRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = LikesAdapter(staffList, FAV_TYPE_STAFF)
+            adapter = LikesAdapter(staffList, FAV_TYPE_STAFF, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         if (animeList.isEmpty()) {
@@ -188,5 +182,44 @@ class ProfileFragment : Fragment() {
             }
         }
         popup.show()
+    }
+
+    override fun onCharacterClick(mediaID: Int) {
+        val characterDetailFragment = CharacterDetailFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaID)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(characterDetailFragment)
+    }
+
+    override fun onStaffClick(mediaID: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAnimeClick(mediaID: Int) {
+        val anime_mangaDetailFragment = MangaDetailsFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaID)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(anime_mangaDetailFragment)
+    }
+    override fun onMangaClick(mediaID: Int) {
+        val anime_mangaDetailFragment = AnimeDetailsFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaID)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(anime_mangaDetailFragment)
     }
 }

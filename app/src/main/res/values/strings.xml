@@ -25,4 +25,18 @@
     <string name="loading">Loading</string>
     <string name="banner">Banner</string>
     <string name="synopsis">Synopsis</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="description">Description</string>
+    <string name="genres">Genres</string>
+    <string name="score_pop_favs">Score: 80 | Pop: 10000 | Favs: 500</string>
+    <string name="format_status_source">TV | Finished | Manga</string>
+    <string name="dates">Aired: 2019-04-01 to 2020-03-31</string>
+    <string name="studios">Studios: A-1 Pictures</string>
+    <string name="characters">Characters</string>
+    <string name="staff">Staff</string>
+    <string name="relations">Relations</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="external_links">External Links</string>
+    <string name="character_image">Character Image</string>
 </resources>

@@ -1,6 +1,7 @@
 [versions]
 agp = "8.7.3"
 apolloRuntime = "4.1.0"
+core = "4.6.2"
 flexboxLayout = "3.0.0"
 kotlin = "1.9.24"
 coreKtx = "1.16.0"
@@ -24,8 +25,10 @@ androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx",
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 apollo-adapters = { module = "com.apollographql.apollo:apollo-adapters", version.ref = "apolloRuntime" }
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apolloRuntime" }
+core = { module = "io.noties.markwon:core", version.ref = "core" }
 flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexboxLayout" }
 flexbox-layout = { module = "com.google.android.flexbox:flexbox-layout", version.ref = "flexboxLayout" }
+html = { module = "io.noties.markwon:html", version.ref = "core" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

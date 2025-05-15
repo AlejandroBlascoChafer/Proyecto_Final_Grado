@@ -1,4 +1,4 @@
-query GetDetailQuery($id: Int!) {
+query GetMediaDetailQuery($id: Int!) {
     Media(id: $id) {
         type
         coverImage {
@@ -6,11 +6,12 @@ query GetDetailQuery($id: Int!) {
         }
         bannerImage
         genres
-        description
+        description(asHtml: false)
         characters {
           edges {
             role
             node {
+              id
               name {
                 userPreferred
               }
