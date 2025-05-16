@@ -39,4 +39,6 @@
     <string name="recommendations">Recommendations</string>
     <string name="external_links">External Links</string>
     <string name="character_image">Character Image</string>
+    <string name="see_more_arrow">See more arrow</string>
+    <string name="staff_image">Staff Image</string>
 </resources>

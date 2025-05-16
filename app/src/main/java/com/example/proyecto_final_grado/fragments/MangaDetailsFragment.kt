@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.example.proyecto_final_grado.R
-import com.example.proyecto_final_grado.adapters.CharactersAdapter
+import com.example.proyecto_final_grado.adapters.CharactersMediaAdapter
 import com.example.proyecto_final_grado.adapters.RelationsAdapter
 import com.example.proyecto_final_grado.adapters.StaffAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
@@ -21,15 +21,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
-import androidx.core.text.HtmlCompat
-import android.text.Spanned
 import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
+import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
 
-class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickListener, OnAnimeClickListener {
+class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickListener, OnAnimeClickListener, OnStaffClickListener {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -115,19 +114,38 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                         if (!name.isNullOrBlank() && rank != null) "$name - ${rank}%" else null
                     }.orEmpty()
 
+                    val showMoreButtonTags = binding.showMoreButtonTags
                     binding.tagsTextView.text = tagsList.joinToString("\n")
+
+                    var isTagsExpanded = false
+
+                    showMoreButtonTags.setOnClickListener {
+                        if (isTagsExpanded) {
+                            binding.tagsTextView.maxLines = 5
+                            showMoreButtonTags.setImageResource(R.drawable.ic_arrow_down)
+                        } else {
+                            binding.tagsTextView.maxLines = Integer.MAX_VALUE
+                            showMoreButtonTags.setImageResource(R.drawable.ic_arrow_up)
+                        }
+
+                        isTagsExpanded = !isTagsExpanded
+                    }
+                    binding.studiosTextView.visibility = View.GONE
+                    binding.producersTextView.visibility = View.GONE
+                    binding.separatorStudios.visibility = View.GONE
+
                     val mainCharacters = media?.characters?.edges?.filter { it?.role?.name == "MAIN" }
                     val suppCharacters = media?.characters?.edges?.filter { it?.role?.name == "SUPPORTING" }
                     val backCharacters = media?.characters?.edges?.filter { it?.role?.name == "BACKGROUND" }
 
                     binding.charactersRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        adapter = CharactersAdapter(mainCharacters?.filterNotNull() ?: emptyList(), this@MangaDetailsFragment)
+                        adapter = CharactersMediaAdapter(mainCharacters?.filterNotNull() ?: emptyList(), this@MangaDetailsFragment)
                     }
 
                     binding.staffRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        adapter = StaffAdapter(media?.staff?.edges?.filterNotNull() ?: emptyList())
+                        adapter = StaffAdapter(media?.staff?.edges?.filterNotNull() ?: emptyList(), this@MangaDetailsFragment)
                     }
 
                     binding.relationsRecyclerView.apply {
@@ -144,7 +162,7 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
     }
 
     override fun onCharacterClick(mediaID: Int) {
-        val characterDetailFragment = CharacterDetailFragment().apply {
+        val characterDetailsFragment = CharacterDetailsFragment().apply {
             // Pasar el ID del anime al fragmento de detalle usando un Bundle
             arguments = Bundle().apply {
                 putInt("MEDIA_ID", mediaID)
@@ -152,7 +170,7 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
         }
 
         // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(characterDetailFragment)
+        (activity as? MainActivity)?.openDetailFragment(characterDetailsFragment)
     }
 
     override fun onAnimeClick(mediaID: Int) {
@@ -177,5 +195,17 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
 
         // Iniciar la transacción del fragmento
         (activity as? MainActivity)?.openDetailFragment(mangaDetailFragment)
+    }
+
+    override fun onStaffClick(mediaID: Int) {
+        val staffDetailFragment = StaffDetailsFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaID)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(staffDetailFragment)
     }
 }

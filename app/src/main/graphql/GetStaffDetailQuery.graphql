@@ -1,4 +1,4 @@
-query GetStaffDetailQuery($id: Int) {
+query GetStaffDetailQuery($id: Int!) {
   Staff(id: $id) {
     id
     name {
@@ -13,7 +13,7 @@ query GetStaffDetailQuery($id: Int) {
     gender
     homeTown
     primaryOccupations
-    staffMedia(perPage: 10) {
+    staffMedia(perPage: 10, sort: [FAVOURITES_DESC]) {
       edges {
         staffRole
         node {
@@ -22,31 +22,23 @@ query GetStaffDetailQuery($id: Int) {
             romaji
           }
           type
+          format
           coverImage {
             large
           }
-      }
-      }
-    }
-    characters(perPage: 10) {
-      nodes {
-        id
-        name {
-          full
-        }
-        image {
-          large
         }
       }
     }
-    characterMedia(perPage: 10) {
-      nodes {
-        id
-        title {
-          romaji
-        }
-        coverImage {
-          large
+    characters(perPage: 10, sort: [FAVOURITES_DESC]) {
+      edges {
+        node {
+          id
+          name {
+            full
+          }
+          image {
+            large
+          }
         }
       }
     }

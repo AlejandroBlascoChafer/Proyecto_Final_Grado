@@ -4,8 +4,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyecto_final_grado.databinding.ItemProfileFavouritesBinding
 import graphql.GetUserProfileInfoQuery
-import com.example.proyecto_final_grado.databinding.ItemProfileLikeBinding
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
@@ -17,23 +17,23 @@ const val FAV_TYPE_MANGA = 1
 const val FAV_TYPE_CHARACTER = 2
 const val FAV_TYPE_STAFF = 3
 
-class LikesAdapter(
+class FavouritesAdapter(
     private val items: List<Any>,
     private val type: Int,
     private val listenerAnime: OnAnimeClickListener,
     private val listenerManga: OnMangaClickListener,
     private val listenerCharacter: OnCharacterClickListener,
     private val listenerStaff: OnStaffClickListener
-) : RecyclerView.Adapter<LikesAdapter.LikesViewHolder>() {
+) : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewHolder>() {
 
-    inner class LikesViewHolder(val binding: ItemProfileLikeBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class FavouritesViewHolder(val binding: ItemProfileFavouritesBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LikesViewHolder {
-        val binding = ItemProfileLikeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return LikesViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesViewHolder {
+        val binding = ItemProfileFavouritesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return FavouritesViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: LikesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavouritesViewHolder, position: Int) {
         val item = items[position]
         val imageUrl = when (type) {
             FAV_TYPE_ANIME -> (items[position] as GetUserProfileInfoQuery.Edge).node?.coverImage?.large

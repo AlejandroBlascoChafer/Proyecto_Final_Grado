@@ -17,7 +17,7 @@ import com.example.proyecto_final_grado.adapters.FAV_TYPE_CHARACTER
 import com.example.proyecto_final_grado.adapters.FAV_TYPE_MANGA
 import com.example.proyecto_final_grado.adapters.FAV_TYPE_STAFF
 import com.example.proyecto_final_grado.databinding.FragmentProfileBinding
-import com.example.proyecto_final_grado.adapters.LikesAdapter
+import com.example.proyecto_final_grado.adapters.FavouritesAdapter
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
@@ -108,22 +108,22 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
                                   staffList: List<Any>) {
         binding.favAnimeRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = LikesAdapter(animeList, FAV_TYPE_ANIME, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
+            adapter = FavouritesAdapter(animeList, FAV_TYPE_ANIME, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         binding.favMangaRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = LikesAdapter(mangaList, FAV_TYPE_MANGA, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
+            adapter = FavouritesAdapter(mangaList, FAV_TYPE_MANGA, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         binding.favCharactersRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = LikesAdapter(charactersList, FAV_TYPE_CHARACTER, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
+            adapter = FavouritesAdapter(charactersList, FAV_TYPE_CHARACTER, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         binding.favStaffRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = LikesAdapter(staffList, FAV_TYPE_STAFF, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
+            adapter = FavouritesAdapter(staffList, FAV_TYPE_STAFF, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         if (animeList.isEmpty()) {
@@ -185,7 +185,7 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
     }
 
     override fun onCharacterClick(mediaID: Int) {
-        val characterDetailFragment = CharacterDetailFragment().apply {
+        val characterDetailsFragment = CharacterDetailsFragment().apply {
             // Pasar el ID del anime al fragmento de detalle usando un Bundle
             arguments = Bundle().apply {
                 putInt("MEDIA_ID", mediaID)
@@ -193,11 +193,19 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
         }
 
         // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(characterDetailFragment)
+        (activity as? MainActivity)?.openDetailFragment(characterDetailsFragment)
     }
 
     override fun onStaffClick(mediaID: Int) {
-        TODO("Not yet implemented")
+        val staffDetailFragment = StaffDetailsFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaID)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(staffDetailFragment)
     }
 
     override fun onAnimeClick(mediaID: Int) {

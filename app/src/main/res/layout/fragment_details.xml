@@ -92,9 +92,16 @@
                 android:id="@+id/showMoreButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/see_more_arrow"
                 android:src="@drawable/ic_arrow_down"
                 android:background="@color/transparent"
                 android:layout_gravity="center" />
+            <View
+                android:id="@+id/separatorSynopsis"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp"/>
 
             <!-- Genres -->
             <TextView
@@ -129,6 +136,13 @@
                 android:text=""
                 android:layout_marginTop="8dp" />
 
+            <View
+                android:id="@+id/separatorStudios"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp"/>
+
             <!-- Studios -->
             <TextView
                 android:id="@+id/studiosTextView"
@@ -136,12 +150,20 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:layout_marginTop="8dp" />
+
             <TextView
                 android:id="@+id/producersTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:layout_marginTop="8dp" />
+
+            <View
+                android:id="@+id/separatorSynonims"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp" />
 
             <!-- Synonyms -->
             <TextView
@@ -150,6 +172,13 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:layout_marginTop="8dp" />
+
+            <View
+                android:id="@+id/separatorTags"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp" />
 
             <!-- Tags -->
             <TextView
@@ -164,7 +193,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:maxLines="5"
                 android:layout_marginTop="8dp" />
+
+            <ImageButton
+                android:id="@+id/showMoreButtonTags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/see_more_arrow"
+                android:src="@drawable/ic_arrow_down"
+                android:background="@color/transparent"
+                android:layout_gravity="center" />
+
+            <View
+                android:id="@+id/separatorCharacters"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp"/>
 
             <!-- Characters RecyclerView -->
             <TextView
@@ -182,6 +228,13 @@
                 android:layout_marginTop="4dp"
                 android:orientation="horizontal"/>
 
+            <View
+                android:id="@+id/separatorStaff"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp" />
+
             <!-- Staff RecyclerView -->
             <TextView
                 android:id="@+id/staffTitle"
@@ -197,6 +250,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:orientation="horizontal"/>
+
+            <View
+                android:id="@+id/separatorRelations"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp" />
 
             <!-- Relations RecyclerView -->
             <TextView
@@ -214,6 +274,13 @@
                 android:layout_marginTop="4dp"
                 android:orientation="horizontal"/>
 
+            <View
+                android:id="@+id/separatorRecommendations"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp" />
+
             <!-- Recommendations RecyclerView -->
             <TextView
                 android:id="@+id/recommendationsTitle"
@@ -229,6 +296,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:orientation="horizontal"/>
+
+            <View
+                android:id="@+id/separatorLinks"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp" />
 
             <!-- External Links -->
             <TextView

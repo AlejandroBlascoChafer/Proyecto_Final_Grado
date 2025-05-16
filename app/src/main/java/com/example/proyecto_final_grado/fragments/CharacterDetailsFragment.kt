@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
+import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
-import com.example.proyecto_final_grado.adapters.MediaAdapter
+import com.example.proyecto_final_grado.adapters.MediaCharacterAdapter
 import com.example.proyecto_final_grado.adapters.SeiyuuAdapter
-import com.example.proyecto_final_grado.adapters.StaffAdapter
 import graphql.GetCharacterDetailQuery
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentCharacterDetailsBinding
@@ -22,7 +22,7 @@ import com.example.proyecto_final_grado.utils.MarkdownUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 
-class CharacterDetailFragment : Fragment(), OnAnimeClickListener, OnMangaClickListener, OnStaffClickListener {
+class CharacterDetailsFragment : Fragment(), OnAnimeClickListener, OnMangaClickListener, OnStaffClickListener {
 
     private var _binding: FragmentCharacterDetailsBinding? = null
     private val binding get() = _binding!!
@@ -64,7 +64,20 @@ class CharacterDetailFragment : Fragment(), OnAnimeClickListener, OnMangaClickLi
                         character.name?.alternative.orEmpty().toString()
                     binding.characterGenderTextView.text = "Gender: ${character.gender ?: "Desconocido"}"
                     binding.characterFavouritesTextView.text = "Favourites: ${character.favourites ?: 0}"
+                    val showMoreButton = binding.showMoreButton
                     markwon.setMarkdownText(requireContext(), binding.characterDescriptionTextView, character.description)
+
+                    var isExpanded = false
+                    showMoreButton.setOnClickListener {
+                        if (isExpanded) {
+                            binding.characterDescriptionTextView.maxLines = 5
+                            showMoreButton.setImageResource(R.drawable.ic_arrow_down)
+                        } else {
+                            binding.characterDescriptionTextView.maxLines = Integer.MAX_VALUE
+                            showMoreButton.setImageResource(R.drawable.ic_arrow_up)
+                        }
+                        isExpanded = !isExpanded
+                    }
 
                     Picasso.get()
                         .load(character.image?.large)
@@ -74,7 +87,7 @@ class CharacterDetailFragment : Fragment(), OnAnimeClickListener, OnMangaClickLi
                     binding.characterMediaRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                         val media = character.media?.edges?.filterNotNull() ?: emptyList()
-                        adapter = MediaAdapter(media, this@CharacterDetailFragment, this@CharacterDetailFragment)
+                        adapter = MediaCharacterAdapter(media, this@CharacterDetailsFragment, this@CharacterDetailsFragment)
                     }
                     binding.characterSeiyuuRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -83,7 +96,7 @@ class CharacterDetailFragment : Fragment(), OnAnimeClickListener, OnMangaClickLi
                             ?.distinctBy { it?.voiceActor?.id }
                             ?: emptyList()
 
-                        adapter = SeiyuuAdapter(seiyuu, this@CharacterDetailFragment)
+                        adapter = SeiyuuAdapter(seiyuu, this@CharacterDetailsFragment)
                     }
                 }
 
@@ -124,14 +137,14 @@ class CharacterDetailFragment : Fragment(), OnAnimeClickListener, OnMangaClickLi
     }
 
     override fun onStaffClick(mediaID: Int) {
-//        val staffDetailFragment = StaffDetailsFragment().apply {
-//            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-//            arguments = Bundle().apply {
-//                putInt("MEDIA_ID", mediaID)
-//            }
-//        }
-//
-//        // Iniciar la transacción del fragmento
-//        (activity as? MainActivity)?.openDetailFragment(staffDetailFragment)
+        val staffDetailFragment = StaffDetailsFragment().apply {
+            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+            arguments = Bundle().apply {
+                putInt("MEDIA_ID", mediaID)
+            }
+        }
+
+        // Iniciar la transacción del fragmento
+        (activity as? MainActivity)?.openDetailFragment(staffDetailFragment)
     }
 }

@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
-import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.squareup.picasso.Picasso
 import graphql.GetCharacterDetailQuery
+import graphql.GetStaffDetailQuery
 
-class MediaAdapter(
-    private val mediaList: List<GetCharacterDetailQuery.Edge?>,
+class MediaStaffAdapter(
+    private val mediaList: List<GetStaffDetailQuery.Edge?>,
     private val listenerManga: OnMangaClickListener,
     private val listenerAnime: OnAnimeClickListener
-    ) : RecyclerView.Adapter<MediaAdapter.MediaViewHolder>() {
+    ) : RecyclerView.Adapter<MediaStaffAdapter.MediaViewHolder>() {
 
     inner class MediaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.mediaImageView)
@@ -36,8 +36,8 @@ class MediaAdapter(
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
         val media = mediaList[position]
         Picasso.get().load(media?.node?.coverImage?.large).into(holder.imageView)
-        holder.nameView.text = media?.node?.title?.userPreferred ?: ""
-        holder.roleView.text = media?.node?.format?.name ?: ""
+        holder.nameView.text = media?.node?.title?.romaji ?: ""
+        holder.roleView.text = media?.staffRole ?: ""
         holder.imageView.setOnClickListener {
             val mediaID = media?.node?.id
             if (media?.node?.type?.name == "ANIME" && mediaID != null){

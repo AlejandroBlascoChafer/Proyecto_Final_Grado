@@ -12,11 +12,12 @@ import com.example.proyecto_final_grado.databinding.ItemCharacterBinding
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.squareup.picasso.Picasso
 import graphql.GetMediaDetailQuery
+import graphql.GetStaffDetailQuery
 
-class CharactersAdapter(
-    private val characters: List<GetMediaDetailQuery.Edge>,
+class CharactersStaffAdapter(
+    private val characters: List<GetStaffDetailQuery.Edge1?>,
     private val characterListener: OnCharacterClickListener) :
-    RecyclerView.Adapter<CharactersAdapter.CharacterViewHolder>() {
+    RecyclerView.Adapter<CharactersStaffAdapter.CharacterViewHolder>() {
 
     inner class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.characterImageView)
@@ -31,12 +32,11 @@ class CharactersAdapter(
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
         val character = characters[position]
 
-        Picasso.get().load(character.node?.image?.large).into(holder.imageView)
-        Log.d("CharacterAdapter", "Name: ${character.node?.name?.userPreferred}")
-        holder.nameView.text = character.node?.name?.userPreferred
+        Picasso.get().load(character?.node?.image?.large).into(holder.imageView)
+        holder.nameView.text = character?.node?.name?.full
 
         holder.imageView.setOnClickListener {
-            val characterID = character.node?.id
+            val characterID = character?.node?.id
             if (characterID != null) {
                 characterListener.onCharacterClick(characterID)
             }

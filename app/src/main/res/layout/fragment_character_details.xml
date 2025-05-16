@@ -99,7 +99,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Character description..."
+                android:maxLines="5"
                 android:layout_marginTop="4dp" />
+
+            <ImageButton
+                android:id="@+id/showMoreButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/see_more_arrow"
+                android:src="@drawable/ic_arrow_down"
+                android:background="@color/transparent"
+                android:layout_gravity="center" />
+
+            <View
+                android:id="@+id/separatorGenre"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp"/>
 
             <!-- Género y favoritos -->
             <TextView
@@ -116,6 +133,12 @@
                 android:text="Favourites: 123456"
                 android:layout_marginTop="4dp" />
 
+            <View
+                android:id="@+id/separatorSeiyuu"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp"/>
 
             <!-- Voice Actors -->
             <TextView
@@ -133,6 +156,13 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:orientation="horizontal" />
+
+            <View
+                android:id="@+id/separatorMedia"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="8dp"/>
 
             <!-- Apariciones -->
             <TextView

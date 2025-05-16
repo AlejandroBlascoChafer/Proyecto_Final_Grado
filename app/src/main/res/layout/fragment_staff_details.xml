@@ -1,0 +1,139 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/layoutContainer"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <!-- Imagen y nombre -->
+        <ImageView
+            android:id="@+id/imageStaff"
+            android:layout_width="120dp"
+            android:layout_height="180dp"
+            android:layout_marginBottom="12dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/staff_image"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent" />
+
+        <TextView
+            android:id="@+id/textStaffName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textNativeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Ocupaciones -->
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupOccupations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleLine="false"
+            app:singleSelection="false"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Staff details -->
+        <TextView
+            android:id="@+id/textStaffDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Separator -->
+        <View
+            android:id="@+id/separatorDescription"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginVertical="8dp" />
+
+        <!-- Descripción -->
+        <TextView
+            android:id="@+id/textStaffDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:maxLines="8"
+            android:layout_marginBottom="16dp" />
+
+        <ImageButton
+            android:id="@+id/showMoreButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/see_more_arrow"
+            android:src="@drawable/ic_arrow_down"
+            android:background="@color/transparent"
+            android:layout_gravity="center" />
+
+
+        <!-- Separator -->
+        <View
+            android:id="@+id/separatorStaffMedia"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginVertical="8dp" />
+
+        <!-- Staff Media -->
+        <TextView
+            android:id="@+id/titleStaffMedia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Media"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerStaffMedia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Separator -->
+        <View
+            android:id="@+id/separatorCharacters"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginVertical="8dp"
+            android:visibility="gone" />
+
+        <!-- Characters -->
+        <TextView
+            android:id="@+id/titleCharacters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Characters"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerCharacters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginBottom="24dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</ScrollView>
