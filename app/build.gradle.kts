@@ -67,5 +67,9 @@ dependencies {
     implementation(libs.squareup.picasso)
     implementation(libs.core)
     implementation(libs.html)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
 
 }

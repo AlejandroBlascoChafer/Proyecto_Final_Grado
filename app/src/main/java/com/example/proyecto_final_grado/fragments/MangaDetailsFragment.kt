@@ -133,6 +133,9 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                     binding.studiosTextView.visibility = View.GONE
                     binding.producersTextView.visibility = View.GONE
                     binding.separatorStudios.visibility = View.GONE
+                    binding.openingsTextView.visibility = View.GONE
+                    binding.endingsTextView.visibility = View.GONE
+                    binding.separatorThemes.visibility = View.GONE
 
                     val mainCharacters = media?.characters?.edges?.filter { it?.role?.name == "MAIN" }
                     val suppCharacters = media?.characters?.edges?.filter { it?.role?.name == "SUPPORTING" }

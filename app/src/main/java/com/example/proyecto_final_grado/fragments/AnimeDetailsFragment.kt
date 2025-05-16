@@ -2,31 +2,32 @@ package com.example.proyecto_final_grado.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.example.proyecto_final_grado.R
+import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.CharactersMediaAdapter
 import com.example.proyecto_final_grado.adapters.RelationsAdapter
 import com.example.proyecto_final_grado.adapters.StaffAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentDetailsBinding
-import com.squareup.picasso.Picasso
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.Locale
-import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
+import com.example.proyecto_final_grado.utils.RetrofitClient
+import com.squareup.picasso.Picasso
 import graphql.GetMediaDetailQuery
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Locale
 
 
 class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickListener, OnMangaClickListener, OnStaffClickListener {
@@ -71,7 +72,49 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                     Picasso.get().load(media?.bannerImage).into(binding.bannerImageView)
                     Picasso.get().load(media?.coverImage?.large).into(binding.coverImageView)
 
-                    binding.titleTextView.text = media?.title?.userPreferred
+                    val title = media?.title?.userPreferred
+                    binding.titleTextView.text = title
+
+
+//                    val slug = title?.let { fetchAnimeSlug(it) }
+//
+//                    val anime: Anime? = slug?.let {
+//                        fetchSongsAndArtists(it) // devuelve un Anime, no AnimeDetailResponse
+//                    }
+//
+//                    val themeInfo: List<ThemeInfo>? = anime?.let {
+//                        extractThemesFromDetail(it) // recibe un Anime, no AnimeDetailResponse
+//                    }
+//
+//                    val openingList = mutableListOf<ThemeInfo>()
+//                    val endingList = mutableListOf<ThemeInfo>()
+//
+//                    themeInfo?.forEach { theme ->
+//                        if (theme.type == "OP") {
+//                            openingList.add(theme)
+//                        } else {
+//                            endingList.add(theme)
+//                        }
+//                    }
+//
+//                    val textOpenings = buildString {
+//                        append("Opening Themes\n")
+//
+//                        for (theme in openingList) {
+//                            Log.d("Opening Themes","${theme.slug} ${theme.title} by ${theme.artists} (${theme.episodes})\n")
+//                            append("${theme.slug} ${theme.title} by ${theme.artists} (${theme.episodes})\n")
+//                        }
+//                    }
+//                    val textEndings = buildString {
+//                        append("Ending Themes\n")
+//                        for (theme in endingList) {
+//                            Log.d("Ending Themes","${theme.slug} ${theme.title} by ${theme.artists} (${theme.episodes})\n")
+//                            append("${theme.slug} ${theme.title} by ${theme.artists} (${theme.episodes})\n")
+//                        }
+//                    }
+//                    binding.openingsTextView.text = textOpenings
+//                    binding.endingsTextView.text = textEndings
+
                     val showMoreButton = binding.showMoreButton
                     markwon.setMarkdownText(requireContext(), binding.descriptionTextView, media?.description)
                     var isDescriptionExpanded = false
@@ -187,6 +230,53 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
             }
         }
     }
+
+//    private suspend fun fetchAnimeSlug(animeName: String): String? {
+//        return try {
+//            val response = RetrofitClient.api.getAnimeByName(animeName)
+//            Log.d("Data", "$response")
+//            val data = response.animeList // suponiendo que en AnimeResponse la lista se llama `anime`
+//            Log.d("Data", "$data")
+//            if (data.isNotEmpty()) {
+//                data[0].slug
+//            } else null
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            null
+//        }
+//    }
+//
+//
+//    private suspend fun fetchSongsAndArtists(slug: String):  Anime? {
+//        return try {
+//            val response = RetrofitClient.api.getAnimeDetails(slug)
+//            response.anime
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            null
+//        }
+//    }
+//
+//    private fun extractThemesFromDetail(response: Anime): List<ThemeInfo> {
+//        // Si animethemes puede ser null, mejor asegurar con ?: emptyList()
+//        val themes = response.animethemes ?: emptyList()
+//        return themes.map { theme ->
+//            val title = theme.song.title
+//            val artists = theme.song.artists.map { it.name }
+//            val episodes = theme.animethemeentries.firstOrNull()?.episodes ?: "N/A"
+//            val slug = theme.slug
+//
+//            ThemeInfo(
+//                type = theme.type,
+//                title = title,
+//                artists = artists,
+//                episodes = episodes,
+//                slug = slug
+//            )
+//        }
+//    }
+
+
 
     override fun onCharacterClick(mediaID: Int) {
         val characterDetailsFragment = CharacterDetailsFragment().apply {
