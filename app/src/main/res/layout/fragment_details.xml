@@ -206,43 +206,6 @@
                 android:layout_gravity="center" />
 
             <View
-                android:id="@+id/separatorThemes"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_marginVertical="8dp"/>
-
-            <TextView
-                android:id="@+id/openingsTitleTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/openings"
-                android:layout_marginTop="8dp" />
-
-            <TextView
-                android:id="@+id/openingsTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginTop="8dp" />
-
-            <TextView
-                android:id="@+id/endingsTitleTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/endings"
-                android:layout_marginTop="8dp" />
-
-
-            <TextView
-                android:id="@+id/endingsTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginTop="8dp" />
-
-
-            <View
                 android:id="@+id/separatorCharacters"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

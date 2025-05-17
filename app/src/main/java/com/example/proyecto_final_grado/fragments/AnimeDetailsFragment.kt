@@ -5,12 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
-import com.example.proyecto_final_grado.AnimeTheme
-import com.example.proyecto_final_grado.AnimeThemesAnime
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.CharactersMediaAdapter
@@ -22,9 +19,7 @@ import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
-import com.example.proyecto_final_grado.utils.AnimeThemesApi
 import com.example.proyecto_final_grado.utils.MarkdownUtils
-import com.example.proyecto_final_grado.utils.RetrofitClient
 import com.squareup.picasso.Picasso
 import graphql.GetMediaDetailQuery
 import kotlinx.coroutines.CoroutineScope
@@ -42,7 +37,6 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
     private lateinit var apolloClient: ApolloClient
     private var mediaId: Int? = null
     private val markwon = MarkdownUtils
-    private lateinit var api: AnimeThemesApi
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +60,7 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
 
     private fun fetchAnimeDetails(mediaID: Int){
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
-        api = RetrofitClient.api
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = apolloClient.query(GetMediaDetailQuery(mediaID)).execute()
@@ -77,27 +71,8 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                     Picasso.get().load(media?.bannerImage).into(binding.bannerImageView)
                     Picasso.get().load(media?.coverImage?.large).into(binding.coverImageView)
 
-                    val title = media?.title?.userPreferred
-                    binding.titleTextView.text = title
 
-                    if (title != null) {
-                        // Lanzar corrutina para obtener el slug
-                        CoroutineScope(Dispatchers.IO).launch {
-                            val slug = fetchAnimeSlug(title)
-                            if (slug != null) {
-                                Log.d("AnimeSlug", "Slug encontrado: $slug")
-                                // Aquí haces la llamada siguiente, por ejemplo:
-                                val animeDetails = fetchSongsAndArtists(slug)
-                                withContext(Dispatchers.Main) {
-                                    showAnimeThemes(animeDetails, binding.openingsTextView, binding.endingsTextView)
-
-                                }
-                                // o actualizar UI con esos datos
-                            } else {
-                                Log.d("AnimeSlug", "Slug no encontrado para $title")
-                            }
-                        }
-                    }
+                    binding.titleTextView.text = media?.title?.userPreferred
 
                     val showMoreButton = binding.showMoreButton
                     markwon.setMarkdownText(requireContext(), binding.descriptionTextView, media?.description)
@@ -214,98 +189,6 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
             }
         }
     }
-
-    private fun cleanTitle(title: String): String {
-        // Elimina "Part 1", "Part 2", "Part I", etc., ignorando mayúsculas y espacios extras
-        val regex = Regex("""\bpart\s*[0-9ivx]+\b""", RegexOption.IGNORE_CASE)
-        return title.replace(regex, "")
-            .replace("  ", " ")  // Quita dobles espacios
-            .trim()
-    }
-
-    private fun titlesMatch(title1: String, title2: String): Boolean {
-        val clean1 = cleanTitle(title1).lowercase()
-        val clean2 = cleanTitle(title2).lowercase()
-        // Aquí comparo igualdad exacta (limpia y en minúsculas)
-        if (clean1 == clean2) return true
-
-        // Puedes añadir más heurísticas si quieres, por ejemplo:
-        // - Ignorar diferencias de tildes, acentos (usa Normalizer)
-        // - Permitir pequeñas diferencias con distancia Levenshtein (requiere librería)
-
-        return false
-    }
-
-    suspend fun fetchAnimeThemesMatches(
-        searchTitle: String,
-        api: AnimeThemesApi
-    ): List<AnimeThemesAnime> {
-        val cleanedSearchTitle = cleanTitle(searchTitle).lowercase()
-
-        val response = api.getAnimeByName(searchTitle)
-        val candidates = response.anime
-        Log.d("Respuesta AnimeThemes", candidates.toString())
-
-        return candidates.filter { candidate ->
-            titlesMatch(candidate.name, cleanedSearchTitle)
-        }
-    }
-
-
-
-
-    private suspend fun fetchAnimeSlug(animeName: String): String? {
-        return try {
-            val response = RetrofitClient.api.getAnimeByName(animeName)
-            Log.d("Data", "$response")
-            val data = response.anime
-            Log.d("Data", "$data")
-            if (data.isNotEmpty()) {
-                data[0].slug
-            } else null
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
-//
-//
-    private suspend fun fetchSongsAndArtists(slug: String): List<AnimeTheme>? {
-        return try {
-            val response = RetrofitClient.api.getAnimeDetails(slug)
-            response.anime.animethemes
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
-
-    private fun showAnimeThemes(animethemes: List<AnimeTheme>?, tvOpenings: TextView, tvEndings: TextView) {
-        if (animethemes == null) {
-            tvOpenings.text = "No openings found."
-            tvEndings.text = "No endings found."
-            return
-        }
-
-        val openingsText = StringBuilder()
-        val endingsText = StringBuilder()
-
-        animethemes.forEach { theme ->
-            val artists = theme.song.artists.joinToString(", ") { it.name }
-            val episodes = theme.animethemeentries.joinToString(", ") { it.episodes ?: "N/A" }
-            val infoLine = "Song: ${theme.song.title}\nArtists: $artists\nEpisodes: $episodes\n\n"
-
-            when (theme.type) {
-                "OP" -> openingsText.append(infoLine)
-                "ED" -> endingsText.append(infoLine)
-            }
-        }
-
-        tvOpenings.text = if (openingsText.isNotEmpty()) openingsText.toString() else "No openings found."
-        tvEndings.text = if (endingsText.isNotEmpty()) endingsText.toString() else "No endings found."
-    }
-
-
 
     override fun onCharacterClick(mediaID: Int) {
         val characterDetailsFragment = CharacterDetailsFragment().apply {
