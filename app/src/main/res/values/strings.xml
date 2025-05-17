@@ -41,4 +41,6 @@
     <string name="character_image">Character Image</string>
     <string name="see_more_arrow">See more arrow</string>
     <string name="staff_image">Staff Image</string>
+    <string name="openings">Openings:</string>
+    <string name="endings">Endings:</string>
 </resources>

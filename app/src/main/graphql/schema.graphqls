@@ -220,7 +220,7 @@ enum ActivityType {
   """A text message activity sent to another user"""
   MESSAGE
 
-  """Anime & Manga list update, only used in query arguments"""
+  """com.example.proyecto_final_grado.Anime & Manga list update, only used in query arguments"""
   MEDIA_LIST
 }
 
@@ -1567,7 +1567,7 @@ type ListScoreStats {
   standardDeviation: Int
 }
 
-"""Anime or Manga"""
+"""com.example.proyecto_final_grado.Anime or Manga"""
 type Media {
   """The id of the media"""
   id: Int!
@@ -1984,13 +1984,13 @@ input MediaExternalLinkInput {
 
 """The format the media was released in"""
 enum MediaFormat {
-  """Anime broadcast on television"""
+  """com.example.proyecto_final_grado.Anime broadcast on television"""
   TV
 
-  """Anime which are under 15 minutes in length and broadcast on television"""
+  """com.example.proyecto_final_grado.Anime which are under 15 minutes in length and broadcast on television"""
   TV_SHORT
 
-  """Anime movies with a theatrical release"""
+  """com.example.proyecto_final_grado.Anime movies with a theatrical release"""
   MOVIE
 
   """
@@ -1999,14 +1999,14 @@ enum MediaFormat {
   SPECIAL
 
   """
-  (Original Video Animation) Anime that have been released directly on
+  (Original Video Animation) com.example.proyecto_final_grado.Anime that have been released directly on
   DVD/Blu-ray without originally going through a theatrical release or
   television broadcast
   """
   OVA
 
   """
-  (Original Net Animation) Anime that have been originally released online or are only available through streaming services.
+  (Original Net Animation) com.example.proyecto_final_grado.Anime that have been originally released online or are only available through streaming services.
   """
   ONA
 
@@ -2427,7 +2427,7 @@ enum MediaSource {
   """Version 2+ only. Self-published works"""
   DOUJINSHI
 
-  """Version 2+ only. Japanese Anime"""
+  """Version 2+ only. Japanese com.example.proyecto_final_grado.Anime"""
   ANIME
 
   """Version 3 only. Written works published online"""
@@ -2686,7 +2686,7 @@ enum MediaTrendSort {
 
 """Media type enum, anime or manga."""
 enum MediaType {
-  """Japanese Anime"""
+  """Japanese com.example.proyecto_final_grado.Anime"""
   ANIME
 
   """Asian comic"""
@@ -3338,7 +3338,7 @@ enum NotificationType {
   MEDIA_DATA_CHANGE
 
   """
-  Anime or manga entries on the user's list have been merged into a single entry
+  com.example.proyecto_final_grado.Anime or manga entries on the user's list have been merged into a single entry
   """
   MEDIA_MERGE
 

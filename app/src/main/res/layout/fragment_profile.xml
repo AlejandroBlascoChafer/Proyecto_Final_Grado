@@ -134,7 +134,7 @@
 
             </GridLayout>
 
-            <!-- Anime Likes -->
+            <!-- com.example.proyecto_final_grado.Anime Likes -->
             <TextView
                 android:id="@+id/tvAnime"
                 android:layout_width="wrap_content"

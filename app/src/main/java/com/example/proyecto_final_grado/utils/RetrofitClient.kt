@@ -1,6 +1,6 @@
 package com.example.proyecto_final_grado.utils
 
-import AnimeResponse
+import com.example.proyecto_final_grado.AnimeThemesResponse
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,7 +20,7 @@ object RetrofitClient {
 
     // Aquí creamos Gson con el deserializador personalizado
     private val gson = GsonBuilder()
-        .registerTypeAdapter(AnimeResponse::class.java, AnimeResponseDeserializer())
+        .registerTypeAdapter(AnimeThemesResponse::class.java, AnimeResponseDeserializer())
         .create()
 
     val api: AnimeThemesApi by lazy {
