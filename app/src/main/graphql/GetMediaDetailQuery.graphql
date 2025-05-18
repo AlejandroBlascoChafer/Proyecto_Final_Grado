@@ -7,7 +7,7 @@ query GetMediaDetailQuery($id: Int!) {
         bannerImage
         genres
         description(asHtml: false)
-        characters {
+        characters(sort: [FAVOURITES_DESC]) {
           edges {
             role
             node {
@@ -88,21 +88,30 @@ query GetMediaDetailQuery($id: Int!) {
             }
         }
         recommendations {
-            nodes {
-                media {
-                    id
-                    title {
-                        userPreferred
+            edges {
+                node {
+                    mediaRecommendation {
+                        id
+                        title {
+                            userPreferred
+                        }
+                        format
+                        startDate {
+                            year
+                        }
+                        type
+                        meanScore
+                        popularity
+                        favourites
+                        chapters
+                        episodes
+                        coverImage {
+                            large
+                        }
                     }
-                    type
-                    startDate {
-                        year
-                    }
-                    meanScore
-                    popularity
-                    chapters
                 }
             }
+
         }
         externalLinks {
             id

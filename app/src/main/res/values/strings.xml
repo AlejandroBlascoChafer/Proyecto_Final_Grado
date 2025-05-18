@@ -43,4 +43,5 @@
     <string name="staff_image">Staff Image</string>
     <string name="openings">Openings:</string>
     <string name="endings">Endings:</string>
+    <string name="link_icon">Link Icon</string>
 </resources>

@@ -11,6 +11,8 @@ import com.apollographql.apollo.ApolloClient
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.CharactersMediaAdapter
+import com.example.proyecto_final_grado.adapters.ExternalLinksAdapter
+import com.example.proyecto_final_grado.adapters.RecommendationsAdapter
 import com.example.proyecto_final_grado.adapters.RelationsAdapter
 import com.example.proyecto_final_grado.adapters.StaffAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
@@ -20,6 +22,7 @@ import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
+import com.google.android.material.chip.Chip
 import com.squareup.picasso.Picasso
 import graphql.GetMediaDetailQuery
 import kotlinx.coroutines.CoroutineScope
@@ -73,6 +76,7 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
 
 
                     binding.titleTextView.text = media?.title?.userPreferred
+                    binding.nativeTitleTextView.text = media?.title?.native
 
                     val showMoreButton = binding.showMoreButton
                     markwon.setMarkdownText(requireContext(), binding.descriptionTextView, media?.description)
@@ -90,7 +94,18 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                         isDescriptionExpanded = !isDescriptionExpanded
                     }
 
-                    binding.genresTextView.text = media?.genres.toString()
+                    binding.genresChipGroup.removeAllViews()  // Limpiar chips previos
+
+                    media?.genres?.forEach { genre ->
+                        val chip = Chip(binding.genresChipGroup.context).apply {
+                            text = genre
+                            isClickable = false
+                            isCheckable = false
+                            // Si quieres, puedes aplicar estilo o color aquí
+                        }
+                        binding.genresChipGroup.addView(chip)
+                    }
+
                     val scorePopFav = "Score: ${media?.averageScore} | Pop: ${media?.popularity} | Favs: ${media?.favourites}"
                     binding.scoreTextView.text = scorePopFav
                     val formatStatusSource = "${media?.format} | ${media?.status} | ${media?.source}"
@@ -179,8 +194,20 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                         adapter = RelationsAdapter(relations, this@AnimeDetailsFragment, this@AnimeDetailsFragment)
                     }
 
+                    binding.recommendationsRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                        val recommendations = media?.recommendations?.edges?.filterNotNull() ?: emptyList()
+                        adapter = RecommendationsAdapter(recommendations, this@AnimeDetailsFragment, this@AnimeDetailsFragment)
+                    }
 
-                    //binding.nativeTitleTextView.text = media?.title?.native
+                    binding.externalLinksRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                        val links = media?.externalLinks?.filterNotNull() ?: emptyList()
+                        adapter = ExternalLinksAdapter(links, this@AnimeDetailsFragment, this@AnimeDetailsFragment)
+                    }
+
+
+
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {

@@ -22,11 +22,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 import com.example.proyecto_final_grado.activities.MainActivity
+import com.example.proyecto_final_grado.adapters.ExternalLinksAdapter
+import com.example.proyecto_final_grado.adapters.RecommendationsAdapter
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
+import com.google.android.material.chip.Chip
 
 class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickListener, OnAnimeClickListener, OnStaffClickListener {
 
@@ -64,6 +67,8 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                     Picasso.get().load(media?.coverImage?.large).into(binding.coverImageView)
 
                     binding.titleTextView.text = media?.title?.userPreferred
+                    binding.nativeTitleTextView.text = media?.title?.native
+
                     val showMoreButton = binding.showMoreButton
                     markwon.setMarkdownText(requireContext(), binding.descriptionTextView, media?.description)
 
@@ -79,7 +84,17 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                         isExpanded = !isExpanded
                     }
 
-                    binding.genresTextView.text = media?.genres.toString()
+                    binding.genresChipGroup.removeAllViews()  // Limpiar chips previos
+
+                    media?.genres?.forEach { genre ->
+                        val chip = Chip(binding.genresChipGroup.context).apply {
+                            text = genre
+                            isClickable = false
+                            isCheckable = false
+                            // Si quieres, puedes aplicar estilo o color aquí
+                        }
+                        binding.genresChipGroup.addView(chip)
+                    }
                     val scorePopFav = "Score: ${media?.averageScore} | Pop: ${media?.popularity} | Favs: ${media?.favourites}"
                     binding.scoreTextView.text = scorePopFav
                     val formatStatusSource = "${media?.format} | ${media?.status} | ${media?.source}"
@@ -133,7 +148,6 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                     binding.studiosTextView.visibility = View.GONE
                     binding.producersTextView.visibility = View.GONE
                     binding.separatorStudios.visibility = View.GONE
-                    binding.separatorThemes.visibility = View.GONE
 
                     val mainCharacters = media?.characters?.edges?.filter { it?.role?.name == "MAIN" }
                     val suppCharacters = media?.characters?.edges?.filter { it?.role?.name == "SUPPORTING" }
@@ -141,17 +155,32 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
 
                     binding.charactersRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        adapter = CharactersMediaAdapter(mainCharacters?.filterNotNull() ?: emptyList(), this@MangaDetailsFragment)
+                        val characters = mainCharacters?.filterNotNull() ?: emptyList()
+                        adapter = CharactersMediaAdapter(characters, this@MangaDetailsFragment)
                     }
 
                     binding.staffRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        adapter = StaffAdapter(media?.staff?.edges?.filterNotNull() ?: emptyList(), this@MangaDetailsFragment)
+                        val staff = media?.staff?.edges?.filterNotNull() ?: emptyList()
+                        adapter = StaffAdapter(staff, this@MangaDetailsFragment)
                     }
 
                     binding.relationsRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        adapter = RelationsAdapter(media?.relations?.edges?.filterNotNull() ?: emptyList(), this@MangaDetailsFragment, this@MangaDetailsFragment)
+                        val relations = media?.relations?.edges?.filterNotNull() ?: emptyList()
+                        adapter = RelationsAdapter(relations, this@MangaDetailsFragment, this@MangaDetailsFragment)
+                    }
+
+                    binding.recommendationsRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                        val recommendations = media?.recommendations?.edges?.filterNotNull() ?: emptyList()
+                        adapter = RecommendationsAdapter(recommendations, this@MangaDetailsFragment, this@MangaDetailsFragment)
+                    }
+
+                    binding.externalLinksRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                        val links = media?.externalLinks?.filterNotNull() ?: emptyList()
+                        adapter = ExternalLinksAdapter(links, this@MangaDetailsFragment, this@MangaDetailsFragment)
                     }
                 }
             } catch (e: Exception) {

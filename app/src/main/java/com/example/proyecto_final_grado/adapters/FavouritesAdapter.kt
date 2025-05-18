@@ -10,12 +10,11 @@ import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
+import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_ANIME
+import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_CHARACTER
+import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_MANGA
+import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_STAFF
 import com.squareup.picasso.Picasso
-
-const val FAV_TYPE_ANIME = 0
-const val FAV_TYPE_MANGA = 1
-const val FAV_TYPE_CHARACTER = 2
-const val FAV_TYPE_STAFF = 3
 
 class FavouritesAdapter(
     private val items: List<Any>,
