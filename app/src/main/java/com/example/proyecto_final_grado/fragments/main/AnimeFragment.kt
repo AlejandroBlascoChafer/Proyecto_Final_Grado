@@ -28,6 +28,7 @@ import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.example.proyecto_final_grado.utils.SessionManager
 import com.example.proyecto_final_grado.utils.SharedViewModel
+import com.example.proyecto_final_grado.utils.openMediaDetailFragment
 import graphql.UpdateScoreMutation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -232,16 +233,7 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
     }
 
     override fun onAnimeClick(mediaID: Int) {
-        val animeDetailFragment = AnimeDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(animeDetailFragment)
-
+        openMediaDetailFragment(mediaID) { AnimeDetailsFragment() }
     }
 }
 

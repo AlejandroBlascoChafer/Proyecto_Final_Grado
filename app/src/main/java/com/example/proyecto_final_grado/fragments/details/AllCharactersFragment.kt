@@ -17,6 +17,7 @@ import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentAllCharactersBinding
 import com.example.proyecto_final_grado.databinding.FragmentDetailsBinding
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
+import com.example.proyecto_final_grado.utils.openMediaDetailFragment
 import graphql.GetMediaDetailQuery
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -69,15 +70,7 @@ class AllCharactersFragment : Fragment(), OnCharacterClickListener {
     }
 
     override fun onCharacterClick(mediaID: Int) {
-        val characterDetailsFragment = CharacterDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(characterDetailsFragment)
+        openMediaDetailFragment(mediaID) { CharacterDetailsFragment() }
     }
 
 }

@@ -19,6 +19,7 @@ import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
+import com.example.proyecto_final_grado.utils.openMediaDetailFragment
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 
@@ -112,39 +113,15 @@ class CharacterDetailsFragment : Fragment(), OnAnimeClickListener, OnMangaClickL
         _binding = null
     }
 
-    override fun onMangaClick(mediaID: Int) {
-        val mangaDetailFragment = MangaDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(mangaDetailFragment)
+    override fun onAnimeClick(mediaID: Int) {
+        openMediaDetailFragment(mediaID) { AnimeDetailsFragment() }
     }
 
-    override fun onAnimeClick(mediaID: Int) {
-        val animeDetailFragment = AnimeDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(animeDetailFragment)
+    override fun onMangaClick(mediaID: Int) {
+        openMediaDetailFragment(mediaID) { MangaDetailsFragment() }
     }
 
     override fun onStaffClick(mediaID: Int) {
-        val staffDetailFragment = StaffDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(staffDetailFragment)
+        openMediaDetailFragment(mediaID) { StaffDetailsFragment() }
     }
 }

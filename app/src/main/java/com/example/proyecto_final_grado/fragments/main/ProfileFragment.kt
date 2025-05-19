@@ -18,20 +18,23 @@ import com.example.proyecto_final_grado.fragments.details.AnimeDetailsFragment
 import com.example.proyecto_final_grado.fragments.details.CharacterDetailsFragment
 import com.example.proyecto_final_grado.fragments.details.MangaDetailsFragment
 import com.example.proyecto_final_grado.fragments.details.StaffDetailsFragment
+import com.example.proyecto_final_grado.fragments.details.StudiosDetailsFragment
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
+import com.example.proyecto_final_grado.listeners.OnStudioClickListener
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_ANIME
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_CHARACTER
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_MANGA
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_STAFF
 import com.example.proyecto_final_grado.utils.SessionManager
 import com.example.proyecto_final_grado.utils.SharedViewModel
+import com.example.proyecto_final_grado.utils.openMediaDetailFragment
 import com.squareup.picasso.Picasso
 import java.util.Locale
 
-class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListener, OnAnimeClickListener, OnMangaClickListener {
+class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListener, OnAnimeClickListener, OnMangaClickListener, OnStudioClickListener {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
@@ -189,50 +192,22 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
     }
 
     override fun onCharacterClick(mediaID: Int) {
-        val characterDetailsFragment = CharacterDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(characterDetailsFragment)
-    }
-
-    override fun onStaffClick(mediaID: Int) {
-        val staffDetailFragment = StaffDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(staffDetailFragment)
+        openMediaDetailFragment(mediaID) { CharacterDetailsFragment() }
     }
 
     override fun onAnimeClick(mediaID: Int) {
-        val animeDetailFragment = AnimeDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(animeDetailFragment)
+        openMediaDetailFragment(mediaID) { AnimeDetailsFragment() }
     }
 
     override fun onMangaClick(mediaID: Int) {
-        val mangaDetailFragment = MangaDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
+        openMediaDetailFragment(mediaID) { MangaDetailsFragment() }
+    }
 
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(mangaDetailFragment)
+    override fun onStaffClick(mediaID: Int) {
+        openMediaDetailFragment(mediaID) { StaffDetailsFragment() }
+    }
+
+    override fun onStudioCLick(mediaID: Int) {
+        openMediaDetailFragment(mediaID) { StudiosDetailsFragment() }
     }
 }

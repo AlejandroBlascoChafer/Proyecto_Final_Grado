@@ -1,0 +1,23 @@
+query GetStudioDetailQuery($search: String!) {
+    Studio(search: $search) {
+        name
+        id
+        isAnimationStudio
+        isFavourite
+        media(sort: POPULARITY_DESC) {
+            edges {
+                node {
+                    coverImage {
+                        large
+                    }
+                    id
+                    format
+                    title {
+                        userPreferred
+                    }
+                    type
+                }
+            }
+        }
+    }
+}

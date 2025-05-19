@@ -28,6 +28,7 @@ import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.example.proyecto_final_grado.utils.SessionManager
 import com.example.proyecto_final_grado.utils.SharedViewModel
+import com.example.proyecto_final_grado.utils.openMediaDetailFragment
 import graphql.UpdateScoreMutation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -252,16 +253,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
 
     }
     override fun onMangaClick(mediaID: Int) {
-        val mangaDetailFragment = MangaDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(mangaDetailFragment)
-
+        openMediaDetailFragment(mediaID) { MangaDetailsFragment() }
     }
 }
 

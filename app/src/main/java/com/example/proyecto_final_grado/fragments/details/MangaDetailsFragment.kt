@@ -29,6 +29,7 @@ import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
+import com.example.proyecto_final_grado.utils.openMediaDetailFragment
 import com.google.android.material.chip.Chip
 
 class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickListener, OnAnimeClickListener, OnStaffClickListener {
@@ -204,50 +205,18 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
     }
 
     override fun onCharacterClick(mediaID: Int) {
-        val characterDetailsFragment = CharacterDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(characterDetailsFragment)
+        openMediaDetailFragment(mediaID) { CharacterDetailsFragment() }
     }
 
     override fun onAnimeClick(mediaID: Int) {
-        val animeDetailFragment = AnimeDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(animeDetailFragment)
+        openMediaDetailFragment(mediaID) { AnimeDetailsFragment() }
     }
 
     override fun onMangaClick(mediaID: Int) {
-        val mangaDetailFragment = MangaDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(mangaDetailFragment)
+        openMediaDetailFragment(mediaID) { MangaDetailsFragment() }
     }
 
     override fun onStaffClick(mediaID: Int) {
-        val staffDetailFragment = StaffDetailsFragment().apply {
-            // Pasar el ID del anime al fragmento de detalle usando un Bundle
-            arguments = Bundle().apply {
-                putInt("MEDIA_ID", mediaID)
-            }
-        }
-
-        // Iniciar la transacción del fragmento
-        (activity as? MainActivity)?.openDetailFragment(staffDetailFragment)
+        openMediaDetailFragment(mediaID) { StaffDetailsFragment() }
     }
 }
