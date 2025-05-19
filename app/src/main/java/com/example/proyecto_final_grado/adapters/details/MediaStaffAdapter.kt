@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.adapters
+package com.example.proyecto_final_grado.adapters.details
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,6 @@ import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.squareup.picasso.Picasso
-import graphql.GetCharacterDetailQuery
 import graphql.GetStaffDetailQuery
 
 class MediaStaffAdapter(

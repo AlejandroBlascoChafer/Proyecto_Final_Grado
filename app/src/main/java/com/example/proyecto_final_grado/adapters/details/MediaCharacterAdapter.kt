@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.adapters
+package com.example.proyecto_final_grado.adapters.details
 
 import android.view.LayoutInflater
 import android.view.View

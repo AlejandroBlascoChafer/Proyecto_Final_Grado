@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.fragments
+package com.example.proyecto_final_grado.fragments.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
-import com.example.proyecto_final_grado.adapters.MediaCharacterAdapter
-import com.example.proyecto_final_grado.adapters.SeiyuuAdapter
+import com.example.proyecto_final_grado.adapters.details.MediaCharacterAdapter
+import com.example.proyecto_final_grado.adapters.details.SeiyuuAdapter
 import graphql.GetCharacterDetailQuery
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentCharacterDetailsBinding

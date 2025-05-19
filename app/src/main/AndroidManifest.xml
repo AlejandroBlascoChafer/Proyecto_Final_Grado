@@ -24,11 +24,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.login.LoginActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".activities.RedirectActivity"
+            android:name=".activities.login.RedirectActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

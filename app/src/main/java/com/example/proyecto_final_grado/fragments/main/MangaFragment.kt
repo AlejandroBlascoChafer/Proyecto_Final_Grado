@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.fragments
+package com.example.proyecto_final_grado.fragments.main
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -18,10 +18,11 @@ import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Optional
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
-import com.example.proyecto_final_grado.adapters.MangaAdapter
+import com.example.proyecto_final_grado.adapters.mainlist.MangaAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.DialogScoreBinding
 import com.example.proyecto_final_grado.databinding.FragmentMangaBinding
+import com.example.proyecto_final_grado.fragments.details.MangaDetailsFragment
 import com.example.proyecto_final_grado.listeners.OnAddChClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener

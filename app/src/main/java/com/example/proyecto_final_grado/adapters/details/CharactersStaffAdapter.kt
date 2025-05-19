@@ -1,6 +1,5 @@
-package com.example.proyecto_final_grado.adapters
+package com.example.proyecto_final_grado.adapters.details
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.databinding.ItemCharacterBinding
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.squareup.picasso.Picasso
-import graphql.GetMediaDetailQuery
 import graphql.GetStaffDetailQuery
 
 class CharactersStaffAdapter(

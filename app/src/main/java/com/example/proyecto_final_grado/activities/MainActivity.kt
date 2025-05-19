@@ -12,9 +12,10 @@ import com.apollographql.apollo.ApolloClient
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.ActivityMainBinding
-import com.example.proyecto_final_grado.fragments.AnimeFragment
-import com.example.proyecto_final_grado.fragments.HomeFragment
-import com.example.proyecto_final_grado.fragments.ProfileFragment
+import com.example.proyecto_final_grado.fragments.main.AnimeFragment
+import com.example.proyecto_final_grado.fragments.main.HomeFragment
+import com.example.proyecto_final_grado.fragments.main.MangaFragment
+import com.example.proyecto_final_grado.fragments.main.ProfileFragment
 import com.example.proyecto_final_grado.utils.SharedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         val fragments = listOf(
             HomeFragment(),
             AnimeFragment(),
-            com.example.proyecto_final_grado.fragments.MangaFragment(),
+            MangaFragment(),
             ProfileFragment()
         )
 

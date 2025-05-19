@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.apollographql.apollo").version("4.1.0")
+    id("com.apollographql.apollo").version("4.2.0")
 }
 
 apollo {
@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
-
+    implementation(libs.apollo.normalized.cache.sqlite)
+    implementation(libs.apollo.normalized.cache)
 
 }

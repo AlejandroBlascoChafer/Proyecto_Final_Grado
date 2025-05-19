@@ -237,15 +237,31 @@
                 android:background="@android:color/darker_gray"
                 android:layout_marginVertical="8dp"/>
 
-            <!-- Characters RecyclerView -->
-            <TextView
-                android:id="@+id/charactersTitle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/characters"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
 
+                <TextView
+                    android:id="@+id/charactersTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/characters"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/showMoreCharacters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:text="@string/show_more"
+                    android:textStyle="bold"
+                    android:clickable="true"/>
+            </LinearLayout>
+
+            <!-- Characters RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/charactersRecyclerView"
                 android:layout_width="match_parent"

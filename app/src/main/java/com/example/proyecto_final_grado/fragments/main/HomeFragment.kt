@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.fragments
+package com.example.proyecto_final_grado.fragments.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

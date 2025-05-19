@@ -1,21 +1,17 @@
 
-package com.example.proyecto_final_grado.adapters
+package com.example.proyecto_final_grado.adapters.details
 
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.databinding.ItemLinkBinding
-import com.example.proyecto_final_grado.databinding.ItemRecommendationsBinding
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.squareup.picasso.Picasso

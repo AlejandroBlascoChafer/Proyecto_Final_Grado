@@ -1,20 +1,29 @@
-package com.example.proyecto_final_grado.fragments
+package com.example.proyecto_final_grado.fragments.details
 
+import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.LineHeightSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
-import com.example.proyecto_final_grado.adapters.CharactersMediaAdapter
-import com.example.proyecto_final_grado.adapters.ExternalLinksAdapter
-import com.example.proyecto_final_grado.adapters.RecommendationsAdapter
-import com.example.proyecto_final_grado.adapters.RelationsAdapter
-import com.example.proyecto_final_grado.adapters.StaffAdapter
+import com.example.proyecto_final_grado.adapters.details.CharactersMediaAdapter
+import com.example.proyecto_final_grado.adapters.details.ExternalLinksAdapter
+import com.example.proyecto_final_grado.adapters.details.RecommendationsAdapter
+import com.example.proyecto_final_grado.adapters.details.RelationsAdapter
+import com.example.proyecto_final_grado.adapters.details.StaffAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentDetailsBinding
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
@@ -137,11 +146,21 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                             producers.add(name)
                         }
                     }
-                    val studiosText = "Studios: \n${studios.joinToString(separator = "\n")}"
-                    val producersText = "Producers: \n${producers.joinToString(separator = "\n")}"
+                    binding.studiosTextView.apply {
+                        text = buildClickableList(studios, "Studio") { name ->
 
-                    binding.studiosTextView.text = studiosText
-                    binding.producersTextView.text = producersText
+                        }
+                        movementMethod = LinkMovementMethod.getInstance()
+                        highlightColor = Color.TRANSPARENT
+                    }
+
+                    binding.producersTextView.apply {
+                        text = buildClickableList(producers, "Producer") { name ->
+
+                        }
+                        movementMethod = LinkMovementMethod.getInstance()
+                        highlightColor = Color.TRANSPARENT
+                    }
 
                     val synonymsList = media?.synonyms?.filterNotNull().orEmpty()
                     binding.synonymsTextView.text = "Synonyms:\n${synonymsList.joinToString("\n")}"
@@ -173,8 +192,6 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
 
 
                     val mainCharacters = media?.characters?.edges?.filter { it?.role?.name == "MAIN" }
-                    val suppCharacters = media?.characters?.edges?.filter { it?.role?.name == "SUPPORTING" }
-                    val backCharacters = media?.characters?.edges?.filter { it?.role?.name == "BACKGROUND" }
 
                     binding.charactersRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -206,6 +223,17 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                         adapter = ExternalLinksAdapter(links, this@AnimeDetailsFragment, this@AnimeDetailsFragment)
                     }
 
+                    binding.showMoreCharacters.setOnClickListener{
+                        val allCharactersFragment = AllCharactersFragment().apply {
+                            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+                            arguments = Bundle().apply {
+                                putInt("MEDIA_ID", mediaID)
+                            }
+                        }
+
+                        // Iniciar la transacción del fragmento
+                        (activity as? MainActivity)?.openDetailFragment(allCharactersFragment)
+                    }
 
 
                 }
@@ -215,6 +243,56 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                 }
             }
         }
+    }
+
+    private fun buildClickableList(names: List<String>, type:String, onClick: (String) -> Unit): SpannableStringBuilder {
+        val spannable = SpannableStringBuilder()
+        if (type == "Studio") {
+            spannable.append("Studios:\n")
+        } else if (type == "Producer"){
+            spannable.append("Producers:\n")
+        }
+
+
+
+        for ((index, name) in names.withIndex()) {
+            val start = spannable.length
+            spannable.append(name)
+            val end = spannable.length
+
+            spannable.setSpan(object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    onClick(name)
+                }
+
+                override fun updateDrawState(ds: TextPaint) {
+                    super.updateDrawState(ds)
+                    ds.isUnderlineText = true
+                    ds.color = ContextCompat.getColor(requireContext(), R.color.accentColor) // Azul
+                }
+            }, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            spannable.setSpan(object : LineHeightSpan {
+                override fun chooseHeight(
+                    text: CharSequence,
+                    start: Int,
+                    end: Int,
+                    spanstartv: Int,
+                    v: Int,
+                    fm: Paint.FontMetricsInt
+                ) {
+                    val extraSpace = 20 // píxeles extra entre líneas
+                    fm.descent += extraSpace
+                    fm.bottom += extraSpace
+                }
+            }, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            if (index < names.size - 1) {
+                spannable.append("\n") // o ", "
+            }
+        }
+
+        return spannable
     }
 
     override fun onCharacterClick(mediaID: Int) {

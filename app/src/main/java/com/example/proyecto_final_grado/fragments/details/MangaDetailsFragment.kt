@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.fragments
+package com.example.proyecto_final_grado.fragments.details
 
 import android.os.Bundle
 import android.util.Log
@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.example.proyecto_final_grado.R
-import com.example.proyecto_final_grado.adapters.CharactersMediaAdapter
-import com.example.proyecto_final_grado.adapters.RelationsAdapter
-import com.example.proyecto_final_grado.adapters.StaffAdapter
+import com.example.proyecto_final_grado.adapters.details.CharactersMediaAdapter
+import com.example.proyecto_final_grado.adapters.details.RelationsAdapter
+import com.example.proyecto_final_grado.adapters.details.StaffAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentDetailsBinding
 import com.squareup.picasso.Picasso
@@ -22,8 +22,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 import com.example.proyecto_final_grado.activities.MainActivity
-import com.example.proyecto_final_grado.adapters.ExternalLinksAdapter
-import com.example.proyecto_final_grado.adapters.RecommendationsAdapter
+import com.example.proyecto_final_grado.adapters.details.ExternalLinksAdapter
+import com.example.proyecto_final_grado.adapters.details.RecommendationsAdapter
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
@@ -181,6 +181,18 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                         val links = media?.externalLinks?.filterNotNull() ?: emptyList()
                         adapter = ExternalLinksAdapter(links, this@MangaDetailsFragment, this@MangaDetailsFragment)
+                    }
+
+                    binding.showMoreCharacters.setOnClickListener{
+                        val allCharactersFragment = AllCharactersFragment().apply {
+                            // Pasar el ID del anime al fragmento de detalle usando un Bundle
+                            arguments = Bundle().apply {
+                                putInt("MEDIA_ID", mediaID)
+                            }
+                        }
+
+                        // Iniciar la transacción del fragmento
+                        (activity as? MainActivity)?.openDetailFragment(allCharactersFragment)
                     }
                 }
             } catch (e: Exception) {

@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.fragments
+package com.example.proyecto_final_grado.fragments.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,10 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_grado.R
-import com.example.proyecto_final_grado.activities.LoginActivity
+import com.example.proyecto_final_grado.activities.login.LoginActivity
 import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.databinding.FragmentProfileBinding
-import com.example.proyecto_final_grado.adapters.FavouritesAdapter
+import com.example.proyecto_final_grado.adapters.profile.FavouritesAdapter
+import com.example.proyecto_final_grado.fragments.details.AnimeDetailsFragment
+import com.example.proyecto_final_grado.fragments.details.CharacterDetailsFragment
+import com.example.proyecto_final_grado.fragments.details.MangaDetailsFragment
+import com.example.proyecto_final_grado.fragments.details.StaffDetailsFragment
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener

@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.activities
+package com.example.proyecto_final_grado.activities.login
 
 import android.content.Intent
 import android.net.Uri

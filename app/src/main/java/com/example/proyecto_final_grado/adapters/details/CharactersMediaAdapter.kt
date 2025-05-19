@@ -1,6 +1,5 @@
-package com.example.proyecto_final_grado.adapters
+package com.example.proyecto_final_grado.adapters.details
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +17,15 @@ class CharactersMediaAdapter(
     private val characterListener: OnCharacterClickListener) :
     RecyclerView.Adapter<CharactersMediaAdapter.CharacterViewHolder>() {
 
+        private lateinit var binding: ItemCharacterBinding
+
     inner class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.characterImageView)
-        val nameView: TextView = itemView.findViewById(R.id.characterNameTextView)
+        val imageView: ImageView = binding.characterImageView
+        val nameView: TextView = binding.characterNameTextView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
-        val binding = ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding = ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CharacterViewHolder(binding.root)
     }
 

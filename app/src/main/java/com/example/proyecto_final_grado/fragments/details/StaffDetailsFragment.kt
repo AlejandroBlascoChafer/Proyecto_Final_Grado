@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.fragments
+package com.example.proyecto_final_grado.fragments.details
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
-import com.example.proyecto_final_grado.adapters.CharactersMediaAdapter
-import com.example.proyecto_final_grado.adapters.CharactersStaffAdapter
-import com.example.proyecto_final_grado.adapters.MediaCharacterAdapter
-import com.example.proyecto_final_grado.adapters.MediaStaffAdapter
+import com.example.proyecto_final_grado.adapters.details.CharactersMediaAdapter
+import com.example.proyecto_final_grado.adapters.details.CharactersStaffAdapter
+import com.example.proyecto_final_grado.adapters.details.MediaCharacterAdapter
+import com.example.proyecto_final_grado.adapters.details.MediaStaffAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentStaffDetailsBinding
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener

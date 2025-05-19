@@ -39,7 +39,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _likedStaff = MutableLiveData<List<Edge3?>?>()
     val likedStaff: LiveData<List<Edge3?>?> = _likedStaff
 
-
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
