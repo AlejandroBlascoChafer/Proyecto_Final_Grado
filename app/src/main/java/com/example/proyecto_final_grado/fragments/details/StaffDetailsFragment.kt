@@ -34,12 +34,6 @@ class StaffDetailsFragment : Fragment(), OnMangaClickListener, OnAnimeClickListe
     private var characterId: Int? = null
     private val markwon = MarkdownUtils
 
-    private lateinit var staffMediaCharacterAdapter: MediaCharacterAdapter
-    private lateinit var characterAdapter: CharactersMediaAdapter
-    private lateinit var characterMediaCharacterAdapter: MediaCharacterAdapter
-
-    //private val args: StaffDetailFragmentArgs by navArgs() // Asume que usás SafeArgs
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,7 +49,6 @@ class StaffDetailsFragment : Fragment(), OnMangaClickListener, OnAnimeClickListe
         characterId?.let { id ->
             loadStaffDetail(id)
         }
-
     }
 
     private fun loadStaffDetail(mediaID: Int) {
