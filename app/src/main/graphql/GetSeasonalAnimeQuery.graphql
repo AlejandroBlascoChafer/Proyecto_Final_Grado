@@ -1,0 +1,34 @@
+query GetSeasonalAnimeQuery($season: MediaSeason, $seasonYear: Int, $page: Int = 1, $perPage: Int = 50) {
+  Page(page: $page, perPage: $perPage) {
+    pageInfo {
+      total
+      currentPage
+      lastPage
+      hasNextPage
+    }
+    media(season: $season, seasonYear: $seasonYear, type: ANIME, sort: POPULARITY_DESC) {
+      id
+      title {
+        romaji
+        english
+        native
+      }
+      coverImage {
+        large
+      }
+      format
+      status
+      season
+      seasonYear
+      format
+      popularity
+      trending
+      averageScore
+      favourites
+      mediaListEntry {
+        status
+      }
+      isAdult
+    }
+  }
+}
