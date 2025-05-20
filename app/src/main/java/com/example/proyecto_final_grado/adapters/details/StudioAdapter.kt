@@ -5,12 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.compose.animation.core.animate
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
-import com.example.proyecto_final_grado.adapters.details.CharactersMediaAdapter.CharacterViewHolder
-import com.example.proyecto_final_grado.databinding.FragmentStudiosBinding
-import com.example.proyecto_final_grado.databinding.ItemCharacterBinding
 import com.example.proyecto_final_grado.databinding.ItemMediaBinding
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.squareup.picasso.Picasso

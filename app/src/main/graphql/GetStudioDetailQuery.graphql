@@ -16,6 +16,7 @@ query GetStudioDetailQuery($search: String!) {
                         userPreferred
                     }
                     type
+                    isFavourite
                 }
             }
         }

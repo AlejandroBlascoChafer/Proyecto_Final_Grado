@@ -15,8 +15,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.Optional
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.details.CharactersMediaAdapter
@@ -32,10 +34,12 @@ import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.listeners.OnStudioClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
+import com.example.proyecto_final_grado.utils.SharedViewModel
 import com.example.proyecto_final_grado.utils.openMediaDetailFragment
 import com.google.android.material.chip.Chip
 import com.squareup.picasso.Picasso
 import graphql.GetMediaDetailQuery
+import graphql.UpdateFavouriteMutation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,6 +55,9 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
     private lateinit var apolloClient: ApolloClient
     private var mediaId: Int? = null
     private val markwon = MarkdownUtils
+    private var isFavourite = false
+
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,6 +95,8 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
 
                     binding.titleTextView.text = media?.title?.userPreferred
                     binding.nativeTitleTextView.text = media?.title?.native
+
+
 
                     val showMoreButton = binding.showMoreButton
                     markwon.setMarkdownText(requireContext(), binding.descriptionTextView, media?.description)
@@ -248,13 +257,56 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                     }
 
 
-
+                    isFavourite = media?.isFavourite == true
+                    updateFavouriteButtonStyle()
+                    binding.favButton.setOnClickListener {
+                        updateFavourite(mediaID)
+                    }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Log.d("Error", "${e.message}")
                 }
             }
+        }
+    }
+
+    private fun updateFavourite(mediaID: Int){
+        CoroutineScope(Dispatchers.IO).launch{
+            try {
+                val response = apolloClient.mutation(UpdateFavouriteMutation(
+                    animeId = Optional.present(mediaID),
+                    mangaId = Optional.absent(),
+                    characterId = Optional.absent(),
+                    studioId = Optional.absent(),
+                    staffId = Optional.absent()
+                )).execute()
+
+                val updatedEntry = response.data?.ToggleFavourite?.anime
+                if (updatedEntry != null) {
+                    withContext(Dispatchers.Main) {
+                        sharedViewModel.loadInitialData()
+                        isFavourite = !isFavourite
+                        updateFavouriteButtonStyle()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Log.d("Error", "${e.message}")
+                }
+            }
+        }
+    }
+
+    private fun updateFavouriteButtonStyle() {
+        val context = binding.favButton.context
+
+        val bgColorRes = if (isFavourite) R.color.anitrack_fav_added_bg else R.color.anitrack_blue
+        val textColorRes = if (isFavourite) R.color.anitrack_fav_added_text else R.color.anitrack_white
+
+        binding.favButton.apply {
+            setBackgroundColor(ContextCompat.getColor(context, bgColorRes))
+            setTextColor(ContextCompat.getColor(context, textColorRes))
         }
     }
 

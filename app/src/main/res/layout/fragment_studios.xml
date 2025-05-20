@@ -20,6 +20,13 @@
             android:textSize="20sp"
             android:textAlignment="center" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/favButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Set as favourite"
+            style="@style/AniTrackButton.Default"/>
+
 
         <!-- Separator -->
         <View

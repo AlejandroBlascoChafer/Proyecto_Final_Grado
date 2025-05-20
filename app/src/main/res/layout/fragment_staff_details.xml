@@ -47,6 +47,13 @@
             app:singleSelection="false"
             android:layout_marginBottom="16dp" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/favButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Set as favourite"
+            style="@style/AniTrackButton.Default"/>
+
         <!-- Staff details -->
         <TextView
             android:id="@+id/textStaffDetails"

@@ -13,6 +13,7 @@ query GetStaffDetailQuery($id: Int!) {
     gender
     homeTown
     primaryOccupations
+    isFavourite
     staffMedia(perPage: 10, sort: [FAVOURITES_DESC]) {
       edges {
         staffRole

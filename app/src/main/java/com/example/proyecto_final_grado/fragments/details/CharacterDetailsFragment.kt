@@ -1,13 +1,17 @@
 package com.example.proyecto_final_grado.fragments.details
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.Optional
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.details.MediaCharacterAdapter
@@ -19,9 +23,14 @@ import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
+import com.example.proyecto_final_grado.utils.SharedViewModel
 import com.example.proyecto_final_grado.utils.openMediaDetailFragment
 import com.squareup.picasso.Picasso
+import graphql.UpdateFavouriteMutation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CharacterDetailsFragment : Fragment(), OnAnimeClickListener, OnMangaClickListener, OnStaffClickListener {
 
@@ -31,6 +40,10 @@ class CharacterDetailsFragment : Fragment(), OnAnimeClickListener, OnMangaClickL
     private lateinit var apolloClient: ApolloClient
     private var characterId: Int? = null
     private val markwon = MarkdownUtils
+
+    private var isFavourite = false
+
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +81,9 @@ class CharacterDetailsFragment : Fragment(), OnAnimeClickListener, OnMangaClickL
                     val showMoreButton = binding.showMoreButton
                     markwon.setMarkdownText(requireContext(), binding.characterDescriptionTextView, character.description)
 
+                    isFavourite = character.isFavourite == true
+                    updateFavouriteButtonStyle()
+
                     var isExpanded = false
                     showMoreButton.setOnClickListener {
                         if (isExpanded) {
@@ -84,7 +100,10 @@ class CharacterDetailsFragment : Fragment(), OnAnimeClickListener, OnMangaClickL
                         .load(character.image?.large)
                         .into(binding.characterBannerImageView)
 
-                    // Puedes implementar aquí los RecyclerViews para media/roles si lo deseas
+                    binding.favButton.setOnClickListener {
+                        updateFavourite(characterId)
+                    }
+
                     binding.characterMediaRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                         val media = character.media?.edges?.filterNotNull() ?: emptyList()
@@ -105,6 +124,47 @@ class CharacterDetailsFragment : Fragment(), OnAnimeClickListener, OnMangaClickL
                 e.printStackTrace()
                 // Manejo de errores (opcional: mostrar un mensaje o una vista vacía)
             }
+        }
+    }
+
+    private fun updateFavourite(mediaID: Int){
+        CoroutineScope(Dispatchers.IO).launch{
+            try {
+                val response = apolloClient.mutation(
+                    UpdateFavouriteMutation(
+                    animeId = Optional.absent(),
+                    mangaId = Optional.absent(),
+                    characterId = Optional.present(mediaID),
+                    studioId = Optional.absent(),
+                    staffId = Optional.absent()
+                )
+                ).execute()
+
+                val updatedEntry = response.data?.ToggleFavourite?.characters
+                if (updatedEntry != null) {
+                    withContext(Dispatchers.Main) {
+                        sharedViewModel.loadInitialData()
+                        isFavourite = !isFavourite
+                        updateFavouriteButtonStyle()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Log.d("Error", "${e.message}")
+                }
+            }
+        }
+    }
+
+    private fun updateFavouriteButtonStyle() {
+        val context = binding.favButton.context
+
+        val bgColorRes = if (isFavourite) R.color.anitrack_fav_added_bg else R.color.anitrack_blue
+        val textColorRes = if (isFavourite) R.color.anitrack_fav_added_text else R.color.anitrack_white
+
+        binding.favButton.apply {
+            setBackgroundColor(ContextCompat.getColor(context, bgColorRes))
+            setTextColor(ContextCompat.getColor(context, textColorRes))
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.proyecto_final_grado.adapters.profile
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_grado.databinding.ItemProfileFavouritesBinding
@@ -10,10 +11,12 @@ import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
+import com.example.proyecto_final_grado.listeners.OnStudioClickListener
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_ANIME
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_CHARACTER
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_MANGA
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_STAFF
+import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_STUDIO
 import com.squareup.picasso.Picasso
 
 class FavouritesAdapter(
@@ -22,7 +25,8 @@ class FavouritesAdapter(
     private val listenerAnime: OnAnimeClickListener,
     private val listenerManga: OnMangaClickListener,
     private val listenerCharacter: OnCharacterClickListener,
-    private val listenerStaff: OnStaffClickListener
+    private val listenerStaff: OnStaffClickListener,
+    private val listenerStudio: OnStudioClickListener
 ) : RecyclerView.Adapter<FavouritesAdapter.FavouritesViewHolder>() {
 
     inner class FavouritesViewHolder(val binding: ItemProfileFavouritesBinding) : RecyclerView.ViewHolder(binding.root)
@@ -34,15 +38,31 @@ class FavouritesAdapter(
 
     override fun onBindViewHolder(holder: FavouritesViewHolder, position: Int) {
         val item = items[position]
-        val imageUrl = when (type) {
-            FAV_TYPE_ANIME -> (items[position] as GetUserProfileInfoQuery.Edge).node?.coverImage?.large
-            FAV_TYPE_MANGA -> (items[position] as GetUserProfileInfoQuery.Edge1).node?.coverImage?.large
-            FAV_TYPE_CHARACTER -> (items[position] as GetUserProfileInfoQuery.Edge2).node?.image?.large
-            FAV_TYPE_STAFF -> (items[position] as GetUserProfileInfoQuery.Edge3).node?.image?.large
-            else -> null
-        }
+        when (type) {
+            FAV_TYPE_STUDIO -> {
+                holder.binding.image.visibility = View.GONE
+                holder.binding.name.visibility = View.VISIBLE
+                val studioName = (item as GetUserProfileInfoQuery.Edge4).node?.name ?: "Unknown"
+                holder.binding.name.text = studioName
 
-        imageUrl?.let { Picasso.get().load(it).into(holder.binding.image) }
+                holder.binding.name.setOnClickListener {
+                    listenerStudio.onStudioClick(studioName)
+                }
+
+            }
+            else -> {
+                holder.binding.image.visibility = View.VISIBLE
+                holder.binding.name.visibility = View.GONE
+                val imageUrl = when (type) {
+                    FAV_TYPE_ANIME -> (item as GetUserProfileInfoQuery.Edge).node?.coverImage?.large
+                    FAV_TYPE_MANGA -> (item as GetUserProfileInfoQuery.Edge1).node?.coverImage?.large
+                    FAV_TYPE_CHARACTER -> (item as GetUserProfileInfoQuery.Edge2).node?.image?.large
+                    FAV_TYPE_STAFF -> (item as GetUserProfileInfoQuery.Edge3).node?.image?.large
+                    else -> null
+                }
+                imageUrl?.let { Picasso.get().load(it).into(holder.binding.image) }
+            }
+        }
 
         holder.binding.image.setOnClickListener {
             val nodeId = when (type) {

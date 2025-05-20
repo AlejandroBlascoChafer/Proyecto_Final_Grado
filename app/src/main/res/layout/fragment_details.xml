@@ -90,6 +90,13 @@
 
             </LinearLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/favButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set as favourite"
+                style="@style/AniTrackButton.Default"/>
+
             <!-- Description -->
             <TextView
                 android:id="@+id/synopsisTextView"

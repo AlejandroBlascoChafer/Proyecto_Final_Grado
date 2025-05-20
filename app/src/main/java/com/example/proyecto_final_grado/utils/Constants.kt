@@ -11,4 +11,5 @@ object Constants {
     const val FAV_TYPE_MANGA = 1
     const val FAV_TYPE_CHARACTER = 2
     const val FAV_TYPE_STAFF = 3
+    const val FAV_TYPE_STUDIO = 4
 }

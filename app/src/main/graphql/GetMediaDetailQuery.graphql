@@ -4,6 +4,7 @@ query GetMediaDetailQuery($id: Int!) {
         coverImage {
             large
         }
+        isFavourite
         bannerImage
         genres
         description(asHtml: false)

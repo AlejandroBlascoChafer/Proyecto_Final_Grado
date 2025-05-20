@@ -6,4 +6,20 @@
     </style>
 
     <style name="Theme.Proyecto_Final_Grado" parent="Base.Theme.Proyecto_Final_Grado" />
+
+    <style name="AniTrackButton.Default" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/anitrack_blue</item>
+        <item name="android:textColor">@color/anitrack_white</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <style name="AniTrackButton.Favorite" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/anitrack_fav_added_bg</item>
+        <item name="android:textColor">@color/anitrack_fav_added_text</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+
 </resources>

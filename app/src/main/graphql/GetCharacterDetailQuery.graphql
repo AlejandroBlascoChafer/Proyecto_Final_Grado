@@ -8,6 +8,7 @@ query GetCharacterDetailQuery($characterId: Int!) {
     description(asHtml: false)
     gender
     favourites
+    isFavourite
     image {
       large
     }

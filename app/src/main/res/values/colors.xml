@@ -23,5 +23,14 @@
     <color name="errorColor">#CF6679</color>
     <color name="transparent">#00000000</color>
     <color name="gray">#DDDDDD</color>
+
+    <color name="anitrack_blue">#1E88E5</color>
+    <color name="anitrack_blue_dark">#1565C0</color>
+    <color name="anitrack_blue_light">#BBDEFB</color>
+    <color name="anitrack_white">#FFFFFF</color>
+
+    <color name="anitrack_fav_added_bg">#FFEB3B</color> <!-- amarillo estilo "favorito" -->
+    <color name="anitrack_fav_added_text">#000000</color>
+
 </resources>
 

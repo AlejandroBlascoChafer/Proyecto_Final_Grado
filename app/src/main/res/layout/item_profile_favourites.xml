@@ -12,5 +12,16 @@
         android:layout_width="100dp"
         android:layout_height="140dp"
         android:scaleType="centerCrop"
-        android:contentDescription="Favorite Image" />
+        android:contentDescription="@string/favorite_image" />
+
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:paddingTop="8dp"/>
+
 </androidx.cardview.widget.CardView>

@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.Optional
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.adapters.details.CharactersMediaAdapter
 import com.example.proyecto_final_grado.adapters.details.RelationsAdapter
@@ -29,8 +32,10 @@ import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
+import com.example.proyecto_final_grado.utils.SharedViewModel
 import com.example.proyecto_final_grado.utils.openMediaDetailFragment
 import com.google.android.material.chip.Chip
+import graphql.UpdateFavouriteMutation
 
 class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickListener, OnAnimeClickListener, OnStaffClickListener {
 
@@ -40,6 +45,10 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
     private lateinit var apolloClient: ApolloClient
     private var mediaId: Int? = null
     private val markwon = MarkdownUtils
+
+    private var isFavourite = false
+
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -151,8 +160,13 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                     binding.separatorStudios.visibility = View.GONE
 
                     val mainCharacters = media?.characters?.edges?.filter { it?.role?.name == "MAIN" }
-                    val suppCharacters = media?.characters?.edges?.filter { it?.role?.name == "SUPPORTING" }
-                    val backCharacters = media?.characters?.edges?.filter { it?.role?.name == "BACKGROUND" }
+
+                    isFavourite = media?.isFavourite == true
+                    updateFavouriteButtonStyle()
+
+                    binding.favButton.setOnClickListener {
+                        updateFavourite(mediaID)
+                    }
 
                     binding.charactersRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -201,6 +215,47 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                     Log.e("Error", "Error fetching manga details: ${e.message}")
                 }
             }
+        }
+    }
+
+    private fun updateFavourite(mediaID: Int){
+        CoroutineScope(Dispatchers.IO).launch{
+            try {
+                val response = apolloClient.mutation(
+                    UpdateFavouriteMutation(
+                    animeId = Optional.absent(),
+                    mangaId = Optional.present(mediaID),
+                    characterId = Optional.absent(),
+                    studioId = Optional.absent(),
+                    staffId = Optional.absent()
+                )
+                ).execute()
+
+                val updatedEntry = response.data?.ToggleFavourite?.manga
+                if (updatedEntry != null) {
+                    withContext(Dispatchers.Main) {
+                        sharedViewModel.loadInitialData()
+                        isFavourite = !isFavourite
+                        updateFavouriteButtonStyle()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Log.d("Error", "${e.message}")
+                }
+            }
+        }
+    }
+
+    private fun updateFavouriteButtonStyle() {
+        val context = binding.favButton.context
+
+        val bgColorRes = if (isFavourite) R.color.anitrack_fav_added_bg else R.color.anitrack_blue
+        val textColorRes = if (isFavourite) R.color.anitrack_fav_added_text else R.color.anitrack_white
+
+        binding.favButton.apply {
+            setBackgroundColor(ContextCompat.getColor(context, bgColorRes))
+            setTextColor(ContextCompat.getColor(context, textColorRes))
         }
     }
 

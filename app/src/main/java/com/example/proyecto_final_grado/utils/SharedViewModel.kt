@@ -39,6 +39,9 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _likedStaff = MutableLiveData<List<Edge3?>?>()
     val likedStaff: LiveData<List<Edge3?>?> = _likedStaff
 
+    private val _likedStudio = MutableLiveData<List<Edge4?>?>()
+    val likedStudio: LiveData<List<Edge4?>?> = _likedStudio
+
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
@@ -58,6 +61,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 _likedManga.value = profileResponse.data?.Viewer?.favourites?.manga?.edges
                 _likedCharacters.value = profileResponse.data?.Viewer?.favourites?.characters?.edges
                 _likedStaff.value = profileResponse.data?.Viewer?.favourites?.staff?.edges
+                _likedStudio.value = profileResponse.data?.Viewer?.favourites?.studios?.edges
 
 
             } catch (e: Exception) {
@@ -67,4 +71,5 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
     }
+
 }

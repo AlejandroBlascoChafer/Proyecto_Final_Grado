@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.login.LoginActivity
 import com.example.proyecto_final_grado.activities.MainActivity
+import com.example.proyecto_final_grado.adapters.details.StudioAdapter
 import com.example.proyecto_final_grado.databinding.FragmentProfileBinding
 import com.example.proyecto_final_grado.adapters.profile.FavouritesAdapter
 import com.example.proyecto_final_grado.fragments.details.AnimeDetailsFragment
@@ -28,6 +29,7 @@ import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_ANIME
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_CHARACTER
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_MANGA
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_STAFF
+import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_STUDIO
 import com.example.proyecto_final_grado.utils.SessionManager
 import com.example.proyecto_final_grado.utils.SharedViewModel
 import com.example.proyecto_final_grado.utils.openMediaDetailFragment
@@ -89,48 +91,50 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
                 binding.statMangaScore.text = viewer.statistics?.manga?.meanScore?.toString() ?: "-"
             }
         }
-
-        sharedViewModel.likedAnime.observe(viewLifecycleOwner) { anime ->
-            sharedViewModel.likedManga.value?.let { manga ->
-                sharedViewModel.likedCharacters.value?.let { characters ->
-                    sharedViewModel.likedStaff.value?.let { staff ->
-                        if (anime != null) {
-                            setupRecyclerView(
-                                animeList = anime.filterNotNull(),
-                                mangaList = manga.filterNotNull(),
-                                charactersList = characters.filterNotNull(),
-                                staffList = staff.filterNotNull()
-                            )
-                        }
-                    }
-                }
-            }
-        }
+        sharedViewModel.likedAnime.observe(viewLifecycleOwner) { updateRecyclerViews() }
+        sharedViewModel.likedManga.observe(viewLifecycleOwner) { updateRecyclerViews() }
+        sharedViewModel.likedCharacters.observe(viewLifecycleOwner) { updateRecyclerViews() }
+        sharedViewModel.likedStaff.observe(viewLifecycleOwner) { updateRecyclerViews() }
+        sharedViewModel.likedStudio.observe(viewLifecycleOwner) { updateRecyclerViews() }
     }
+    private fun updateRecyclerViews() {
+        val anime = sharedViewModel.likedAnime.value?.filterNotNull() ?: emptyList()
+        val manga = sharedViewModel.likedManga.value?.filterNotNull() ?: emptyList()
+        val characters = sharedViewModel.likedCharacters.value?.filterNotNull() ?: emptyList()
+        val staff = sharedViewModel.likedStaff.value?.filterNotNull() ?: emptyList()
+        val studio = sharedViewModel.likedStudio.value?.filterNotNull() ?: emptyList()
 
+        setupRecyclerView(anime, manga, characters, staff, studio)
+    }
 
     private fun setupRecyclerView(animeList: List<Any>,
                                   mangaList: List<Any>,
                                   charactersList: List<Any>,
-                                  staffList: List<Any>) {
+                                  staffList: List<Any>,
+                                  studioList: List<Any>) {
         binding.favAnimeRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = FavouritesAdapter(animeList, FAV_TYPE_ANIME, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
+            adapter = FavouritesAdapter(animeList, FAV_TYPE_ANIME, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         binding.favMangaRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = FavouritesAdapter(mangaList, FAV_TYPE_MANGA, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
+            adapter = FavouritesAdapter(mangaList, FAV_TYPE_MANGA, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         binding.favCharactersRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = FavouritesAdapter(charactersList, FAV_TYPE_CHARACTER, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
+            adapter = FavouritesAdapter(charactersList, FAV_TYPE_CHARACTER, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         binding.favStaffRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = FavouritesAdapter(staffList, FAV_TYPE_STAFF, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
+            adapter = FavouritesAdapter(staffList, FAV_TYPE_STAFF, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
+        }
+
+        binding.favStudioRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = FavouritesAdapter(studioList, FAV_TYPE_STUDIO, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment, this@ProfileFragment)
         }
 
         if (animeList.isEmpty()) {
@@ -164,6 +168,14 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
             binding.favStaffRecyclerView.visibility = View.VISIBLE
             binding.tvStaff.visibility = View.VISIBLE
         }
+
+        if (studioList.isEmpty()){
+            binding.tvStudio.visibility = View.GONE
+            binding.favStudioRecyclerView.visibility = View.GONE
+        } else {
+            binding.tvStudio.visibility = View.VISIBLE
+            binding.favStudioRecyclerView.visibility = View.VISIBLE
+        }
     }
 
 
@@ -191,6 +203,7 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
         popup.show()
     }
 
+
     override fun onCharacterClick(mediaID: Int) {
         openMediaDetailFragment(mediaID) { CharacterDetailsFragment() }
     }
@@ -207,7 +220,12 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
         openMediaDetailFragment(mediaID) { StaffDetailsFragment() }
     }
 
-    override fun onStudioCLick(mediaID: Int) {
-        openMediaDetailFragment(mediaID) { StudiosDetailsFragment() }
+    override fun onStudioClick(studioName: String) {
+        val studiofragment = StudiosDetailsFragment().apply {
+            arguments = Bundle().apply {
+                putString("NAME", studioName)
+            }
+        }
+        (activity as? MainActivity)?.openDetailFragment(studiofragment)
     }
 }
