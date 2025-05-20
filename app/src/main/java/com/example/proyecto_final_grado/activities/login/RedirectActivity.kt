@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.utils.Constants
-import com.example.proyecto_final_grado.utils.SessionManager
+import com.example.proyecto_final_grado.session.SessionManager
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException

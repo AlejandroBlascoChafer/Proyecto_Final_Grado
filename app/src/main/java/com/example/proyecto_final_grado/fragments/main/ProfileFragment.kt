@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.login.LoginActivity
 import com.example.proyecto_final_grado.activities.MainActivity
-import com.example.proyecto_final_grado.adapters.details.StudioAdapter
 import com.example.proyecto_final_grado.databinding.FragmentProfileBinding
 import com.example.proyecto_final_grado.adapters.profile.FavouritesAdapter
 import com.example.proyecto_final_grado.fragments.details.AnimeDetailsFragment
@@ -30,7 +29,7 @@ import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_CHARACTER
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_MANGA
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_STAFF
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_STUDIO
-import com.example.proyecto_final_grado.utils.SessionManager
+import com.example.proyecto_final_grado.session.SessionManager
 import com.example.proyecto_final_grado.utils.SharedViewModel
 import com.example.proyecto_final_grado.utils.openMediaDetailFragment
 import com.squareup.picasso.Picasso

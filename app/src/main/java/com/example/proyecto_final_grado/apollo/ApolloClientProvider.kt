@@ -7,7 +7,7 @@ import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.apollographql.apollo.cache.normalized.normalizedCache
 import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo.network.okHttpClient
-import com.example.proyecto_final_grado.utils.SessionManager
+import com.example.proyecto_final_grado.session.SessionManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 

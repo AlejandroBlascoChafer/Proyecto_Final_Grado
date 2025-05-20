@@ -9,7 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.proyecto_final_grado.databinding.ActivityLoginBinding
 import com.example.proyecto_final_grado.utils.Constants
-import com.example.proyecto_final_grado.utils.SessionManager
+import com.example.proyecto_final_grado.session.SessionManager
 
 class LoginActivity : AppCompatActivity() {
 

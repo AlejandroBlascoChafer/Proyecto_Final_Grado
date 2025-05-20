@@ -7,7 +7,7 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.login.LoginActivity
-import com.example.proyecto_final_grado.utils.SessionManager
+import com.example.proyecto_final_grado.session.SessionManager
 
 class SplashActivity : AppCompatActivity() {
 
