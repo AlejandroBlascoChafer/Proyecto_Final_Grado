@@ -1,0 +1,44 @@
+mutation UpdateFavouriteMutation($animeId: Int, $mangaId: Int, $characterId: Int, $studioId: Int, $staffId: Int){
+  ToggleFavourite(animeId: $animeId, mangaId: $mangaId, characterId: $characterId, studioId: $studioId, staffId: $staffId) {
+    anime {
+      edges {
+        node {
+          isFavourite
+          id
+        }
+      }
+    }
+    manga {
+      edges {
+        node {
+          isFavourite
+          id
+        }
+      }
+    }
+    characters {
+      edges {
+        node {
+          isFavourite
+          id
+        }
+      }
+    }
+    staff {
+      edges {
+        node {
+          isFavourite
+          id
+        }
+      }
+    }
+    studios {
+      edges {
+        node {
+          isFavourite
+          id
+        }
+      }
+    }
+  }
+}
