@@ -6,13 +6,16 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
+import graphql.GetTrendingAnimeQuery
+import graphql.GetTrendingMangaQuery
 import graphql.GetUserAnimeListQuery
 import graphql.GetUserMangaListQuery
 import graphql.GetUserProfileInfoQuery
 import kotlinx.coroutines.launch
 import graphql.GetUserProfileInfoQuery.*
-import graphql.type.MediaListStatus
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -42,6 +45,12 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _likedStudio = MutableLiveData<List<Edge4?>?>()
     val likedStudio: LiveData<List<Edge4?>?> = _likedStudio
 
+    private val _trendingAnime = MutableLiveData<List<GetTrendingAnimeQuery.Medium?>?>()
+    val trendingAnime: LiveData<List<GetTrendingAnimeQuery.Medium?>?> = _trendingAnime
+
+    private val _trendingManga = MutableLiveData<List<GetTrendingMangaQuery.Medium?>?>()
+    val trendingManga: LiveData<List<GetTrendingMangaQuery.Medium?>?> = _trendingManga
+
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
@@ -49,20 +58,18 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             _loading.postValue(true)
             try {
-                val profileResponse = apolloClient.query(GetUserProfileInfoQuery()).execute()
-                val userName = profileResponse.data?.Viewer?.name.toString()
-                val animeResponse = apolloClient.query(GetUserAnimeListQuery(userName)).execute()
-                val mangaResponse = apolloClient.query(GetUserMangaListQuery(userName)).execute()
+                // Carga datos del perfil con cache primero y luego red
+                loadUserProfile()
 
-                _userProfile.value = profileResponse.data?.Viewer
-                _animeList.value = animeResponse.data?.MediaListCollection?.lists?.flatMap { it?.entries ?: emptyList() }
-                _mangaList.value = mangaResponse.data?.MediaListCollection?.lists?.flatMap { it?.entries ?: emptyList()  }
-                _likedAnime.value = profileResponse.data?.Viewer?.favourites?.anime?.edges
-                _likedManga.value = profileResponse.data?.Viewer?.favourites?.manga?.edges
-                _likedCharacters.value = profileResponse.data?.Viewer?.favourites?.characters?.edges
-                _likedStaff.value = profileResponse.data?.Viewer?.favourites?.staff?.edges
-                _likedStudio.value = profileResponse.data?.Viewer?.favourites?.studios?.edges
+                val userName = _userProfile.value?.name ?: ""
 
+                // Carga listas de anime y manga igual: cache y luego red
+                loadUserAnimeList(userName)
+                loadUserMangaList(userName)
+
+                // Carga trending anime y manga cache y red
+                loadTrendingAnime()
+                loadTrendingManga()
 
             } catch (e: Exception) {
                 Log.e("SharedViewModel", "Error loading data", e)
@@ -72,4 +79,113 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    private suspend fun loadUserProfile() {
+        // Cache
+        val cacheResponse = apolloClient.query(GetUserProfileInfoQuery())
+            .fetchPolicy(FetchPolicy.CacheOnly)
+            .execute()
+
+        cacheResponse.data?.Viewer?.let {
+            _userProfile.postValue(it)
+            _likedAnime.postValue(it.favourites?.anime?.edges)
+            _likedManga.postValue(it.favourites?.manga?.edges)
+            _likedCharacters.postValue(it.favourites?.characters?.edges)
+            _likedStaff.postValue(it.favourites?.staff?.edges)
+            _likedStudio.postValue(it.favourites?.studios?.edges)
+        }
+
+        // Red
+        val networkResponse = apolloClient.query(GetUserProfileInfoQuery())
+            .fetchPolicy(FetchPolicy.NetworkOnly)
+            .execute()
+
+        networkResponse.data?.Viewer?.let {
+            _userProfile.postValue(it)
+            _likedAnime.postValue(it.favourites?.anime?.edges)
+            _likedManga.postValue(it.favourites?.manga?.edges)
+            _likedCharacters.postValue(it.favourites?.characters?.edges)
+            _likedStaff.postValue(it.favourites?.staff?.edges)
+            _likedStudio.postValue(it.favourites?.studios?.edges)
+        }
+    }
+
+    private suspend fun loadUserAnimeList(userName: String) {
+        if (userName.isBlank()) return
+
+        val cacheResponse = apolloClient.query(GetUserAnimeListQuery(userName))
+            .fetchPolicy(FetchPolicy.CacheOnly)
+            .execute()
+
+        cacheResponse.data?.MediaListCollection?.lists?.let {
+            val entries = it.flatMap { list -> list?.entries ?: emptyList() }
+            _animeList.postValue(entries)
+        }
+
+        val networkResponse = apolloClient.query(GetUserAnimeListQuery(userName))
+            .fetchPolicy(FetchPolicy.NetworkOnly)
+            .execute()
+
+        networkResponse.data?.MediaListCollection?.lists?.let {
+            val entries = it.flatMap { list -> list?.entries ?: emptyList() }
+            _animeList.postValue(entries)
+        }
+    }
+
+    private suspend fun loadUserMangaList(userName: String) {
+        if (userName.isBlank()) return
+
+        val cacheResponse = apolloClient.query(GetUserMangaListQuery(userName))
+            .fetchPolicy(FetchPolicy.CacheOnly)
+            .execute()
+
+        cacheResponse.data?.MediaListCollection?.lists?.let {
+            val entries = it.flatMap { list -> list?.entries ?: emptyList() }
+            _mangaList.postValue(entries)
+        }
+
+        val networkResponse = apolloClient.query(GetUserMangaListQuery(userName))
+            .fetchPolicy(FetchPolicy.NetworkOnly)
+            .execute()
+
+        networkResponse.data?.MediaListCollection?.lists?.let {
+            val entries = it.flatMap { list -> list?.entries ?: emptyList() }
+            _mangaList.postValue(entries)
+        }
+    }
+
+    private suspend fun loadTrendingAnime() {
+        val cacheResponse = apolloClient.query(GetTrendingAnimeQuery())
+            .fetchPolicy(FetchPolicy.CacheOnly)
+            .execute()
+
+        cacheResponse.data?.Page?.media?.let {
+            _trendingAnime.postValue(it)
+        }
+
+        val networkResponse = apolloClient.query(GetTrendingAnimeQuery())
+            .fetchPolicy(FetchPolicy.NetworkOnly)
+            .execute()
+
+        networkResponse.data?.Page?.media?.let {
+            _trendingAnime.postValue(it)
+        }
+    }
+
+    private suspend fun loadTrendingManga() {
+        val cacheResponse = apolloClient.query(GetTrendingMangaQuery())
+            .fetchPolicy(FetchPolicy.CacheOnly)
+            .execute()
+
+        cacheResponse.data?.Page?.media?.let {
+            _trendingManga.postValue(it)
+        }
+
+        val networkResponse = apolloClient.query(GetTrendingMangaQuery())
+            .fetchPolicy(FetchPolicy.NetworkOnly)
+            .execute()
+
+        networkResponse.data?.Page?.media?.let {
+            _trendingManga.postValue(it)
+        }
+    }
 }

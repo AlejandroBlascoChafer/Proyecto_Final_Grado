@@ -4,14 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.login.LoginActivity
 import com.example.proyecto_final_grado.session.SessionManager
+import com.example.proyecto_final_grado.utils.SharedViewModel
+import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
+
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,15 +27,29 @@ class SplashActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
 
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (sessionManager.isLoggedIn()) {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            } else {
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
+        sharedViewModel.loadInitialData()
+
+        sharedViewModel.loading.observe(this) { isLoading ->
+            if (isLoading == false) {
+                if (sessionManager.isLoggedIn()) {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                } else {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
             }
-        }, 2000)
+        }
+
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            if (sessionManager.isLoggedIn()) {
+//                startActivity(Intent(this, MainActivity::class.java))
+//                finish()
+//            } else {
+//                startActivity(Intent(this, LoginActivity::class.java))
+//                finish()
+//            }
+//        }, 2000)
 
 
 

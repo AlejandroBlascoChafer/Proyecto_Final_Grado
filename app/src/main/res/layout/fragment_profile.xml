@@ -145,7 +145,7 @@
                 android:layout_marginTop="24dp"
                 android:textColor="@color/textPrimary" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.example.proyecto_final_grado.utils.HorizontalRecyclerView
                 android:id="@+id/favAnimeRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,7 +164,7 @@
                 android:layout_marginTop="24dp"
                 android:textColor="@color/textPrimary" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.example.proyecto_final_grado.utils.HorizontalRecyclerView
                 android:id="@+id/favMangaRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
                 android:layout_marginTop="24dp"
                 android:textColor="@color/textPrimary" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.example.proyecto_final_grado.utils.HorizontalRecyclerView
                 android:id="@+id/favCharactersRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -202,7 +202,7 @@
                 android:layout_marginTop="24dp"
                 android:textColor="@color/textPrimary" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.example.proyecto_final_grado.utils.HorizontalRecyclerView
                 android:id="@+id/favStaffRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
                 android:layout_marginTop="24dp"
                 android:textColor="@color/textPrimary" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.example.proyecto_final_grado.utils.HorizontalRecyclerView
                 android:id="@+id/favStudioRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

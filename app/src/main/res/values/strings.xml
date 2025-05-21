@@ -46,4 +46,6 @@
     <string name="link_icon">Link Icon</string>
     <string name="show_more">Show More</string>
     <string name="favorite_image">Favorite Image</string>
+    <string name="trending_in_manga">Trending in Manga</string>
+    <string name="trending_in_anime">Trending in Anime</string>
 </resources>

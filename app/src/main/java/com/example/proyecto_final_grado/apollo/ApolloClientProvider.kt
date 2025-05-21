@@ -34,7 +34,6 @@ object ApolloClientProvider {
             apolloClient = ApolloClient.Builder()
                 .serverUrl("https://graphql.anilist.co")
                 .normalizedCache(sqlCacheFactory)
-                .fetchPolicy(FetchPolicy.NetworkFirst)
                 .okHttpClient(okHttpClient)
                 .build()
         }

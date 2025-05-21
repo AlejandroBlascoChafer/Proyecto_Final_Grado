@@ -123,10 +123,7 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 
     override fun onAddEp(mediaId: Int, progress: Int) {
         val newProgress = progress +1
@@ -233,6 +230,11 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
 
     override fun onAnimeClick(mediaID: Int) {
         openMediaDetailFragment(mediaID) { AnimeDetailsFragment() }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
 
