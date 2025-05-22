@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import com.example.proyecto_final_grado.R
-import com.example.proyecto_final_grado.activities.MainActivity
-import com.example.proyecto_final_grado.adapters.details.CharactersMediaAdapter
 import com.example.proyecto_final_grado.adapters.details.CharactersStaffAdapter
-import com.example.proyecto_final_grado.adapters.details.MediaCharacterAdapter
 import com.example.proyecto_final_grado.adapters.details.MediaStaffAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentStaffDetailsBinding
@@ -25,7 +22,7 @@ import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
 import com.example.proyecto_final_grado.utils.SharedViewModel
-import com.example.proyecto_final_grado.utils.openMediaDetailFragment
+import com.example.proyecto_final_grado.ui.openMediaDetailFragment
 import com.google.android.material.chip.Chip
 import com.squareup.picasso.Picasso
 import graphql.GetStaffDetailQuery

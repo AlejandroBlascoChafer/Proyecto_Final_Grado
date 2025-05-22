@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
+import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.AnimeTrendAdapter
 import com.example.proyecto_final_grado.adapters.MangaTrendAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
@@ -17,9 +18,11 @@ import com.example.proyecto_final_grado.fragments.details.MangaDetailsFragment
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.session.SessionManager
-import com.example.proyecto_final_grado.utils.MarkdownUtils
+import com.example.proyecto_final_grado.ui.SearchBottomSheet
 import com.example.proyecto_final_grado.utils.SharedViewModel
-import com.example.proyecto_final_grado.utils.openMediaDetailFragment
+import com.example.proyecto_final_grado.ui.openMediaDetailFragment
+import com.example.proyecto_final_grado.ui.search.SearchFragment
+import com.squareup.picasso.Picasso
 
 class HomeFragment : Fragment(), OnAnimeClickListener, OnMangaClickListener {
 
@@ -48,6 +51,30 @@ class HomeFragment : Fragment(), OnAnimeClickListener, OnMangaClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
+        sharedViewModel.userProfile.observe(viewLifecycleOwner) { viewer ->
+
+            Picasso.get().load(viewer?.avatar?.large).into(binding.imageIcon)
+            Picasso.get().load(viewer?.bannerImage).into(binding.imageBackground)
+
+            binding.textWelcome.text = "Welcome ${viewer?.name}"
+
+            binding.searchTrigger.setOnClickListener {
+                val bottomSheet = SearchBottomSheet()
+                bottomSheet.listener = object : SearchBottomSheet.OnCategorySelectedListener {
+                    override fun onCategorySelected(category: String) {
+                        val fragment = SearchFragment().apply {
+                            arguments = Bundle().apply {
+                                putString("category", category)
+                            }
+                        }
+                        (activity as? MainActivity)?.openDetailFragment(fragment)
+                    }
+                }
+                bottomSheet.show(childFragmentManager, "searchCategory")
+            }
+
+
+        }
         sharedViewModel.trendingAnime.observe(viewLifecycleOwner) { fullList ->
             if (fullList != null) {
                 animeTrendAdapter.updateList(fullList)

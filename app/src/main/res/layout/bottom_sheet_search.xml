@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:padding="16dp"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/optionAnime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Anime"
+        android:padding="16dp"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground" />
+
+    <TextView
+        android:id="@+id/optionManga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manga"
+        android:padding="16dp"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground" />
+
+    <TextView
+        android:id="@+id/optionCharacters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Characters"
+        android:padding="16dp"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground" />
+
+    <TextView
+        android:id="@+id/optionStaff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Staff"
+        android:padding="16dp"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground" />
+
+    <TextView
+        android:id="@+id/optionStudios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Studios"
+        android:padding="16dp"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground" />
+
+
+</LinearLayout>

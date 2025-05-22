@@ -58,8 +58,15 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             _loading.postValue(true)
             try {
+
                 // Carga datos del perfil con cache primero y luego red
                 loadUserProfile()
+
+                // Carga trending anime y manga cache y red
+                loadTrendingAnime()
+                loadTrendingManga()
+
+
 
                 val userName = _userProfile.value?.name ?: ""
 
@@ -67,9 +74,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 loadUserAnimeList(userName)
                 loadUserMangaList(userName)
 
-                // Carga trending anime y manga cache y red
-                loadTrendingAnime()
-                loadTrendingManga()
+
 
             } catch (e: Exception) {
                 Log.e("SharedViewModel", "Error loading data", e)

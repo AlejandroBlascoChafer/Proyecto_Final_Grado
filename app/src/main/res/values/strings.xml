@@ -48,4 +48,7 @@
     <string name="favorite_image">Favorite Image</string>
     <string name="trending_in_manga">Trending in Manga</string>
     <string name="trending_in_anime">Trending in Anime</string>
+    <string name="background_image">Background Image</string>
+    <string name="search">Search</string>
+    <string name="year">Year</string>
 </resources>

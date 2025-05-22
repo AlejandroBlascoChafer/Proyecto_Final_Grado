@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import com.example.proyecto_final_grado.R
-import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.details.MediaCharacterAdapter
 import com.example.proyecto_final_grado.adapters.details.SeiyuuAdapter
 import graphql.GetCharacterDetailQuery
@@ -24,7 +23,7 @@ import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
 import com.example.proyecto_final_grado.utils.SharedViewModel
-import com.example.proyecto_final_grado.utils.openMediaDetailFragment
+import com.example.proyecto_final_grado.ui.openMediaDetailFragment
 import com.squareup.picasso.Picasso
 import graphql.UpdateFavouriteMutation
 import kotlinx.coroutines.CoroutineScope

@@ -1,6 +1,7 @@
 query GetUserProfileInfo {
     Viewer {
         id
+        bannerImage
         mediaListOptions {
             scoreFormat
         }

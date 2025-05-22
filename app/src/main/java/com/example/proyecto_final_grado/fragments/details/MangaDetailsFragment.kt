@@ -33,7 +33,7 @@ import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
 import com.example.proyecto_final_grado.utils.SharedViewModel
-import com.example.proyecto_final_grado.utils.openMediaDetailFragment
+import com.example.proyecto_final_grado.ui.openMediaDetailFragment
 import com.google.android.material.chip.Chip
 import graphql.UpdateFavouriteMutation
 

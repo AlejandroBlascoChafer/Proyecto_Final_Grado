@@ -27,7 +27,7 @@ import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.example.proyecto_final_grado.session.SessionManager
 import com.example.proyecto_final_grado.utils.SharedViewModel
-import com.example.proyecto_final_grado.utils.openMediaDetailFragment
+import com.example.proyecto_final_grado.ui.openMediaDetailFragment
 import graphql.UpdateScoreMutation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

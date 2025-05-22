@@ -1,0 +1,17 @@
+query SearchStudioQuery($search: String!) {
+    Page(page: 1, perPage: 10) {
+        studios(search: $search, sort: [FAVOURITES_DESC]) {
+            id
+            favourites
+            name
+            media(sort: [FAVOURITES_DESC], perPage: 1) {
+                nodes {
+                    id
+                    coverImage {
+                        large
+                    }
+                }
+            }
+        }
+    }
+}

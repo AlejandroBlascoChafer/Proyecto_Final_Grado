@@ -1,0 +1,17 @@
+query SearchAnimeMangaQuery($search: String, $type: MediaType) {
+    Page(page: 1, perPage: 10) {
+        media(search: $search, type: $type, sort: [FAVOURITES_DESC]) {
+            id
+            title {
+                userPreferred
+            }
+            coverImage {
+                large
+            }
+            format
+            favourites
+            meanScore
+            type
+        }
+    }
+}

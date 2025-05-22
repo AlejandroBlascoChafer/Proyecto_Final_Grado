@@ -1,0 +1,14 @@
+query SearchStaffQuery($search: String) {
+    Page(page: 1, perPage: 10) {
+        staff(search: $search, sort: [FAVOURITES_DESC]) {
+            id
+            name {
+                userPreferred
+            }
+            image {
+                large
+            }
+            favourites
+        }
+    }
+}
