@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/animeRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tvAnimeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/seasonal_list"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/textPrimary"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Botón mostrar/ocultar filtros -->
+        <Button
+            android:id="@+id/btnToggleFilters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_filters"
+            android:layout_gravity="end"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Texto con info de filtros activos -->
+        <TextView
+            android:id="@+id/textFilterInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <!-- Contenedor de filtros -->
+        <LinearLayout
+            android:id="@+id/layoutFilters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Chips de filtro -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupFormat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                app:selectionRequired="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tv" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTVSHORT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tv_short" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipMOVIE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/movie" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipOVA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/ova" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipONA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/ona" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSPECIAL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/special" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:weightSum="2">
+
+                <Spinner
+                    android:id="@+id/spinnerSeason"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:spinnerMode="dropdown" />
+
+                <Spinner
+                    android:id="@+id/spinnerYear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:spinnerMode="dropdown"
+                    android:layout_marginStart="16dp" />
+
+            </LinearLayout>
+
+            <!-- Spinners para ordenar (ahora dentro del layoutFilters) -->
+            <Spinner
+                android:id="@+id/spinnerSortBy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <Spinner
+                android:id="@+id/spinnerSortOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+        <!-- Lista de animes -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/animeRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingBottom="16dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+</FrameLayout>

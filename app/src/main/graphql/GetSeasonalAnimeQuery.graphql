@@ -1,4 +1,4 @@
-query GetSeasonalAnimeQuery($season: MediaSeason, $seasonYear: Int, $page: Int = 1, $perPage: Int = 50) {
+query GetSeasonalAnimeQuery($season: MediaSeason!, $seasonYear: Int!, $format: MediaFormat!, $page: Int = 1, $perPage: Int = 50, ) {
   Page(page: $page, perPage: $perPage) {
     pageInfo {
       total
@@ -6,12 +6,13 @@ query GetSeasonalAnimeQuery($season: MediaSeason, $seasonYear: Int, $page: Int =
       lastPage
       hasNextPage
     }
-    media(season: $season, seasonYear: $seasonYear, type: ANIME, sort: POPULARITY_DESC) {
+    media(season: $season, seasonYear: $seasonYear, format: $format, type: ANIME, sort: POPULARITY_DESC) {
       id
       title {
         romaji
         english
         native
+        userPreferred
       }
       coverImage {
         large
@@ -23,12 +24,20 @@ query GetSeasonalAnimeQuery($season: MediaSeason, $seasonYear: Int, $page: Int =
       format
       popularity
       trending
-      averageScore
+      meanScore
       favourites
       mediaListEntry {
         status
       }
       isAdult
+      studios {
+        edges {
+          isMain
+          node {
+            name
+          }
+        }
+      }
     }
   }
 }

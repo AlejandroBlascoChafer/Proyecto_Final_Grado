@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.adapters
+package com.example.proyecto_final_grado.adapters.homeAdapters
 
 import android.util.Log
 import android.view.LayoutInflater

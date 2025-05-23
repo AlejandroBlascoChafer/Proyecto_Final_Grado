@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo.cache.normalized.FetchPolicy
 import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
+import graphql.GetSeasonalAnimeQuery
 import graphql.GetTrendingAnimeQuery
 import graphql.GetTrendingMangaQuery
 import graphql.GetUserAnimeListQuery
@@ -16,6 +17,8 @@ import graphql.GetUserMangaListQuery
 import graphql.GetUserProfileInfoQuery
 import kotlinx.coroutines.launch
 import graphql.GetUserProfileInfoQuery.*
+import graphql.type.MediaFormat
+import graphql.type.MediaSeason
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -51,7 +54,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _trendingManga = MutableLiveData<List<GetTrendingMangaQuery.Medium?>?>()
     val trendingManga: LiveData<List<GetTrendingMangaQuery.Medium?>?> = _trendingManga
 
-    private val _loading = MutableLiveData<Boolean>()
+        private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
     fun loadInitialData() {
@@ -65,8 +68,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 // Carga trending anime y manga cache y red
                 loadTrendingAnime()
                 loadTrendingManga()
-
-
 
                 val userName = _userProfile.value?.name ?: ""
 

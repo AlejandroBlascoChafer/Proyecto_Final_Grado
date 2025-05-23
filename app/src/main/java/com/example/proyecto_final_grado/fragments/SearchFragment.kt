@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import com.example.proyecto_final_grado.activities.MainActivity
-import com.example.proyecto_final_grado.adapters.SearchAdapter
+import com.example.proyecto_final_grado.adapters.homeAdapters.SearchAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentSearchBinding
 import com.example.proyecto_final_grado.fragments.details.AnimeDetailsFragment
@@ -28,7 +28,6 @@ import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.listeners.OnStudioClickListener
 import com.example.proyecto_final_grado.models.SearchItem
 import com.example.proyecto_final_grado.ui.openMediaDetailFragment
-import graphql.GetStaffDetailQuery
 import graphql.SearchAnimeMangaQuery
 import graphql.SearchCharactersQuery
 import graphql.SearchStaffQuery

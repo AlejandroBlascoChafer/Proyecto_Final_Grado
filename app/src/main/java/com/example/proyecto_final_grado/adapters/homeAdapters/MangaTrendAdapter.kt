@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.adapters
+package com.example.proyecto_final_grado.adapters.homeAdapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto_final_grado.databinding.ItemTrendingAnimeBinding
 import com.example.proyecto_final_grado.databinding.ItemTrendingMangaBinding
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
 import com.squareup.picasso.Picasso
-import graphql.GetTrendingAnimeQuery
 import graphql.GetTrendingMangaQuery
 
 class MangaTrendAdapter(
@@ -37,14 +35,14 @@ class MangaTrendAdapter(
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaTrendAdapter.MangaTrendViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaTrendViewHolder {
         binding = ItemTrendingMangaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MangaTrendViewHolder(binding.root)
     }
 
     override fun getItemCount(): Int = mangaList.size
 
-    override fun onBindViewHolder(holder: MangaTrendAdapter.MangaTrendViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MangaTrendViewHolder, position: Int) {
         val manga = mangaList[position]
 
         Picasso.get().load(manga?.bannerImage).into(holder.banner)

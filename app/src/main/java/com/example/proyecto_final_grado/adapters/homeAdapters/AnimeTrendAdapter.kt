@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.adapters
+package com.example.proyecto_final_grado.adapters.homeAdapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -35,14 +35,14 @@ class AnimeTrendAdapter(
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeTrendAdapter.AnimeTrendViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeTrendViewHolder {
         binding = ItemTrendingAnimeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AnimeTrendViewHolder(binding.root)
     }
 
     override fun getItemCount(): Int = animeList.size
 
-    override fun onBindViewHolder(holder: AnimeTrendAdapter.AnimeTrendViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AnimeTrendViewHolder, position: Int) {
         val anime = animeList[position]
 
         Picasso.get().load(anime?.bannerImage).into(holder.banner)

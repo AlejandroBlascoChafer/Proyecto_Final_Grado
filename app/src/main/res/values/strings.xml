@@ -25,7 +25,7 @@
     <string name="loading">Loading</string>
     <string name="banner">Banner</string>
     <string name="synopsis">Synopsis</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="description">Description</string>
     <string name="genres">Genres</string>
@@ -51,4 +51,39 @@
     <string name="background_image">Background Image</string>
     <string name="search">Search</string>
     <string name="year">Year</string>
+    <string name="profile_icon">Profile Icon</string>
+    <string name="what_are_you_looking_for">What are you looking for?</string>
+    <string name="seasonal_anime">Seasonal Anime</string>
+    <string name="special">SPECIAL</string>
+    <string name="ona">ONA</string>
+    <string name="ova">OVA</string>
+    <string name="movie">MOVIE</string>
+    <string name="tv_short">TV SHORT</string>
+    <string name="tv">TV</string>
+    <string name="seasonal_list">Seasonal List</string>
+
+    <string name="previous_year">Previous Year</string>
+    <string name="next_year">Next Year</string>
+    <string name="show_filters">Show Filters</string>
+    <string name="hide_filters">Hide Filters</string>
+    <string-array name="seasons_array">
+        <item>WINTER</item>
+        <item>SPRING</item>
+        <item>SUMMER</item>
+        <item>FALL</item>
+    </string-array>
+
+    <string-array name="sort_by_array">
+        <item>FAVOURITES</item>
+        <item>SCORE</item>
+        <item>POPULARITY</item>
+        <item>TRENDING</item>
+    </string-array>
+
+    <string-array name="sort_direction_array">
+        <item>DESC</item>
+        <item>ASC</item>
+    </string-array>
+
+
 </resources>
