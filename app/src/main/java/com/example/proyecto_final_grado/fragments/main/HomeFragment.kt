@@ -13,7 +13,7 @@ import com.example.proyecto_final_grado.adapters.homeAdapters.AnimeTrendAdapter
 import com.example.proyecto_final_grado.adapters.homeAdapters.MangaTrendAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentHomeBinding
-import com.example.proyecto_final_grado.fragments.SeasonalFragment
+import com.example.proyecto_final_grado.fragments.home.SeasonalFragment
 import com.example.proyecto_final_grado.fragments.details.AnimeDetailsFragment
 import com.example.proyecto_final_grado.fragments.details.MangaDetailsFragment
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
@@ -22,7 +22,8 @@ import com.example.proyecto_final_grado.session.SessionManager
 import com.example.proyecto_final_grado.ui.SearchBottomSheet
 import com.example.proyecto_final_grado.utils.SharedViewModel
 import com.example.proyecto_final_grado.ui.openMediaDetailFragment
-import com.example.proyecto_final_grado.ui.search.SearchFragment
+import com.example.proyecto_final_grado.fragments.home.SearchFragment
+import com.example.proyecto_final_grado.fragments.home.WeeklyScheduleFragment
 import com.squareup.picasso.Picasso
 import java.util.Calendar
 
@@ -73,6 +74,10 @@ class HomeFragment : Fragment(), OnAnimeClickListener, OnMangaClickListener {
                     }
                 }
                 bottomSheet.show(childFragmentManager, "searchCategory")
+            }
+
+            binding.weeklySchedule.setOnClickListener {
+                (activity as? MainActivity)?.openDetailFragment(WeeklyScheduleFragment())
             }
 
             binding.seasonFilterCard.setOnClickListener {

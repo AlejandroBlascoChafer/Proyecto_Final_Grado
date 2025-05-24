@@ -12,6 +12,10 @@ import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.squareup.picasso.Picasso
 import graphql.type.MediaListStatus
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
+import java.util.Locale
 
 class AnimeAdapter(
     private var animeList: List<GetUserAnimeListQuery.Entry>,
@@ -72,8 +76,9 @@ class AnimeAdapter(
             binding.tvProgress.text = if (totalEpisodes != null) {
                 "$episodesWatched / $totalEpisodes"
             } else {
-                "$episodesWatched / ?"
+                "$episodesWatched / ? "
             }
+
 
             val percentage = if (totalEpisodes != null && totalEpisodes > 0) {
                 episodesWatched * 100 / totalEpisodes
@@ -84,9 +89,15 @@ class AnimeAdapter(
             }
 
             binding.progressBar.progress = percentage
+            val formatAiring: String
+            if (anime.media?.nextAiringEpisode != null ){
+                formatAiring = anime.media.format?.name + " · Ep " + anime.media.nextAiringEpisode.episode + " " + formatAiringDateCompat(anime.media.nextAiringEpisode.airingAt)
+            } else {
+                formatAiring = anime.media?.format?.name.toString()
+            }
             binding.tvTitle.text = anime.media?.title?.userPreferred
             binding.tvScore.text = anime.score?.toString() ?: "No score"
-            binding.tvMedia.text = anime.media?.format?.name
+            binding.tvMedia.text = formatAiring
 
             Picasso.get()
                 .load(anime.media?.coverImage?.large)
@@ -163,4 +174,13 @@ class AnimeAdapter(
             }
         }
     }
+
+
+    fun formatAiringDateCompat(timestampSeconds: Int): String {
+        val formatter = DateTimeFormatter.ofPattern("EEEE, dd MMM, yyyy, hh:mm a", Locale.getDefault())
+        val zonedDateTime = Instant.ofEpochSecond(timestampSeconds.toLong())
+            .atZone(ZoneId.systemDefault())
+        return formatter.format(zonedDateTime)
+    }
+
 }

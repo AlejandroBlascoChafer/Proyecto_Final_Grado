@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.ui.search
+package com.example.proyecto_final_grado.fragments.home
 
 import android.os.Bundle
 import android.text.Editable

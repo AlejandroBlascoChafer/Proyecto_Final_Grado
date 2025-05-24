@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Weekly Calendar"
+        android:textAppearance="?attr/textAppearanceHeadline6"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonToggleUserList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show My List Only"
+        style="?attr/materialButtonOutlinedStyle"
+        app:cornerRadius="16dp"
+        android:layout_margin="8dp" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerWeekly"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -72,5 +72,6 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.apollo.normalized.cache.sqlite)
     implementation(libs.apollo.normalized.cache)
+    implementation(libs.threetenabp)
 
 }

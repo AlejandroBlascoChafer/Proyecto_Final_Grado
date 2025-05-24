@@ -66,6 +66,7 @@
     <string name="next_year">Next Year</string>
     <string name="show_filters">Show Filters</string>
     <string name="hide_filters">Hide Filters</string>
+    <string name="weekly_schedule">Weekly Schedule</string>
     <string-array name="seasons_array">
         <item>WINTER</item>
         <item>SPRING</item>

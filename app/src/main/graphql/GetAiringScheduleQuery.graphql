@@ -1,0 +1,20 @@
+query GetAiringScheduleQuery($onList: Boolean) {
+    Page(perPage: 50) {
+        media(sort: [TRENDING_DESC], type: ANIME, status_in: [RELEASING], onList: $onList) {
+            id
+            title {
+                userPreferred
+            }
+            coverImage {
+                large
+            }
+            nextAiringEpisode {
+                airingAt
+                episode
+            }
+            mediaListEntry {
+                status
+            }
+        }
+    }
+}

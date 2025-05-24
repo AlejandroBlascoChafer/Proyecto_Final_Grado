@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.fragments
+package com.example.proyecto_final_grado.fragments.home
 
 import android.os.Bundle
 import android.util.Log
@@ -38,7 +38,6 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
 
     private var filtersVisible = false
 
-    // Estado filtros y orden
     private var selectedFormat: MediaFormat = MediaFormat.TV
     private var selectedSortBy: String = "Popularity"
     private var selectedSortOrder: String = "Descending"
@@ -68,17 +67,14 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
     }
 
     private fun setupUI() {
-        // Set formato inicial
         binding.chipTV.isChecked = true
         selectedFormat = MediaFormat.TV
 
 
-        // Mostrar filtros inicialmente visibles
         binding.layoutFilters.visibility = View.GONE
         binding.textFilterInfo.visibility = View.VISIBLE
         filtersVisible = false
 
-        // Botón para mostrar/ocultar filtros
         binding.btnToggleFilters.setOnClickListener {
             filtersVisible = !filtersVisible
 
@@ -93,7 +89,6 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
             }
         }
 
-        // Listener chips para cambio formato
         binding.chipGroupFormat.setOnCheckedChangeListener { _, checkedId ->
             selectedFormat = when (checkedId) {
                 binding.chipTV.id -> MediaFormat.TV
@@ -108,7 +103,6 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
             updateFilterInfo()
         }
 
-        // Configurar spinners sortBy y sortOrder
         val sortByOptions = listOf("Popularity", "Score", "Favorites", "Trending")
         val sortOrderOptions = listOf("Descending", "Ascending")
 
@@ -123,7 +117,6 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
             sortOrderOptions
         )
 
-        // Selección inicial
         binding.spinnerSortBy.setSelection(sortByOptions.indexOf(selectedSortBy))
         binding.spinnerSortOrder.setSelection(sortOrderOptions.indexOf(selectedSortOrder))
 
@@ -151,11 +144,9 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // RecyclerView setup
         binding.animeRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        // Spinner temporada
         binding.spinnerSeason.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, seasonsList)
         binding.spinnerSeason.setSelection(seasonsList.indexOf(season))
         binding.spinnerSeason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -202,14 +193,12 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
 
         lifecycleScope.launch {
             try {
-                // Aquí deberías adaptar la query para que acepte los parámetros de orden si tu GraphQL lo soporta,
-                // si no, ordena el resultado localmente tras la consulta.
                 val response = apolloClient.query(GetSeasonalAnimeQuery(seasonEnum, yearSelected, selectedFormat))
                     .fetchPolicy(FetchPolicy.CacheFirst).execute()
                 val mediaList = response.data?.Page?.media?.filterNotNull() ?: emptyList()
 
-                // Aquí se podría ordenar localmente según selectedSortBy y selectedSortOrder
-                val sortedList = mediaList.sortedWith(compareByDescending<graphql.GetSeasonalAnimeQuery.Medium> {
+
+                val sortedList = mediaList.sortedWith(compareByDescending {
                     when (selectedSortBy) {
                         "Popularity" -> it.popularity ?: 0
                         "Score" -> it.meanScore ?: 0
