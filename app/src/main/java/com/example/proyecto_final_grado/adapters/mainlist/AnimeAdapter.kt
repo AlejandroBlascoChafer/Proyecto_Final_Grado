@@ -105,7 +105,7 @@ class AnimeAdapter(
                 formatAiring = anime.media?.format?.name.toString()
             }
             binding.tvTitle.text = anime.media?.title?.userPreferred
-            binding.tvScore.text = anime.score?.toString() ?: "No score"
+            binding.tvScore.text = formatScore(anime.score)
             binding.tvMedia.text = formatAiring
 
             Picasso.get()
@@ -188,7 +188,7 @@ class AnimeAdapter(
 
             binding.progressBar.progress = percentage
             binding.tvTitle.text = anime.media?.title?.userPreferred
-            binding.tvScore.text = anime.score?.toString() ?: "No score"
+            binding.tvScore.text = formatScore(anime.score)
             binding.tvMedia.text = anime.media?.format?.name
 
             Picasso.get()
@@ -248,5 +248,20 @@ class AnimeAdapter(
             .atZone(ZoneId.systemDefault())
         return formatter.format(zonedDateTime)
     }
+
+    fun formatScore(score: Double?): String {
+        if (score != null) {
+            return if (score % 1.0 == 0.0) {
+                // Es entero, quitar decimales
+                score.toInt().toString()
+            } else {
+                // Tiene decimales, mostrar tal cual (o con formato)
+                score.toString()
+            }
+        }
+        return ""
+    }
+
+
 
 }

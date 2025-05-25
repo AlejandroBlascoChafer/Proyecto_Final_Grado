@@ -104,7 +104,7 @@
 
                         <Button
                             android:id="@+id/btnAddEpisode"
-                            android:layout_width="90dp"
+                            android:layout_width="70dp"
                             android:layout_height="36dp"
                             android:text="+1 CH"
                             android:textColor="@android:color/white"
@@ -136,7 +136,7 @@
 
                         <Button
                             android:id="@+id/btnAddVolume"
-                            android:layout_width="90dp"
+                            android:layout_width="70dp"
                             android:layout_height="36dp"
                             android:text="+1 VO"
                             android:textColor="@android:color/white"

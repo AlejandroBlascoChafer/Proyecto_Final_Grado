@@ -105,7 +105,7 @@
 
                         <Button
                             android:id="@+id/btnAddEpisode"
-                            android:layout_width="75dp"
+                            android:layout_width="70dp"
                             android:layout_height="36dp"
                             android:text="+1 CH"
                             android:textColor="@android:color/white"

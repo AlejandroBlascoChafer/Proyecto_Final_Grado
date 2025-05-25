@@ -96,7 +96,7 @@ class MangaAdapter(
             binding.progressBar.progress = percentage
 
             binding.tvTitle.text = manga.media?.title?.userPreferred ?: "No title"
-            binding.tvScore.text = manga.score?.toString() ?: "No score"
+            binding.tvScore.text = formatScore(manga.score)
             binding.tvVolumes.text = volumeText
             binding.tvMedia.text = manga.media?.format?.name
 
@@ -107,7 +107,6 @@ class MangaAdapter(
                 .into(binding.ivCover)
 
             binding.volumeLayout.visibility = android.view.View.VISIBLE
-            //binding.progressBar.visibility = android.view.View.GONE
             binding.btnAddEpisode.text = "+1 CH"
 
             binding.btnAddEpisode.setOnClickListener {
@@ -196,7 +195,7 @@ class MangaAdapter(
             }
 
             binding.tvTitle.text = manga.media?.title?.userPreferred
-            binding.tvScore.text = manga.score?.toString() ?: "No score"
+            binding.tvScore.text = formatScore(manga.score)
             binding.tvMedia.text = manga.media?.format?.name
             binding.tvVolumes.text = volumeText
             binding.progressBar.progress = percentage
@@ -249,5 +248,17 @@ class MangaAdapter(
                 listenerEditList.onEditListListener(editList)
             }
         }
+    }
+    fun formatScore(score: Double?): String {
+        if (score != null) {
+            return if (score % 1.0 == 0.0) {
+                // Es entero, quitar decimales
+                score.toInt().toString()
+            } else {
+                // Tiene decimales, mostrar tal cual (o con formato)
+                score.toString()
+            }
+        }
+        return ""
     }
 }

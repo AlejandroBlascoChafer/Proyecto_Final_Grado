@@ -1,10 +1,12 @@
 package com.example.proyecto_final_grado.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.lifecycleScope
@@ -117,7 +119,7 @@ class SettingsActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                apolloClient.apolloStore.clearAll()
+
                 Log.d("SettingsActivity", "Sending mutation with titleLanguage=$titleLanguageEnum, displayAdultContent=$displayAdult, scoreFormat=$scoreFormatEnum, staffNameLanguage=$staffNameEnum, airingNotifications=$airingNotifications")
                 val response = apolloClient.mutation(
                     UpdateUserInfoMutation(
@@ -133,27 +135,9 @@ class SettingsActivity : AppCompatActivity() {
                 if (!response.hasErrors()) {
                     Log.d("SettingsActivity", "Settings updated successfully.")
 
-
-                    // Recargar configuración para verificar
-                    lifecycleScope.launch {
-                        try {
-                            val updatedResponse = apolloClient.query(GetUserOptionsQuery()).fetchPolicy(FetchPolicy.NetworkOnly).execute()
-                            Log.d("SettingsActivity", "Reloaded settings response: $updatedResponse")
-
-                            val updatedViewer = updatedResponse.data?.Viewer
-                            if (updatedViewer != null) {
-                                Log.d("SettingsActivity", "Reloaded titleLanguage from server: ${updatedViewer.options?.titleLanguage}")
-                                loadCurrentSettings(updatedViewer)
-                                Log.d("SettingsActivity", "Settings reloaded from server successfully.")
-                            } else {
-                                Log.d("SettingsActivity", "Reloaded settings Viewer is null")
-                            }
-                        } catch (e: Exception) {
-                            Log.e("SettingsActivity", "Error reloading settings", e)
-                        }
-                    }
-
-                    sharedViewModel.loadInitialData()
+                    val intent = Intent(this@SettingsActivity, SplashActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
                 } else {
                     Log.e("SettingsActivity", "Mutation errors: ${response.errors}")
                 }

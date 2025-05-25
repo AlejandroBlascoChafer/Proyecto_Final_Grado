@@ -52,6 +52,8 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
+    private lateinit var scoreFormat: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,6 +65,10 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
+//        sharedViewModel.userProfile.observe(viewLifecycleOwner) { viewer ->
+//            scoreFormat = viewer?.mediaListOptions?.scoreFormat?.rawValue.toString()
+//
+//        }
         setupRecyclerView()
         setupChipListeners()
 
@@ -75,6 +81,8 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
             filteredList?.filterNotNull()?.let { animeAdapter.submitList(it) }
         }
 
+
+
         sharedViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading == true) {
                 binding.loadingLayout.apply {
@@ -84,13 +92,10 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
             } else {
                 binding.loadingLayout.apply {
                     startAnimation(fadeOut)
-                    postDelayed({ visibility = View.GONE }, 250) // Espera a que termine el fadeOut
+                    postDelayed({ visibility = View.GONE }, 250)
                 }
             }
         }
-
-
-
 
         binding.chipWatching.isChecked = true
 
