@@ -33,7 +33,7 @@
         app:endIconMode="clear_text"
         app:counterEnabled="true"
         app:counterMaxLength="21"
-        app:helperText="Obligatorio"
+        app:helperText="Required"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvIniciarSesion">
@@ -55,7 +55,7 @@
         app:counterEnabled="true"
         app:counterMaxLength="21"
         app:endIconMode="password_toggle"
-        app:helperText="Obligatorio"
+        app:helperText="Required"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tiLayoutUsuario"

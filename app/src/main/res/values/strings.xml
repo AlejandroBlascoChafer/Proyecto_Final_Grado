@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">AniTrack</string>
-    <string name="nombre_de_usuario">Nombre de Usuario</string>
-    <string name="contrasena">Contraseña</string>
-    <string name="entrar">Entrar</string>
+    <string name="nombre_de_usuario">Username</string>
+    <string name="contrasena">Password</string>
+    <string name="entrar">Login</string>
     <string name="anime">Anime</string>
     <string name="manga">Manga</string>
     <string name="following">Following</string>

@@ -134,6 +134,8 @@ class SettingsActivity : AppCompatActivity() {
                 Log.d("SettingsActivity", "Mutation response: $response")
                 if (!response.hasErrors()) {
                     Log.d("SettingsActivity", "Settings updated successfully.")
+                    Toast.makeText(this@SettingsActivity, "Settings updated", Toast.LENGTH_SHORT).show()
+
 
                     val intent = Intent(this@SettingsActivity, SplashActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
