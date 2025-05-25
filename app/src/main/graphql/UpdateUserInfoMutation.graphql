@@ -1,0 +1,18 @@
+mutation UpdateUserInfoMutation($titleLanguage: UserTitleLanguage!
+    , $displayAdultContent: Boolean!
+    , $scoreFormat: ScoreFormat!
+    , $staffNameLanguage: UserStaffNameLanguage!
+    , $airingNotifications: Boolean!){
+    UpdateUser(titleLanguage: $titleLanguage, displayAdultContent: $displayAdultContent, scoreFormat: $scoreFormat, staffNameLanguage: $staffNameLanguage, airingNotifications: $airingNotifications) {
+        id
+        options {
+            displayAdultContent
+            airingNotifications
+            titleLanguage
+            staffNameLanguage
+        }
+        mediaListOptions {
+            scoreFormat
+        }
+    }
+}

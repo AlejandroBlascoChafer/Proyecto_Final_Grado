@@ -35,7 +35,7 @@ class MediaStaffAdapter(
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
         val media = mediaList[position]
         Picasso.get().load(media?.node?.coverImage?.large).into(holder.imageView)
-        holder.nameView.text = media?.node?.title?.romaji ?: ""
+        holder.nameView.text = media?.node?.title?.userPreferred ?: ""
         holder.roleView.text = media?.staffRole ?: ""
         holder.imageView.setOnClickListener {
             val mediaID = media?.node?.id

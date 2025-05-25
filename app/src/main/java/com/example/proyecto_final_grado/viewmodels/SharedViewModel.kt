@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo.cache.normalized.FetchPolicy
 import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
+import com.example.proyecto_final_grado.session.SessionManager
 import graphql.GetSeasonalAnimeQuery
 import graphql.GetTrendingAnimeQuery
 import graphql.GetTrendingMangaQuery
@@ -24,6 +25,7 @@ import java.util.Calendar
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
     private val apolloClient = ApolloClientProvider.getApolloClient(application)
+    private val sessionManager= SessionManager(application)
 
     private val _userProfile = MutableLiveData<Viewer?>()
     val userProfile: LiveData<Viewer?> = _userProfile
@@ -89,11 +91,11 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 loadTrendingAnime()
                 loadTrendingManga()
 
-                val userName = _userProfile.value?.name ?: ""
+                sessionManager.saveUsername(_userProfile.value?.name ?: "")
 
                 // Carga listas de anime y manga igual: cache y luego red
-                loadUserAnimeList(userName)
-                loadUserMangaList(userName)
+                loadUserAnimeList(sessionManager.getUsername() ?: "")
+                loadUserMangaList(sessionManager.getUsername() ?: "")
 
 
 
@@ -245,7 +247,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             try {
                 val response = apolloClient.query(
                     GetSeasonalAnimeQuery(currentSeason, currentYear, currentFormat)
-                ).fetchPolicy(FetchPolicy.CacheFirst).execute()
+                ).fetchPolicy(FetchPolicy.NetworkFirst).execute()
 
                 val mediaList = response.data?.Page?.media?.filterNotNull() ?: emptyList()
 
@@ -278,4 +280,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             else -> MediaSeason.WINTER
         }
     }
+
+
 }

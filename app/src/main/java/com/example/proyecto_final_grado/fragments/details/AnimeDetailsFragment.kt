@@ -287,7 +287,7 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                     characterId = Optional.absent(),
                     studioId = Optional.absent(),
                     staffId = Optional.absent()
-                )).fetchPolicy(FetchPolicy.NetworkOnly).execute()
+                )).fetchPolicy(FetchPolicy.NetworkFirst).execute()
 
                 val updatedEntry = response.data?.ToggleFavourite?.anime
                 if (updatedEntry != null) {

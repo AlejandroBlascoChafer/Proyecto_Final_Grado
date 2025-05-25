@@ -20,7 +20,7 @@ query GetStaffDetailQuery($id: Int!) {
         node {
           id
           title {
-            romaji
+            userPreferred
           }
           type
           format

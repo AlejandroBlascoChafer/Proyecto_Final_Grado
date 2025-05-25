@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.apolloStore
 import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.adapters.homeAdapters.WeeklyScheduleAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
@@ -67,7 +68,7 @@ class WeeklyScheduleFragment : Fragment(), OnAnimeClickListener {
             try {
                 val response = apolloClient.query(
                     GetAiringScheduleQuery(onList = Optional.presentIfNotNull(onlyOnList.takeIf { it }))
-                ).fetchPolicy(FetchPolicy.CacheFirst).execute()
+                ).fetchPolicy(FetchPolicy.NetworkFirst).execute()
 
 
 
@@ -79,7 +80,6 @@ class WeeklyScheduleFragment : Fragment(), OnAnimeClickListener {
                 val entries = items.mapNotNull { media ->
                     val airing = media.nextAiringEpisode ?: return@mapNotNull null
                     val date = toLocalZonedDateTime(airing.airingAt) ?: return@mapNotNull null
-
                     WeeklyScheduleEntry(
                         id = media.id,
                         dayOfWeek = date.dayOfWeek,
@@ -88,7 +88,9 @@ class WeeklyScheduleFragment : Fragment(), OnAnimeClickListener {
                         time = date.toLocalTime(),
                         imageUrl = media.coverImage?.large
                     )
+
                 }
+
 
                 val grouped: Map<DayOfWeek, List<WeeklyScheduleEntry>> = entries
                     .groupBy { it.dayOfWeek }

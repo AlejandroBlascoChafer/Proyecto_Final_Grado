@@ -1,6 +1,7 @@
 package com.example.proyecto_final_grado.fragments.main
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.login.LoginActivity
 import com.example.proyecto_final_grado.activities.MainActivity
+import com.example.proyecto_final_grado.activities.SettingsActivity
 import com.example.proyecto_final_grado.databinding.FragmentProfileBinding
 import com.example.proyecto_final_grado.adapters.profile.FavouritesAdapter
 import com.example.proyecto_final_grado.fragments.details.AnimeDetailsFragment
@@ -194,6 +196,17 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
                     sessionManager.clearSession()
                     val intent = Intent(requireContext(), LoginActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    true
+                }
+                R.id.action_settings -> {
+                    val intent = Intent(requireContext(), SettingsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.action_anilist_account -> {
+                    val url = "https://anilist.co/user/${sessionManager.getUsername()}"
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                     startActivity(intent)
                     true
                 }

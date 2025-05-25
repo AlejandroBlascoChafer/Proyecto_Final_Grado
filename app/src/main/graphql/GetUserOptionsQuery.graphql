@@ -1,0 +1,13 @@
+query GetUserOptionsQuery {
+    Viewer {
+        options {
+            titleLanguage
+            displayAdultContent
+            staffNameLanguage
+            airingNotifications
+        }
+        mediaListOptions {
+            scoreFormat
+        }
+    }
+}
