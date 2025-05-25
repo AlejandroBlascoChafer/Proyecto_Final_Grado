@@ -9,7 +9,7 @@ data class WeeklyScheduleEntry(
     val title: String,
     val episode: Int,
     val time: LocalTime,
-    val imageUrl: String?  // Nueva propiedad para la imagen
+    val imageUrl: String?
 )
 
 

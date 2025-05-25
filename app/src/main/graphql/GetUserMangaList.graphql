@@ -3,6 +3,7 @@ query GetUserMangaList($userName: String!) {
         lists {
             name
             entries {
+                id
                 mediaId
                 media {
                     id
@@ -15,7 +16,22 @@ query GetUserMangaList($userName: String!) {
                     chapters
                     format
                     volumes
+                    isFavourite
                 }
+                startedAt {
+                    day
+                    month
+                    year
+                }
+                completedAt {
+                    day
+                    month
+                    year
+                }
+                repeat
+                notes
+                hiddenFromStatusLists
+                private
                 score
                 progress
                 status

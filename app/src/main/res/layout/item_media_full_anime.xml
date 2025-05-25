@@ -23,6 +23,7 @@
 
         <!-- Contenido con padding -->
         <LinearLayout
+            android:id="@+id/layoutEdit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -1,0 +1,14 @@
+mutation UpdateEntryListMutation($saveMediaListEntryId: Int!
+    , $mediaId: Int!
+    , $status: MediaListStatus!
+    , $score: Float!
+    , $repeat: Int!
+    , $private: Boolean!
+    , $hiddenFromStatusLists: Boolean!
+    , $startedAt: FuzzyDateInput!
+     $completedAt: FuzzyDateInput!
+    , $notes: String!){
+    SaveMediaListEntry(id: $saveMediaListEntryId, mediaId: $mediaId, status: $status, score: $score, repeat: $repeat, private: $private, hiddenFromStatusLists: $hiddenFromStatusLists, startedAt: $startedAt, completedAt: $completedAt, notes: $notes) {
+        id
+    }
+}

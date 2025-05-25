@@ -19,6 +19,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.details.CharactersMediaAdapter
@@ -33,7 +35,7 @@ import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
-import com.example.proyecto_final_grado.utils.SharedViewModel
+import com.example.proyecto_final_grado.viewmodels.SharedViewModel
 import com.example.proyecto_final_grado.ui.openMediaDetailFragment
 import com.google.android.material.chip.Chip
 import com.squareup.picasso.Picasso
@@ -83,7 +85,7 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apolloClient.query(GetMediaDetailQuery(mediaID)).execute()
+                val response = apolloClient.query(GetMediaDetailQuery(mediaID)).fetchPolicy(FetchPolicy.NetworkOnly).execute()
                 val media = response.data?.Media
                 Log.d("MediaID", mediaID.toString())
 
@@ -256,7 +258,13 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                     }
 
 
-                    isFavourite = media?.isFavourite == true
+                    if (media?.isFavourite == true){
+                        isFavourite = true
+                    } else {
+                        isFavourite = false
+                    }
+
+                    Log.d("Favorito", "ID: ${mediaID}, Favorito: ${media?.isFavourite}")
                     updateFavouriteButtonStyle()
                     binding.favButton.setOnClickListener {
                         updateFavourite(mediaID)
@@ -279,14 +287,15 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                     characterId = Optional.absent(),
                     studioId = Optional.absent(),
                     staffId = Optional.absent()
-                )).execute()
+                )).fetchPolicy(FetchPolicy.NetworkOnly).execute()
 
                 val updatedEntry = response.data?.ToggleFavourite?.anime
                 if (updatedEntry != null) {
                     withContext(Dispatchers.Main) {
                         sharedViewModel.loadInitialData()
-                        isFavourite = !isFavourite
+                        isFavourite = updatedEntry.edges?.get(0)?.node?.isFavourite == true
                         updateFavouriteButtonStyle()
+                        fetchAnimeDetails(mediaID)
                     }
                 }
             } catch (e: Exception) {

@@ -1,27 +1,35 @@
 package com.example.proyecto_final_grado.adapters.mainlist
 
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_grado.databinding.ItemMediaFullAnimeBinding
 import graphql.GetUserAnimeListQuery
 import com.example.proyecto_final_grado.databinding.ItemMediaSimpleBinding
 import com.example.proyecto_final_grado.listeners.OnAddEpClickListener
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
+import com.example.proyecto_final_grado.listeners.OnEditListClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
+import com.example.proyecto_final_grado.models.EditListEntryItem
 import com.squareup.picasso.Picasso
 import graphql.type.MediaListStatus
+import kotlinx.coroutines.withContext
 import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Locale
+
 
 class AnimeAdapter(
     private var animeList: List<GetUserAnimeListQuery.Entry>,
     private val listener: OnAddEpClickListener,
     private val listenerScore: OnScoreClickListener,
-    private val listenerAnime: OnAnimeClickListener
+    private val listenerAnime: OnAnimeClickListener,
+    private val listenerEditList: OnEditListClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -69,6 +77,7 @@ class AnimeAdapter(
     inner class FullViewHolder(private val binding: ItemMediaFullAnimeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        val context = binding.root.context
         fun bind(anime: GetUserAnimeListQuery.Entry) {
             val totalEpisodes = anime.media?.episodes
             val episodesWatched = anime.progress ?: 0
@@ -117,12 +126,40 @@ class AnimeAdapter(
                 val mediaId = anime.mediaId
                 val status = anime.status.toString()
                 if (score != null){
-                    listenerScore.onScoreClick(score, mediaId, status)
+                    listenerScore.onScoreClick(score, mediaId, status, TextView(context))
                 }
             }
             binding.ivCover.setOnClickListener {
                 val mediaId = anime.mediaId
                 listenerAnime.onAnimeClick(mediaId)
+            }
+            binding.layoutEdit.setOnClickListener {
+                val editList = EditListEntryItem(
+                    mediaListEntryId = anime.id,
+                    mediaID = anime.mediaId,
+                    title = anime.media?.title?.userPreferred,
+                    status = anime.status.toString(),
+                    score = anime.score,
+                    episode = anime.progress,
+                    startDate = LocalDate.of(
+                            anime.startedAt?.year ?: 1970,
+                            anime.startedAt?.month ?: 1,
+                            anime.startedAt?.day ?: 1
+                        ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                    ,
+                    endDate = LocalDate.of(
+                        anime.completedAt?.year ?: 0,
+                        anime.completedAt?.month ?: 1,
+                        anime.completedAt?.day ?: 1
+                    ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                    rewatches = anime.repeat,
+                    review = anime.notes,
+                    private = anime.private,
+                    hideFromList = anime.hiddenFromStatusLists,
+                    favourite = anime.media?.isFavourite,
+                    type = "ANIME"
+                )
+                listenerEditList.onEditListListener(editList)
             }
         }
     }
@@ -130,6 +167,7 @@ class AnimeAdapter(
     inner class SimpleViewHolder(private val binding: ItemMediaSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        val context = binding.root.context
         fun bind(anime: GetUserAnimeListQuery.Entry) {
             val totalEpisodes = anime.media?.episodes
             val episodesWatched = anime.progress ?: 0
@@ -165,12 +203,40 @@ class AnimeAdapter(
                 val mediaId = anime.mediaId
                 val status = anime.status.toString()
                 if (score != null){
-                    listenerScore.onScoreClick(score, mediaId, status)
+                    listenerScore.onScoreClick(score, mediaId, status, TextView(context))
                 }
             }
             binding.ivCover.setOnClickListener {
                 val mediaId = anime.mediaId
                 listenerAnime.onAnimeClick(mediaId)
+            }
+            binding.layoutEdit.setOnClickListener {
+                val editList = EditListEntryItem(
+                    mediaListEntryId = anime.id,
+                    mediaID = anime.mediaId,
+                    title = anime.media?.title?.userPreferred,
+                    status = anime.status.toString(),
+                    score = anime.score,
+                    episode = anime.progress,
+                    startDate = LocalDate.of(
+                        anime.startedAt?.year ?: 1970,
+                        anime.startedAt?.month ?: 1,
+                        anime.startedAt?.day ?: 1
+                    ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                    ,
+                    endDate = LocalDate.of(
+                        anime.completedAt?.year ?: 0,
+                        anime.completedAt?.month ?: 1,
+                        anime.completedAt?.day ?: 1
+                    ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                    rewatches = anime.repeat,
+                    review = anime.notes,
+                    private = anime.private,
+                    hideFromList = anime.hiddenFromStatusLists,
+                    favourite = anime.media?.isFavourite,
+                    type = "ANIME"
+                )
+                listenerEditList.onEditListListener(editList)
             }
         }
     }

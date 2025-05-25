@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import graphql.GetUserProfileInfoQuery
@@ -17,16 +18,20 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Optional
 import com.example.proyecto_final_grado.R
+import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.mainlist.MangaAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.DialogScoreBinding
 import com.example.proyecto_final_grado.databinding.FragmentMangaBinding
+import com.example.proyecto_final_grado.fragments.EditListEntryFragment
 import com.example.proyecto_final_grado.fragments.details.MangaDetailsFragment
 import com.example.proyecto_final_grado.listeners.OnAddChClickListener
+import com.example.proyecto_final_grado.listeners.OnEditListClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
+import com.example.proyecto_final_grado.models.EditListEntryItem
 import com.example.proyecto_final_grado.session.SessionManager
-import com.example.proyecto_final_grado.utils.SharedViewModel
+import com.example.proyecto_final_grado.viewmodels.SharedViewModel
 import com.example.proyecto_final_grado.ui.openMediaDetailFragment
 import graphql.UpdateScoreMutation
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +39,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, OnMangaClickListener {
+class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, OnMangaClickListener, OnEditListClickListener {
 
     private var _binding: FragmentMangaBinding? = null
     private val binding get() = _binding!!
@@ -92,7 +97,8 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
             emptyList(),
             listener = this,
             listenerScore = this,
-            listenerManga = this
+            listenerManga = this,
+            listenerEditList = this
         )
         binding.mangaRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -167,7 +173,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
         }
     }
 
-    override fun onScoreClick(score: Double, mediaId: Int, status: String) {
+    override fun onScoreClick(score: Double, mediaId: Int, status: String, scoreText: TextView) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_score, null)
         val binding = DialogScoreBinding.bind(dialogView)
         var scoreFormat = ""
@@ -253,6 +259,15 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
     }
     override fun onMangaClick(mediaID: Int) {
         openMediaDetailFragment(mediaID) { MangaDetailsFragment() }
+    }
+
+    override fun onEditListListener(entry: EditListEntryItem) {
+        val fragment = EditListEntryFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable("entry", entry)
+            }
+        }
+        (activity as? MainActivity)?.openDetailFragment(fragment)
     }
 }
 

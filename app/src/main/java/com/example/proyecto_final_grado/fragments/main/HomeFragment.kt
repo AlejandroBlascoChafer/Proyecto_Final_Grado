@@ -20,7 +20,7 @@ import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.session.SessionManager
 import com.example.proyecto_final_grado.ui.SearchBottomSheet
-import com.example.proyecto_final_grado.utils.SharedViewModel
+import com.example.proyecto_final_grado.viewmodels.SharedViewModel
 import com.example.proyecto_final_grado.ui.openMediaDetailFragment
 import com.example.proyecto_final_grado.fragments.home.SearchFragment
 import com.example.proyecto_final_grado.fragments.home.WeeklyScheduleFragment

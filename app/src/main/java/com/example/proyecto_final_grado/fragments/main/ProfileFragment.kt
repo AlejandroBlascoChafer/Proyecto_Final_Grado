@@ -30,7 +30,7 @@ import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_MANGA
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_STAFF
 import com.example.proyecto_final_grado.utils.Constants.FAV_TYPE_STUDIO
 import com.example.proyecto_final_grado.session.SessionManager
-import com.example.proyecto_final_grado.utils.SharedViewModel
+import com.example.proyecto_final_grado.viewmodels.SharedViewModel
 import com.example.proyecto_final_grado.ui.openMediaDetailFragment
 import com.squareup.picasso.Picasso
 import java.util.Locale

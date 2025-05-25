@@ -2,6 +2,7 @@ query GetUserAnimeList($userName: String!) {
   MediaListCollection(userName: $userName, type: ANIME, sort: SCORE_DESC) {
     lists {
       entries {
+        id
         mediaId
         status
         score
@@ -20,6 +21,21 @@ query GetUserAnimeList($userName: String!) {
             airingAt
             timeUntilAiring
           }
+          isFavourite
+        }
+        repeat
+        notes
+        private
+        hiddenFromStatusLists
+        startedAt {
+          day
+          month
+          year
+        }
+        completedAt {
+          day
+          month
+          year
         }
       }
     }

@@ -2,17 +2,12 @@ package com.example.proyecto_final_grado.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.login.LoginActivity
 import com.example.proyecto_final_grado.session.SessionManager
-import com.example.proyecto_final_grado.utils.SharedViewModel
-import kotlinx.coroutines.launch
+import com.example.proyecto_final_grado.viewmodels.SharedViewModel
 
 class SplashActivity : AppCompatActivity() {
 

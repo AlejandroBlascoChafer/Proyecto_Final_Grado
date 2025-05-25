@@ -2,21 +2,27 @@ package com.example.proyecto_final_grado.adapters.mainlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import graphql.GetUserMangaListQuery
 import com.example.proyecto_final_grado.databinding.ItemMediaFullMangaBinding
 import com.example.proyecto_final_grado.databinding.ItemMediaSimpleBinding
 import com.example.proyecto_final_grado.listeners.OnAddChClickListener
+import com.example.proyecto_final_grado.listeners.OnEditListClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnScoreClickListener
+import com.example.proyecto_final_grado.models.EditListEntryItem
 import com.squareup.picasso.Picasso
 import graphql.type.MediaListStatus
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
 
 class MangaAdapter(
     private var mangaList: List<GetUserMangaListQuery.Entry>,
     private val listener: OnAddChClickListener,
     private val listenerScore: OnScoreClickListener,
-    private val listenerManga: OnMangaClickListener
+    private val listenerManga: OnMangaClickListener,
+    private val listenerEditList: OnEditListClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -64,7 +70,7 @@ class MangaAdapter(
 
     inner class FullViewHolder(private val binding: ItemMediaFullMangaBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
+            val context = binding.root.context
         fun bind(manga: GetUserMangaListQuery.Entry) {
             val chaptersRead = manga.progress ?: 0
             val totalChapters = manga.media?.chapters
@@ -123,12 +129,40 @@ class MangaAdapter(
                 val mediaId = manga.mediaId
                 val status = manga.status.toString()
                 if (score != null){
-                    listenerScore.onScoreClick(score, mediaId, status)
+                    listenerScore.onScoreClick(score, mediaId, status, TextView(context))
                 }
             }
             binding.ivCover.setOnClickListener {
                 val mediaId = manga.mediaId
                 listenerManga.onMangaClick(mediaId)
+            }
+            binding.layoutEdit.setOnClickListener {
+                val editList = EditListEntryItem(
+                    mediaListEntryId = manga.id,
+                    mediaID = manga.mediaId,
+                    title = manga.media?.title?.userPreferred,
+                    status = manga.status.toString(),
+                    score = manga.score,
+                    episode = manga.progress,
+                    startDate = LocalDate.of(
+                        manga.startedAt?.year ?: 1970,
+                        manga.startedAt?.month ?: 1,
+                        manga.startedAt?.day ?: 1
+                    ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                    ,
+                    endDate = LocalDate.of(
+                        manga.completedAt?.year ?: 0,
+                        manga.completedAt?.month ?: 1,
+                        manga.completedAt?.day ?: 1
+                    ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                    rewatches = manga.repeat,
+                    review = manga.notes,
+                    private = manga.private,
+                    hideFromList = manga.hiddenFromStatusLists,
+                    favourite = manga.media?.isFavourite,
+                    type = "MANGA"
+                )
+                listenerEditList.onEditListListener(editList)
             }
         }
     }
@@ -136,6 +170,7 @@ class MangaAdapter(
     inner class SimpleViewHolder(private val binding: ItemMediaSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        val context = binding.root.context
         fun bind(manga: GetUserMangaListQuery.Entry) {
             val volumesRead = manga.progressVolumes ?: 0
             val totalVolumes = manga.media?.volumes ?: "?"
@@ -178,12 +213,40 @@ class MangaAdapter(
                 val mediaId = manga.mediaId
                 val status = manga.status.toString()
                 if (score != null){
-                    listenerScore.onScoreClick(score, mediaId, status)
+                    listenerScore.onScoreClick(score, mediaId, status, TextView(context))
                 }
             }
             binding.ivCover.setOnClickListener {
                 val mediaId = manga.mediaId
                 listenerManga.onMangaClick(mediaId)
+            }
+            binding.layoutEdit.setOnClickListener {
+                val editList = EditListEntryItem(
+                    mediaListEntryId = manga.id,
+                    mediaID = manga.mediaId,
+                    title = manga.media?.title?.userPreferred,
+                    status = manga.status.toString(),
+                    score = manga.score,
+                    episode = manga.progress,
+                    startDate = LocalDate.of(
+                        manga.startedAt?.year ?: 1970,
+                        manga.startedAt?.month ?: 1,
+                        manga.startedAt?.day ?: 1
+                    ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                    ,
+                    endDate = LocalDate.of(
+                        manga.completedAt?.year ?: 0,
+                        manga.completedAt?.month ?: 1,
+                        manga.completedAt?.day ?: 1
+                    ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                    rewatches = manga.repeat,
+                    review = manga.notes,
+                    private = manga.private,
+                    hideFromList = manga.hiddenFromStatusLists,
+                    favourite = manga.media?.isFavourite,
+                    type = "MANGA"
+                )
+                listenerEditList.onEditListListener(editList)
             }
         }
     }

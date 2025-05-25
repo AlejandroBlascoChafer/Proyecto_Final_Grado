@@ -16,7 +16,7 @@ import com.example.proyecto_final_grado.fragments.main.AnimeFragment
 import com.example.proyecto_final_grado.fragments.main.HomeFragment
 import com.example.proyecto_final_grado.fragments.main.MangaFragment
 import com.example.proyecto_final_grado.fragments.main.ProfileFragment
-import com.example.proyecto_final_grado.utils.SharedViewModel
+import com.example.proyecto_final_grado.viewmodels.SharedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 

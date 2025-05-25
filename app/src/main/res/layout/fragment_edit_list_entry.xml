@@ -16,12 +16,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textAppearance="?attr/textAppearanceTitleMedium" />
+            android:textAppearance="?attr/textAppearanceTitleLarge" />
 
         <!-- Status Spinner -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:text="Status"
             android:textAppearance="?attr/textAppearanceSubtitle1" />
 
@@ -30,21 +31,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Score -->
         <TextView
+            android:id="@+id/textViewScoreTitle"
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Score"
+            android:text="Score:"
             android:textAppearance="?attr/textAppearanceSubtitle1" />
 
-        <RatingBar
-            android:id="@+id/ratingBarScore"
+        <!-- Score Input -->
+        <TextView
+            android:id="@+id/textViewScore"
+            android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:numStars="10"
-            android:stepSize="1"
-            android:isIndicator="false" />
+            android:text=""
+            android:textAppearance="?attr/textAppearanceSubtitle1" />
+
 
         <!-- Review -->
         <TextView
@@ -110,14 +113,14 @@
             android:text="Rewatches"
             android:textAppearance="?attr/textAppearanceSubtitle1" />
 
+        <!-- Private Switch -->
         <NumberPicker
             android:id="@+id/numberPickerRewatches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minValue="0"
-            android:maxValue="99" />
 
-        <!-- Private Switch -->
+            />
+
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchPrivate"
             android:layout_marginTop="16dp"

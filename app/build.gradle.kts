@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.apollographql.apollo").version("4.2.0")
+    id("kotlin-parcelize")
 }
 
 apollo {

@@ -22,7 +22,7 @@ import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
 import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.utils.MarkdownUtils
-import com.example.proyecto_final_grado.utils.SharedViewModel
+import com.example.proyecto_final_grado.viewmodels.SharedViewModel
 import com.example.proyecto_final_grado.ui.openMediaDetailFragment
 import com.squareup.picasso.Picasso
 import graphql.UpdateFavouriteMutation

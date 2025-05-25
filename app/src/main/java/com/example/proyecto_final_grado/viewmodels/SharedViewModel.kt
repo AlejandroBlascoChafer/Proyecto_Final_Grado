@@ -1,4 +1,4 @@
-package com.example.proyecto_final_grado.utils
+package com.example.proyecto_final_grado.viewmodels
 
 import android.app.Application
 import android.util.Log
@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import graphql.GetUserProfileInfoQuery.*
 import graphql.type.MediaFormat
 import graphql.type.MediaSeason
+import java.util.Calendar
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -53,6 +54,25 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _trendingManga = MutableLiveData<List<GetTrendingMangaQuery.Medium?>?>()
     val trendingManga: LiveData<List<GetTrendingMangaQuery.Medium?>?> = _trendingManga
+
+
+    private val _season = MutableLiveData(getCurrentSeason())
+    val season: LiveData<MediaSeason> = _season
+
+    private val _year = MutableLiveData(Calendar.getInstance().get(Calendar.YEAR))
+    val year: LiveData<Int> = _year
+
+    private val _format = MutableLiveData(MediaFormat.TV)
+    val format: LiveData<MediaFormat> = _format
+
+    private val _sortBy = MutableLiveData("Popularity")
+    val sortBy: LiveData<String> = _sortBy
+
+    private val _sortOrder = MutableLiveData("Descending")
+    val sortOrder: LiveData<String> = _sortOrder
+
+    private val _seasonalAnimeList = MutableLiveData<List<GetSeasonalAnimeQuery.Medium?>>()
+    val seasonalAnimeList: LiveData<List<GetSeasonalAnimeQuery.Medium?>> = _seasonalAnimeList
 
         private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
@@ -192,6 +212,70 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
         networkResponse.data?.Page?.media?.let {
             _trendingManga.postValue(it)
+        }
+    }
+
+
+    fun setSeasonalFilters(
+        season: MediaSeason = _season.value ?: MediaSeason.WINTER,
+        year: Int = _year.value ?: Calendar.getInstance().get(Calendar.YEAR),
+        format: MediaFormat = _format.value ?: MediaFormat.TV,
+        sortBy: String = _sortBy.value ?: "Popularity",
+        sortOrder: String = _sortOrder.value ?: "Descending"
+    ) {
+        var changed = false
+        if (_season.value != season) { _season.value = season; changed = true }
+        if (_year.value != year) { _year.value = year; changed = true }
+        if (_format.value != format) { _format.value = format; changed = true }
+        if (_sortBy.value != sortBy) { _sortBy.value = sortBy; changed = true }
+        if (_sortOrder.value != sortOrder) { _sortOrder.value = sortOrder; changed = true }
+        if (changed) {
+            loadSeasonalAnime()
+        }
+    }
+
+    fun loadSeasonalAnime() {
+        val currentSeason = _season.value ?: MediaSeason.WINTER
+        val currentYear = _year.value ?: Calendar.getInstance().get(Calendar.YEAR)
+        val currentFormat = _format.value ?: MediaFormat.TV
+        val currentSortBy = _sortBy.value ?: "Popularity"
+        val currentSortOrder = _sortOrder.value ?: "Descending"
+
+        viewModelScope.launch {
+            try {
+                val response = apolloClient.query(
+                    GetSeasonalAnimeQuery(currentSeason, currentYear, currentFormat)
+                ).fetchPolicy(FetchPolicy.CacheFirst).execute()
+
+                val mediaList = response.data?.Page?.media?.filterNotNull() ?: emptyList()
+
+                val sortedList = mediaList.sortedWith(compareByDescending {
+                    when (currentSortBy) {
+                        "Popularity" -> it.popularity ?: 0
+                        "Score" -> it.meanScore ?: 0
+                        "Favorites" -> it.favourites ?: 0
+                        "Trending" -> it.trending ?: 0
+                        else -> 0
+                    }
+                })
+
+                val finalList = if (currentSortOrder == "Ascending") sortedList.reversed() else sortedList
+
+                _seasonalAnimeList.postValue(finalList)
+
+            } catch (e: Exception) {
+                _seasonalAnimeList.postValue(emptyList())
+            }
+        }
+    }
+    private fun getCurrentSeason(): MediaSeason {
+        val month = Calendar.getInstance().get(Calendar.MONTH) + 1
+        return when (month) {
+            in 1..3 -> MediaSeason.WINTER
+            in 4..6 -> MediaSeason.SPRING
+            in 7..9 -> MediaSeason.SUMMER
+            in 10..12 -> MediaSeason.FALL
+            else -> MediaSeason.WINTER
         }
     }
 }

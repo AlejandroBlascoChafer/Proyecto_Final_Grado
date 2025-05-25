@@ -16,7 +16,7 @@ import com.example.proyecto_final_grado.adapters.details.StudioAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentStudiosBinding
 import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
-import com.example.proyecto_final_grado.utils.SharedViewModel
+import com.example.proyecto_final_grado.viewmodels.SharedViewModel
 import com.example.proyecto_final_grado.ui.openMediaDetailFragment
 import graphql.GetStudioDetailQuery
 import graphql.UpdateFavouriteMutation
