@@ -12,6 +12,7 @@ query SearchAnimeMangaQuery($search: String, $type: MediaType) {
             favourites
             meanScore
             type
+            isAdult
         }
     }
 }

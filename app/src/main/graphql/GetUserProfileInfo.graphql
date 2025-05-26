@@ -5,6 +5,9 @@ query GetUserProfileInfo {
         mediaListOptions {
             scoreFormat
         }
+        options {
+            displayAdultContent
+        }
         name
         avatar {
             large

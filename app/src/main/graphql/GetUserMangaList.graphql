@@ -17,6 +17,7 @@ query GetUserMangaList($userName: String!) {
                     format
                     volumes
                     isFavourite
+                    isAdult
                 }
                 startedAt {
                     day

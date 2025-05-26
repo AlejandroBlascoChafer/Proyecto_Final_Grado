@@ -159,7 +159,7 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                     binding.producersTextView.visibility = View.GONE
                     binding.separatorStudios.visibility = View.GONE
 
-                    val mainCharacters = media?.characters?.edges?.filter { it?.role?.name == "MAIN" }
+
 
                     isFavourite = media?.isFavourite == true
                     updateFavouriteButtonStyle()
@@ -168,15 +168,24 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                         updateFavourite(mediaID)
                     }
 
+                    val mainCharacters = media?.characters?.edges?.filter { it?.role?.name == "MAIN" }
+
                     binding.charactersRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                         val characters = mainCharacters?.filterNotNull() ?: emptyList()
                         adapter = CharactersMediaAdapter(characters, this@MangaDetailsFragment)
                     }
 
+                    val mainStaff = media?.staff?.edges
+                        ?.filter { edge ->
+                            val role = edge?.role?.trim()?.lowercase() ?: return@filter false
+                            role == "story" || role == "art" || role == "story & art"
+                        }
+
+
                     binding.staffRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        val staff = media?.staff?.edges?.filterNotNull() ?: emptyList()
+                        val staff = mainStaff?.filterNotNull() ?: emptyList()
                         adapter = StaffAdapter(staff, this@MangaDetailsFragment)
                     }
 
@@ -200,13 +209,18 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
 
                     binding.showMoreCharacters.setOnClickListener{
                         val allCharactersFragment = AllCharactersFragment().apply {
-                            // Pasar el ID del anime al fragmento de detalle usando un Bundle
                             arguments = Bundle().apply {
                                 putInt("MEDIA_ID", mediaID)
                             }
                         }
-
-                        // Iniciar la transacción del fragmento
+                        (activity as? MainActivity)?.openDetailFragment(allCharactersFragment)
+                    }
+                    binding.showMoreStaff.setOnClickListener{
+                        val allCharactersFragment = AllStaffFragment().apply {
+                            arguments = Bundle().apply {
+                                putInt("MEDIA_ID", mediaID)
+                            }
+                        }
                         (activity as? MainActivity)?.openDetailFragment(allCharactersFragment)
                     }
                 }
@@ -254,6 +268,7 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
         val textColorRes = if (isFavourite) R.color.anitrack_fav_added_text else R.color.anitrack_white
 
         binding.favButton.apply {
+            text = if (isFavourite) "REMOVE FAVOURITE" else "SET AS FAVOURITE"
             setBackgroundColor(ContextCompat.getColor(context, bgColorRes))
             setTextColor(ContextCompat.getColor(context, textColorRes))
         }

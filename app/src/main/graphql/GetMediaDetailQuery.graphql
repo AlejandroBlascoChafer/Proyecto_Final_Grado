@@ -9,18 +9,28 @@ query GetMediaDetailQuery($id: Int!) {
         genres
         description(asHtml: false)
         characters(sort: [FAVOURITES_DESC]) {
-          edges {
-            role
-            node {
-              id
-              name {
-                userPreferred
-              }
-              image {
-                large
-              }
+            edges {
+                role
+                node {
+                    id
+                    name {
+                        userPreferred
+                    }
+                    image {
+                        large
+                    }
+                }
+                voiceActors {
+                    id
+                    name {
+                        userPreferred
+                    }
+                    image {
+                        large
+                    }
+                    languageV2
+                }
             }
-          }
         }
         title {
             english

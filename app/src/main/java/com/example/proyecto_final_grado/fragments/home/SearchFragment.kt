@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
@@ -28,6 +29,7 @@ import com.example.proyecto_final_grado.listeners.OnStaffClickListener
 import com.example.proyecto_final_grado.listeners.OnStudioClickListener
 import com.example.proyecto_final_grado.models.SearchItem
 import com.example.proyecto_final_grado.ui.openMediaDetailFragment
+import com.example.proyecto_final_grado.viewmodels.SharedViewModel
 import graphql.SearchAnimeMangaQuery
 import graphql.SearchCharactersQuery
 import graphql.SearchStaffQuery
@@ -49,7 +51,7 @@ class SearchFragment : Fragment(), OnCharacterClickListener, OnStaffClickListene
     private lateinit var adapter: SearchAdapter
     private var searchJob: Job? = null
     private lateinit var apolloClient: ApolloClient
-
+    private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -95,12 +97,13 @@ class SearchFragment : Fragment(), OnCharacterClickListener, OnStaffClickListene
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
         lifecycleScope.launch {
             try {
+                val allowAdult = viewModel.displayAdultContent.value == true
                 val response = when (category.lowercase()) {
                     "anime" -> {
                         apolloClient.query(
                             SearchAnimeMangaQuery(Optional.present(query), Optional.present(MediaType.ANIME))
                         ).execute().data?.Page?.media?.mapNotNull {
-                            it?.let { media ->
+                            it?.takeIf { media -> allowAdult || media.isAdult == false }?.let { media ->
                                 SearchItem.AnimeMangaItem(
                                     id = media.id,
                                     title = media.title?.userPreferred ?: "No title",
@@ -117,7 +120,7 @@ class SearchFragment : Fragment(), OnCharacterClickListener, OnStaffClickListene
                         apolloClient.query(
                             SearchAnimeMangaQuery(Optional.present(query), Optional.present(MediaType.MANGA))
                         ).execute().data?.Page?.media?.mapNotNull {
-                            it?.let { media ->
+                            it?.takeIf { media -> allowAdult || media.isAdult == false }?.let { media ->
                                 SearchItem.AnimeMangaItem(
                                     id = media.id,
                                     title = media.title?.userPreferred ?: "No title",

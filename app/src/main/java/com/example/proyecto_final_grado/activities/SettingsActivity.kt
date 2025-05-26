@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +32,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var apolloClient: ApolloClient
     private lateinit var sharedViewModel: SharedViewModel
 
+    private var initialSettings: UserSettingsSnapshot? = null
 
     private val titleLanguageOptions = listOf("ROMAJI", "ENGLISH", "NATIVE")
     private val scoreFormatOptions = listOf("POINT_10", "POINT_100", "POINT_10_DECIMAL", "POINT_5", "POINT_3")
@@ -42,8 +44,6 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-
-
         apolloClient = ApolloClientProvider.getApolloClient(this)
 
         binding.spinnerTitleLanguage.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, titleLanguageOptions).apply {
@@ -62,11 +62,13 @@ class SettingsActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = apolloClient.query(GetUserOptionsQuery()).execute()
+                val response = apolloClient.query(GetUserOptionsQuery()).fetchPolicy(FetchPolicy.NetworkOnly).execute()
                 val userOptions = response.data?.Viewer
 
                 if (userOptions != null) {
                     loadCurrentSettings(userOptions)
+                    // Guardamos una copia del estado inicial
+                    initialSettings = getCurrentSettingsSnapshot()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@SettingsActivity, "Error loading settings", Toast.LENGTH_SHORT).show()
@@ -75,16 +77,12 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun loadCurrentSettings(viewer: GetUserOptionsQuery.Viewer) {
-        val titleLanguage = viewer.options?.titleLanguage
-        Log.d("SettingsActivity", "Loading settings: titleLanguage=$titleLanguage")
-
-        val titleLangIndex = when (titleLanguage) {
+        val titleLangIndex = when (viewer.options?.titleLanguage) {
             UserTitleLanguage.ROMAJI -> 0
             UserTitleLanguage.ENGLISH -> 1
             UserTitleLanguage.NATIVE -> 2
             else -> 0
         }
-        // Forzar selección con animación (true)
         binding.spinnerTitleLanguage.setSelection(titleLangIndex, true)
 
         binding.switchAdultContent.isChecked = viewer.options?.displayAdultContent == true
@@ -110,6 +108,16 @@ class SettingsActivity : AppCompatActivity() {
         binding.switchAiringNotifications.isChecked = viewer.options?.airingNotifications == true
     }
 
+    private fun getCurrentSettingsSnapshot(): UserSettingsSnapshot {
+        return UserSettingsSnapshot(
+            titleLanguage = binding.spinnerTitleLanguage.selectedItem.toString(),
+            scoreFormat = binding.spinnerScoreFormat.selectedItem.toString(),
+            staffLanguage = binding.spinnerStaffNameLanguage.selectedItem.toString(),
+            adultContent = binding.switchAdultContent.isChecked,
+            airingNotifications = binding.switchAiringNotifications.isChecked
+        )
+    }
+
     private fun saveSettings() {
         val titleLanguageEnum = UserTitleLanguage.safeValueOf(binding.spinnerTitleLanguage.selectedItem.toString())
         val scoreFormatEnum = ScoreFormat.safeValueOf(binding.spinnerScoreFormat.selectedItem.toString())
@@ -119,8 +127,6 @@ class SettingsActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-
-                Log.d("SettingsActivity", "Sending mutation with titleLanguage=$titleLanguageEnum, displayAdultContent=$displayAdult, scoreFormat=$scoreFormatEnum, staffNameLanguage=$staffNameEnum, airingNotifications=$airingNotifications")
                 val response = apolloClient.mutation(
                     UpdateUserInfoMutation(
                         titleLanguage = titleLanguageEnum,
@@ -131,12 +137,8 @@ class SettingsActivity : AppCompatActivity() {
                     )
                 ).fetchPolicy(FetchPolicy.NetworkFirst).execute()
 
-                Log.d("SettingsActivity", "Mutation response: $response")
                 if (!response.hasErrors()) {
-                    Log.d("SettingsActivity", "Settings updated successfully.")
                     Toast.makeText(this@SettingsActivity, "Settings updated", Toast.LENGTH_SHORT).show()
-
-
                     val intent = Intent(this@SettingsActivity, SplashActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
@@ -149,5 +151,25 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-
+    override fun onBackPressed() {
+        val current = getCurrentSettingsSnapshot()
+        if (initialSettings != null && current != initialSettings) {
+            AlertDialog.Builder(this)
+                .setTitle("Cambios sin guardar")
+                .setMessage("Has realizado cambios. ¿Deseas salir sin guardar?")
+                .setPositiveButton("Salir") { _, _ -> super.onBackPressed() }
+                .setNegativeButton("Cancelar", null)
+                .show()
+        } else {
+            super.onBackPressed()
+        }
+    }
 }
+
+data class UserSettingsSnapshot(
+    val titleLanguage: String,
+    val scoreFormat: String,
+    val staffLanguage: String,
+    val adultContent: Boolean,
+    val airingNotifications: Boolean
+)

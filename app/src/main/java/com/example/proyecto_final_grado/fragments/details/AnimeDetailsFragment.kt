@@ -221,9 +221,17 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                         adapter = CharactersMediaAdapter(characters, this@AnimeDetailsFragment)
                     }
 
+                    val mainStaff = media?.staff?.edges
+                        ?.filter { edge ->
+                            val role = edge?.role?.trim()?.lowercase() ?: return@filter false
+                            role == "original creator".lowercase() || role == "director".lowercase()
+                        }
+
+                    Log.d("staff list", mainStaff.toString())
+
                     binding.staffRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        val staff = media?.staff?.edges?.filterNotNull() ?: emptyList()
+                        val staff = mainStaff?.filterNotNull() ?: emptyList()
                         adapter = StaffAdapter(staff, this@AnimeDetailsFragment)
                     }
 
@@ -247,14 +255,20 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
 
                     binding.showMoreCharacters.setOnClickListener{
                         val allCharactersFragment = AllCharactersFragment().apply {
-                            // Pasar el ID del anime al fragmento de detalle usando un Bundle
                             arguments = Bundle().apply {
                                 putInt("MEDIA_ID", mediaID)
                             }
                         }
-
-                        // Iniciar la transacción del fragmento
                         (activity as? MainActivity)?.openDetailFragment(allCharactersFragment)
+                    }
+
+                    binding.showMoreStaff.setOnClickListener{
+                        val allStaffFragment = AllStaffFragment().apply {
+                            arguments = Bundle().apply {
+                                putInt("MEDIA_ID", mediaID)
+                            }
+                        }
+                        (activity as? MainActivity)?.openDetailFragment(allStaffFragment)
                     }
 
 
@@ -313,6 +327,7 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
         val textColorRes = if (isFavourite) R.color.anitrack_fav_added_text else R.color.anitrack_white
 
         binding.favButton.apply {
+            text = if (isFavourite) "REMOVE FAVOURITE" else "SET AS FAVOURITE"
             setBackgroundColor(ContextCompat.getColor(context, bgColorRes))
             setTextColor(ContextCompat.getColor(context, textColorRes))
         }

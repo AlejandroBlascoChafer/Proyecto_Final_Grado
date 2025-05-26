@@ -75,6 +75,7 @@
     <string name="staff_name_language">Staff name language</string>
     <string name="airing_notifications">Airing notifications</string>
     <string name="save">SAVE</string>
+    <string name="seiyuu_image">Seiyuu Image</string>
     <string-array name="seasons_array">
         <item>WINTER</item>
         <item>SPRING</item>

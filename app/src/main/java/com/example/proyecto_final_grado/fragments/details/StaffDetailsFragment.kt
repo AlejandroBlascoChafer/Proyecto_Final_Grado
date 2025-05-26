@@ -177,6 +177,7 @@ class StaffDetailsFragment : Fragment(), OnMangaClickListener, OnAnimeClickListe
         val textColorRes = if (isFavourite) R.color.anitrack_fav_added_text else R.color.anitrack_white
 
         binding.favButton.apply {
+            text = if (isFavourite) "REMOVE FAVOURITE" else "SET AS FAVOURITE"
             setBackgroundColor(ContextCompat.getColor(context, bgColorRes))
             setTextColor(ContextCompat.getColor(context, textColorRes))
         }

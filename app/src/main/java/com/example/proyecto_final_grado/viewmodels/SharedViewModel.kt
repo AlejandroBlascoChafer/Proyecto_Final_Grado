@@ -76,8 +76,11 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _seasonalAnimeList = MutableLiveData<List<GetSeasonalAnimeQuery.Medium?>>()
     val seasonalAnimeList: LiveData<List<GetSeasonalAnimeQuery.Medium?>> = _seasonalAnimeList
 
-        private val _loading = MutableLiveData<Boolean>()
+    private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
+
+    private val _displayAdultContent = MutableLiveData<Boolean?>()
+    val displayAdultContent: MutableLiveData<Boolean?> = _displayAdultContent
 
     fun loadInitialData() {
         viewModelScope.launch {
@@ -120,6 +123,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _likedCharacters.postValue(it.favourites?.characters?.edges)
             _likedStaff.postValue(it.favourites?.staff?.edges)
             _likedStudio.postValue(it.favourites?.studios?.edges)
+            _displayAdultContent.postValue(it.options?.displayAdultContent)
         }
 
         // Red
@@ -134,11 +138,14 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _likedCharacters.postValue(it.favourites?.characters?.edges)
             _likedStaff.postValue(it.favourites?.staff?.edges)
             _likedStudio.postValue(it.favourites?.studios?.edges)
+            _displayAdultContent.postValue(it.options?.displayAdultContent)
         }
     }
 
     private suspend fun loadUserAnimeList(userName: String) {
         if (userName.isBlank()) return
+
+        val showAdult = displayAdultContent.value == true
 
         val cacheResponse = apolloClient.query(GetUserAnimeListQuery(userName))
             .fetchPolicy(FetchPolicy.CacheOnly)
@@ -146,7 +153,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
         cacheResponse.data?.MediaListCollection?.lists?.let {
             val entries = it.flatMap { list -> list?.entries ?: emptyList() }
-            _animeList.postValue(entries)
+            val filteredEntries = entries.filter { entry ->
+                showAdult || entry?.media?.isAdult == false
+            }
+            _animeList.postValue(filteredEntries)
         }
 
         val networkResponse = apolloClient.query(GetUserAnimeListQuery(userName))
@@ -155,12 +165,17 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
         networkResponse.data?.MediaListCollection?.lists?.let {
             val entries = it.flatMap { list -> list?.entries ?: emptyList() }
-            _animeList.postValue(entries)
+            val filteredEntries = entries.filter { entry ->
+                showAdult || entry?.media?.isAdult == false
+            }
+            _animeList.postValue(filteredEntries)
         }
     }
 
     private suspend fun loadUserMangaList(userName: String) {
         if (userName.isBlank()) return
+
+        val showAdult = displayAdultContent.value == true
 
         val cacheResponse = apolloClient.query(GetUserMangaListQuery(userName))
             .fetchPolicy(FetchPolicy.CacheOnly)
@@ -168,7 +183,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
         cacheResponse.data?.MediaListCollection?.lists?.let {
             val entries = it.flatMap { list -> list?.entries ?: emptyList() }
-            _mangaList.postValue(entries)
+            val filteredEntries = entries.filter { entry ->
+                showAdult || entry?.media?.isAdult == false
+            }
+            _mangaList.postValue(filteredEntries)
         }
 
         val networkResponse = apolloClient.query(GetUserMangaListQuery(userName))
@@ -177,17 +195,24 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
         networkResponse.data?.MediaListCollection?.lists?.let {
             val entries = it.flatMap { list -> list?.entries ?: emptyList() }
-            _mangaList.postValue(entries)
+            val filteredEntries = entries.filter { entry ->
+                showAdult || entry?.media?.isAdult == false
+            }
+            _mangaList.postValue(filteredEntries)
         }
     }
 
+
     private suspend fun loadTrendingAnime() {
+        val showAdult = displayAdultContent.value == true
+
         val cacheResponse = apolloClient.query(GetTrendingAnimeQuery())
             .fetchPolicy(FetchPolicy.CacheOnly)
             .execute()
 
         cacheResponse.data?.Page?.media?.let {
-            _trendingAnime.postValue(it)
+            val filtered = it.filter { media -> showAdult || media?.isAdult == false }
+            _trendingAnime.postValue(filtered)
         }
 
         val networkResponse = apolloClient.query(GetTrendingAnimeQuery())
@@ -195,17 +220,21 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             .execute()
 
         networkResponse.data?.Page?.media?.let {
-            _trendingAnime.postValue(it)
+            val filtered = it.filter { media -> showAdult || media?.isAdult == false }
+            _trendingAnime.postValue(filtered)
         }
     }
 
     private suspend fun loadTrendingManga() {
+        val showAdult = displayAdultContent.value == true
+
         val cacheResponse = apolloClient.query(GetTrendingMangaQuery())
             .fetchPolicy(FetchPolicy.CacheOnly)
             .execute()
 
         cacheResponse.data?.Page?.media?.let {
-            _trendingManga.postValue(it)
+            val filtered = it.filter { media -> showAdult || media?.isAdult == false }
+            _trendingManga.postValue(filtered)
         }
 
         val networkResponse = apolloClient.query(GetTrendingMangaQuery())
@@ -213,7 +242,8 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             .execute()
 
         networkResponse.data?.Page?.media?.let {
-            _trendingManga.postValue(it)
+            val filtered = it.filter { media -> showAdult || media?.isAdult == false }
+            _trendingManga.postValue(filtered)
         }
     }
 
@@ -242,6 +272,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         val currentFormat = _format.value ?: MediaFormat.TV
         val currentSortBy = _sortBy.value ?: "Popularity"
         val currentSortOrder = _sortOrder.value ?: "Descending"
+        val showAdult = displayAdultContent.value == true
 
         viewModelScope.launch {
             try {
@@ -249,7 +280,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                     GetSeasonalAnimeQuery(currentSeason, currentYear, currentFormat)
                 ).fetchPolicy(FetchPolicy.NetworkFirst).execute()
 
-                val mediaList = response.data?.Page?.media?.filterNotNull() ?: emptyList()
+                val mediaList = response.data?.Page?.media
+                    ?.filterNotNull()
+                    ?.filter { showAdult || it.isAdult == false }
+                    ?: emptyList()
 
                 val sortedList = mediaList.sortedWith(compareByDescending {
                     when (currentSortBy) {
@@ -270,6 +304,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
     }
+
     private fun getCurrentSeason(): MediaSeason {
         val month = Calendar.getInstance().get(Calendar.MONTH) + 1
         return when (month) {

@@ -65,10 +65,6 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
-//        sharedViewModel.userProfile.observe(viewLifecycleOwner) { viewer ->
-//            scoreFormat = viewer?.mediaListOptions?.scoreFormat?.rawValue.toString()
-//
-//        }
         setupRecyclerView()
         setupChipListeners()
 
@@ -130,7 +126,10 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
             val currentStatus = getSelectedStatus()
             val fullList = sharedViewModel.animeList.value
             val filteredList = fullList?.filter { it?.status?.name == currentStatus }
-            filteredList?.filterNotNull()?.let { animeAdapter.submitList(it) }
+            filteredList?.filterNotNull()?.let {
+                animeAdapter.submitList(it)
+                binding.animeRecyclerView.scrollToPosition(0)
+            }
         }
     }
 

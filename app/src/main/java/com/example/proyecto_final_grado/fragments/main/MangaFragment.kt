@@ -121,7 +121,10 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
             val currentStatus = getSelectedStatus()
             val fullList = sharedViewModel.mangaList.value
             val filteredList = fullList?.filter { it?.status?.name == currentStatus }
-            filteredList?.filterNotNull()?.let { mangaAdapter.submitList(it) }
+            filteredList?.filterNotNull()?.let {
+                mangaAdapter.submitList(it)
+                binding.mangaRecyclerView.scrollToPosition(0)
+            }
         }
     }
 

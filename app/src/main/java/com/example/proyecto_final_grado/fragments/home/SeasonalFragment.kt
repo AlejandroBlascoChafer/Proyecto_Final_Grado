@@ -45,14 +45,11 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Obtener valores iniciales desde argumentos o usar valores del viewModel
         val initialSeason = arguments?.getString("season") ?: viewModel.season.value?.name ?: "WINTER"
         val initialYear = arguments?.getInt("year") ?: viewModel.year.value ?: java.util.Calendar.getInstance().get(java.util.Calendar.YEAR)
 
-        // Inicializar UI con valores del ViewModel o argumentos
         setupUI(initialSeason, initialYear)
 
-        // Observamos la lista de animes seasonal y actualizamos adapter cuando cambie
         viewModel.seasonalAnimeList.observe(viewLifecycleOwner, Observer { animeList ->
             if (binding.animeRecyclerView.adapter == null) {
                 binding.animeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -60,9 +57,9 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
             } else {
                 (binding.animeRecyclerView.adapter as SeasonalAdapter).updateList(animeList)
             }
+            binding.animeRecyclerView.scrollToPosition(0)
         })
 
-        // También observamos cambios en filtros para reflejarlos en UI si fueran necesarios (opcional)
         viewModel.season.observe(viewLifecycleOwner) { season ->
             val index = seasonsList.indexOf(season.name)
             if (index >= 0 && binding.spinnerSeason.selectedItemPosition != index) {
@@ -106,7 +103,6 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
             }
         }
 
-        // Carga inicial (si no se ha cargado ya)
         if (viewModel.seasonalAnimeList.value.isNullOrEmpty()) {
             viewModel.loadSeasonalAnime()
         }
@@ -115,7 +111,6 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
     }
 
     private fun setupUI(initialSeason: String, initialYear: Int) {
-        // Inicializamos spinners y chips con valores iniciales del ViewModel o argumentos
         binding.spinnerSeason.adapter =
             ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, seasonsList)
         binding.spinnerSeason.setSelection(seasonsList.indexOf(initialSeason.uppercase()))
@@ -126,7 +121,6 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
         if (yearIndex >= 0) binding.spinnerYear.setSelection(yearIndex)
 
         binding.chipGroupFormat.setOnCheckedChangeListener(null)
-        // Se asume que el ViewModel ya tiene el valor o ponemos por defecto TV
         val currentFormat = viewModel.format.value ?: MediaFormat.TV
         val chipId = when (currentFormat) {
             MediaFormat.TV -> binding.chipTV.id
@@ -163,7 +157,6 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
         binding.spinnerSortOrder.adapter =
             ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, sortOrderOptions)
 
-        // Set selected index from ViewModel or defaults
         binding.spinnerSortBy.setSelection(sortByOptions.indexOf(viewModel.sortBy.value ?: "Popularity"))
         binding.spinnerSortOrder.setSelection(sortOrderOptions.indexOf(viewModel.sortOrder.value ?: "Descending"))
 
