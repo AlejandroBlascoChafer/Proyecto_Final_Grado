@@ -11,12 +11,16 @@ import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import graphql.GetUserProfileInfoQuery
 import graphql.UpdateProgressMutation
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
+import com.apollographql.apollo.exception.ApolloException
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.mainlist.MangaAdapter
@@ -33,6 +37,7 @@ import com.example.proyecto_final_grado.models.EditListEntryItem
 import com.example.proyecto_final_grado.session.SessionManager
 import com.example.proyecto_final_grado.viewmodels.SharedViewModel
 import com.example.proyecto_final_grado.ui.openMediaDetailFragment
+import graphql.GetUserMangaListQuery
 import graphql.UpdateScoreMutation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,6 +63,12 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
     ): View {
         _binding = FragmentMangaBinding.inflate(inflater, container, false)
         sessionManager = SessionManager(requireContext())
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            lifecycleScope.launch {
+                sharedViewModel.loadUserMangaList(sessionManager.getUsername().toString())
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
+        }
         return binding.root
     }
 
@@ -256,10 +267,8 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
                     .show()
             }
         }
-
-
-
     }
+
     override fun onMangaClick(mediaID: Int) {
         openMediaDetailFragment(mediaID) { MangaDetailsFragment() }
     }

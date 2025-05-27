@@ -36,15 +36,6 @@ class SplashActivity : AppCompatActivity() {
             }
         }
 
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            if (sessionManager.isLoggedIn()) {
-//                startActivity(Intent(this, MainActivity::class.java))
-//                finish()
-//            } else {
-//                startActivity(Intent(this, LoginActivity::class.java))
-//                finish()
-//            }
-//        }, 2000)
 
 
 

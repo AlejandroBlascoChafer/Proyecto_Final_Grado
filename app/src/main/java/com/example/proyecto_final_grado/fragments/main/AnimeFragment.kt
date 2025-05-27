@@ -11,12 +11,16 @@ import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import graphql.GetUserProfileInfoQuery
 import graphql.UpdateProgressMutation
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
+import com.apollographql.apollo.exception.ApolloException
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.mainlist.AnimeAdapter
@@ -33,6 +37,8 @@ import com.example.proyecto_final_grado.models.EditListEntryItem
 import com.example.proyecto_final_grado.session.SessionManager
 import com.example.proyecto_final_grado.viewmodels.SharedViewModel
 import com.example.proyecto_final_grado.ui.openMediaDetailFragment
+import graphql.GetUserAnimeListQuery
+import graphql.GetUserMangaListQuery
 import graphql.UpdateScoreMutation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,14 +58,18 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
-    private lateinit var scoreFormat: String
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAnimeBinding.inflate(inflater, container, false)
         sessionManager = SessionManager(requireContext())
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            lifecycleScope.launch {
+                sharedViewModel.loadUserAnimeList(sessionManager.getUsername().toString())
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
+        }
         return binding.root
     }
 
@@ -237,6 +247,7 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
 
 
     }
+
 
     override fun onAnimeClick(mediaID: Int) {
         openMediaDetailFragment(mediaID) { AnimeDetailsFragment() }

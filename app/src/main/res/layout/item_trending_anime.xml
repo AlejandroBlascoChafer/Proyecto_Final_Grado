@@ -99,7 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textSize="13sp"
-            android:textColor="@android:color/white"
             android:minLines="5"
             android:maxLines="5"
             android:ellipsize="end"

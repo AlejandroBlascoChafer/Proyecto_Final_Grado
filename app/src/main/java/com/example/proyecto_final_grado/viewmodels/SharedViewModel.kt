@@ -142,7 +142,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    private suspend fun loadUserAnimeList(userName: String) {
+    internal suspend fun loadUserAnimeList(userName: String) {
         if (userName.isBlank()) return
 
         val showAdult = displayAdultContent.value == true
@@ -172,7 +172,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    private suspend fun loadUserMangaList(userName: String) {
+    internal suspend fun loadUserMangaList(userName: String) {
         if (userName.isBlank()) return
 
         val showAdult = displayAdultContent.value == true
