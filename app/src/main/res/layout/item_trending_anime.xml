@@ -125,7 +125,6 @@
                 android:text=""
                 app:drawableStartCompat="@drawable/ic_star"
                 android:textSize="12sp"
-                android:textColor="@android:color/white"
                 android:layout_marginEnd="12dp" />
 
             <TextView
@@ -135,7 +134,7 @@
                 android:text=""
                 app:drawableStartCompat="@drawable/ic_heart"
                 android:textSize="12sp"
-                android:textColor="@android:color/white" />
+                 />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

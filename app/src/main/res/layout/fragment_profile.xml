@@ -2,8 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+    android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -107,7 +106,6 @@
                 android:text="Bio"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"
-                android:textColor="@color/textPrimary"
                 app:layout_constraintTop_toBottomOf="@id/usernameText"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -117,7 +115,6 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:layout_marginTop="4dp"
-                android:textColor="@color/textPrimary"
                 app:layout_constraintTop_toBottomOf="@id/bioTitle"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -125,35 +122,35 @@
                 android:id="@+id/statsGrid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:columnCount="2"
                 app:layout_constraintTop_toBottomOf="@id/bioText"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <!-- Aquí pones pares: título / valor -->
-                <TextView android:text="Total Anime" android:textColor="@color/textPrimary"/>
-                <TextView android:id="@+id/statTotalAnime" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+                <TextView android:text="Total Anime" />
+                <TextView android:id="@+id/statTotalAnime" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Episodes Watched" android:textColor="@color/textPrimary"/>
-                <TextView android:id="@+id/statEpisodes" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+                <TextView android:text="Episodes Watched"/>
+                <TextView android:id="@+id/statEpisodes" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Days Watched" android:textColor="@color/textPrimary"/>
-                <TextView android:id="@+id/statDays" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+                <TextView android:text="Days Watched"/>
+                <TextView android:id="@+id/statDays" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Anime Mean Score" android:textColor="@color/textPrimary"/>
-                <TextView android:id="@+id/statAnimeScore" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+                <TextView android:text="Anime Mean Score" />
+                <TextView android:id="@+id/statAnimeScore" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Total Manga" android:textColor="@color/textPrimary"/>
-                <TextView android:id="@+id/statTotalManga" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+                <TextView android:text="Total Manga" />
+                <TextView android:id="@+id/statTotalManga" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Chapters Read" android:textColor="@color/textPrimary"/>
-                <TextView android:id="@+id/statChapters" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+                <TextView android:text="Chapters Read" />
+                <TextView android:id="@+id/statChapters" android:text=""  android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Volumes Read" android:textColor="@color/textPrimary"/>
-                <TextView android:id="@+id/statVolumes" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+                <TextView android:text="Volumes Read" />
+                <TextView android:id="@+id/statVolumes" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Manga Mean Score" android:textColor="@color/textPrimary"/>
-                <TextView android:id="@+id/statMangaScore" android:text="" android:textColor="@color/textPrimary" android:layout_marginStart="10dp"/>
+                <TextView android:text="Manga Mean Score"/>
+                <TextView android:id="@+id/statMangaScore" android:text="" android:layout_marginStart="10dp"/>
 
             </GridLayout>
 
@@ -166,7 +163,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp"
-                android:textColor="@color/textPrimary" />
+                />
 
             <com.example.proyecto_final_grado.utils.HorizontalRecyclerView
                 android:id="@+id/favAnimeRecyclerView"
@@ -185,7 +182,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp"
-                android:textColor="@color/textPrimary" />
+                />
 
             <com.example.proyecto_final_grado.utils.HorizontalRecyclerView
                 android:id="@+id/favMangaRecyclerView"
@@ -204,7 +201,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp"
-                android:textColor="@color/textPrimary" />
+                 />
 
             <com.example.proyecto_final_grado.utils.HorizontalRecyclerView
                 android:id="@+id/favCharactersRecyclerView"
@@ -223,7 +220,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp"
-                android:textColor="@color/textPrimary" />
+                 />
 
             <com.example.proyecto_final_grado.utils.HorizontalRecyclerView
                 android:id="@+id/favStaffRecyclerView"
@@ -242,7 +239,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp"
-                android:textColor="@color/textPrimary" />
+                 />
 
             <com.example.proyecto_final_grado.utils.HorizontalRecyclerView
                 android:id="@+id/favStudioRecyclerView"

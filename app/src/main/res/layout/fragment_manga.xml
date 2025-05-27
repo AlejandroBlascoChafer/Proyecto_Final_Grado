@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mangaFragmentLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+    android:layout_height="match_parent">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -24,7 +23,6 @@
             android:text="@string/manga_list"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/textPrimary"
             android:layout_marginBottom="12dp"/>
 
         <com.google.android.material.chip.ChipGroup
