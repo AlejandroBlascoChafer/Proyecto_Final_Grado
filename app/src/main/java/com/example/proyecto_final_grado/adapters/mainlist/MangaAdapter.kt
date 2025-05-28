@@ -147,13 +147,13 @@ class MangaAdapter(
                     score = manga.score,
                     episode = manga.progress,
                     startDate = LocalDate.of(
-                        manga.startedAt?.year ?: 1970,
+                        manga.startedAt?.year ?: 1,
                         manga.startedAt?.month ?: 1,
                         manga.startedAt?.day ?: 1
                     ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
                     ,
                     endDate = LocalDate.of(
-                        manga.completedAt?.year ?: 0,
+                        manga.completedAt?.year ?: 1,
                         manga.completedAt?.month ?: 1,
                         manga.completedAt?.day ?: 1
                     ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
@@ -231,13 +231,13 @@ class MangaAdapter(
                     score = manga.score,
                     episode = manga.progress,
                     startDate = LocalDate.of(
-                        manga.startedAt?.year ?: 1970,
+                        manga.startedAt?.year ?: 1,
                         manga.startedAt?.month ?: 1,
                         manga.startedAt?.day ?: 1
                     ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
                     ,
                     endDate = LocalDate.of(
-                        manga.completedAt?.year ?: 0,
+                        manga.completedAt?.year ?: 1,
                         manga.completedAt?.month ?: 1,
                         manga.completedAt?.day ?: 1
                     ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),

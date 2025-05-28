@@ -2,6 +2,7 @@ package com.example.proyecto_final_grado.adapters.mainlist
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -141,13 +142,13 @@ class AnimeAdapter(
                     score = anime.score,
                     episode = anime.progress,
                     startDate = LocalDate.of(
-                            anime.startedAt?.year ?: 1970,
+                            anime.startedAt?.year ?: 1,
                             anime.startedAt?.month ?: 1,
                             anime.startedAt?.day ?: 1
                         ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
                     ,
                     endDate = LocalDate.of(
-                        anime.completedAt?.year ?: 0,
+                        anime.completedAt?.year ?: 1,
                         anime.completedAt?.month ?: 1,
                         anime.completedAt?.day ?: 1
                     ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
@@ -158,6 +159,7 @@ class AnimeAdapter(
                     favourite = anime.media?.isFavourite,
                     type = "ANIME"
                 )
+                Log.d("end date", anime.completedAt?.year.toString() + anime.completedAt?.month.toString() + anime.completedAt?.day.toString())
                 listenerEditList.onEditListListener(editList)
             }
         }
@@ -218,13 +220,13 @@ class AnimeAdapter(
                     score = anime.score,
                     episode = anime.progress,
                     startDate = LocalDate.of(
-                        anime.startedAt?.year ?: 1970,
+                        anime.startedAt?.year ?: 1,
                         anime.startedAt?.month ?: 1,
                         anime.startedAt?.day ?: 1
                     ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
                     ,
                     endDate = LocalDate.of(
-                        anime.completedAt?.year ?: 0,
+                        anime.completedAt?.year ?: 1,
                         anime.completedAt?.month ?: 1,
                         anime.completedAt?.day ?: 1
                     ).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
@@ -235,6 +237,7 @@ class AnimeAdapter(
                     favourite = anime.media?.isFavourite,
                     type = "ANIME"
                 )
+                Log.d("end date", anime.completedAt?.year.toString() + anime.completedAt?.month.toString() + anime.completedAt?.day.toString())
                 listenerEditList.onEditListListener(editList)
             }
         }
@@ -251,10 +254,8 @@ class AnimeAdapter(
     fun formatScore(score: Double?): String {
         if (score != null) {
             return if (score % 1.0 == 0.0) {
-                // Es entero, quitar decimales
                 score.toInt().toString()
             } else {
-                // Tiene decimales, mostrar tal cual (o con formato)
                 score.toString()
             }
         }

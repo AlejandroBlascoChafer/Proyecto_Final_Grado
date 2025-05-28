@@ -107,6 +107,7 @@
     <string name="weekly_calendar">Weekly Calendar</string>
     <string name="characterimage">CharacterImage</string>
     <string name="mediaimage">MediaImage</string>
+    <string name="show_my_list_only">Show My List Only</string>
     <string-array name="seasons_array">
         <item>WINTER</item>
         <item>SPRING</item>

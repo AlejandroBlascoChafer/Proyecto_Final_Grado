@@ -73,7 +73,7 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
         binding.spinnerStatus.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: android.widget.AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selected = parent.getItemAtPosition(position) as String
-                if (selected == "COMPLETED") {
+                if (selected == "COMPLETED" && binding.buttonEndDate.text == "Not established") {
                     val today = org.threeten.bp.LocalDate.now()
                     binding.buttonEndDate.text = today.toString()
                 }
@@ -93,27 +93,14 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
 
         binding.switchFavorite.isChecked = entry.favourite == true
 
-        val startLocalDate = Instant.ofEpochMilli(entry.startDate)
-            .atZone(ZoneId.systemDefault())
-            .toLocalDate()
-        binding.buttonStartDate.text = startLocalDate.toString()
-        binding.buttonStartDate.setOnClickListener {
-            showDatePickerDialog(binding.buttonStartDate)
-        }
-
-        val endLocalDate = Instant.ofEpochMilli(entry.endDate)
-            .atZone(ZoneId.systemDefault())
-            .toLocalDate()
-        if (endLocalDate.year == 0){
-            binding.buttonEndDate.text = "Not established"
-        } else {
-            binding.buttonEndDate.text = endLocalDate.toString()
-        }
+        binding.buttonStartDate.text = formatDate(entry.startDate)
+        binding.buttonEndDate.text = formatDate(entry.endDate)
         binding.buttonEndDate.setOnClickListener {
             showDatePickerDialog(binding.buttonEndDate)
         }
-
-
+        binding.buttonStartDate.setOnClickListener {
+            showDatePickerDialog(binding.buttonStartDate)
+        }
         binding.numberPickerRewatches.maxValue = 99
         binding.numberPickerRewatches.minValue = 0
         binding.numberPickerRewatches.value = entry.rewatches!!
@@ -134,7 +121,6 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
                         else -> MediaListStatus.CURRENT
                     }
 
-                    // Función auxiliar para parsear fecha de botón a FuzzyDateInput
                     fun parseDateToFuzzyDateInput(dateString: String): FuzzyDateInput {
                         if (dateString == "Not established") return FuzzyDateInput(Optional.absent(),Optional.absent(),Optional.absent())
                         val parts = dateString.split("-")
@@ -193,6 +179,15 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
 
 
     }
+
+    private fun formatDate(epochMilli: Long): String {
+        return if (epochMilli <= 1L) {
+            "Not established"
+        } else {
+            Instant.ofEpochMilli(epochMilli).atZone(ZoneId.systemDefault()).toLocalDate().toString()
+        }
+    }
+
 
     private fun showDatePickerDialog(button: Button) {
         val currentDateText = button.text.toString()

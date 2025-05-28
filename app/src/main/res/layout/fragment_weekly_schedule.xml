@@ -17,7 +17,7 @@
         android:id="@+id/buttonToggleUserList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="@string/show_my_list_only"
         style="?attr/materialButtonOutlinedStyle"
         app:cornerRadius="16dp"
         android:layout_margin="8dp" />
