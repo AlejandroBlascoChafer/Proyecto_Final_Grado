@@ -1,7 +1,7 @@
 package com.example.proyecto_final_grado.adapters.mainlist
 
-
-import android.os.Bundle
+import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -16,7 +16,6 @@ import com.example.proyecto_final_grado.listeners.OnScoreClickListener
 import com.example.proyecto_final_grado.models.EditListEntryItem
 import com.squareup.picasso.Picasso
 import graphql.type.MediaListStatus
-import kotlinx.coroutines.withContext
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneId
@@ -69,6 +68,7 @@ class AnimeAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(newList: List<GetUserAnimeListQuery.Entry>) {
         animeList = newList
         notifyDataSetChanged()
@@ -77,7 +77,7 @@ class AnimeAdapter(
     inner class FullViewHolder(private val binding: ItemMediaFullAnimeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        val context = binding.root.context
+        val context: Context = binding.root.context
         fun bind(anime: GetUserAnimeListQuery.Entry) {
             val totalEpisodes = anime.media?.episodes
             val episodesWatched = anime.progress ?: 0
@@ -98,11 +98,10 @@ class AnimeAdapter(
             }
 
             binding.progressBar.progress = percentage
-            val formatAiring: String
-            if (anime.media?.nextAiringEpisode != null ){
-                formatAiring = anime.media.format?.name + " · Ep " + anime.media.nextAiringEpisode.episode + " " + formatAiringDateCompat(anime.media.nextAiringEpisode.airingAt)
+            val formatAiring: String = if (anime.media?.nextAiringEpisode != null ){
+                anime.media.format?.name + " · Ep " + anime.media.nextAiringEpisode.episode + " " + formatAiringDateCompat(anime.media.nextAiringEpisode.airingAt)
             } else {
-                formatAiring = anime.media?.format?.name.toString()
+                anime.media?.format?.name.toString()
             }
             binding.tvTitle.text = anime.media?.title?.userPreferred
             binding.tvScore.text = formatScore(anime.score)
@@ -167,7 +166,7 @@ class AnimeAdapter(
     inner class SimpleViewHolder(private val binding: ItemMediaSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        val context = binding.root.context
+        val context: Context = binding.root.context
         fun bind(anime: GetUserAnimeListQuery.Entry) {
             val totalEpisodes = anime.media?.episodes
             val episodesWatched = anime.progress ?: 0

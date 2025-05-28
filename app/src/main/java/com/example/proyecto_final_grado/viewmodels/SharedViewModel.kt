@@ -79,6 +79,12 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
+    private val _loadingAnime = MutableLiveData<Boolean>()
+    val loadingAnime: LiveData<Boolean> = _loadingAnime
+
+    private val _loadingManga = MutableLiveData<Boolean>()
+    val loadingManga: LiveData<Boolean> = _loadingManga
+
     private val _displayAdultContent = MutableLiveData<Boolean?>()
     val displayAdultContent: MutableLiveData<Boolean?> = _displayAdultContent
 
@@ -87,17 +93,16 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _loading.postValue(true)
             try {
 
-                // Carga datos del perfil con cache primero y luego red
                 loadUserProfile()
 
-                // Carga trending anime y manga cache y red
                 loadTrendingAnime()
                 loadTrendingManga()
 
                 sessionManager.saveUsername(_userProfile.value?.name ?: "")
 
-                // Carga listas de anime y manga igual: cache y luego red
+                _loadingAnime.postValue(true)
                 loadUserAnimeList(sessionManager.getUsername() ?: "")
+                _loadingManga.postValue(true)
                 loadUserMangaList(sessionManager.getUsername() ?: "")
 
 
@@ -111,7 +116,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private suspend fun loadUserProfile() {
-        // Cache
         val cacheResponse = apolloClient.query(GetUserProfileInfoQuery())
             .fetchPolicy(FetchPolicy.CacheOnly)
             .execute()
@@ -126,7 +130,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _displayAdultContent.postValue(it.options?.displayAdultContent)
         }
 
-        // Red
         val networkResponse = apolloClient.query(GetUserProfileInfoQuery())
             .fetchPolicy(FetchPolicy.NetworkOnly)
             .execute()
@@ -170,6 +173,8 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             }
             _animeList.postValue(filteredEntries)
         }
+
+        _loadingAnime.postValue(false)
     }
 
     internal suspend fun loadUserMangaList(userName: String) {
@@ -200,6 +205,8 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             }
             _mangaList.postValue(filteredEntries)
         }
+
+        _loadingManga.postValue(false)
     }
 
 
@@ -278,7 +285,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             try {
                 val response = apolloClient.query(
                     GetSeasonalAnimeQuery(currentSeason, currentYear, currentFormat)
-                ).fetchPolicy(FetchPolicy.NetworkFirst).execute()
+                ).fetchPolicy(FetchPolicy.NetworkOnly).execute()
 
                 val mediaList = response.data?.Page?.media
                     ?.filterNotNull()

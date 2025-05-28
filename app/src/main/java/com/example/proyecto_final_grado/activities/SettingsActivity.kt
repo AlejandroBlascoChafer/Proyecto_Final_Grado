@@ -7,15 +7,11 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.lifecycleScope
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.cache.normalized.FetchPolicy
-import com.apollographql.apollo.cache.normalized.apolloStore
 import com.apollographql.apollo.cache.normalized.fetchPolicy
-import com.apollographql.apollo.exception.ApolloHttpException
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.ActivitySettingsBinding
 import com.example.proyecto_final_grado.viewmodels.SharedViewModel
@@ -62,16 +58,18 @@ class SettingsActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = apolloClient.query(GetUserOptionsQuery()).fetchPolicy(FetchPolicy.NetworkOnly).execute()
-                val userOptions = response.data?.Viewer
+                val response = apolloClient.query(GetUserOptionsQuery())
+                    .fetchPolicy(FetchPolicy.NetworkOnly)
+                    .execute()
 
+                val userOptions = response.data?.Viewer
                 if (userOptions != null) {
                     loadCurrentSettings(userOptions)
-                    // Guardamos una copia del estado inicial
-                    initialSettings = getCurrentSettingsSnapshot()
+                    initialSettings = captureCurrentSettings()
                 }
             } catch (e: Exception) {
-                Toast.makeText(this@SettingsActivity, "Error loading settings", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SettingsActivity, "Failed to load settings", Toast.LENGTH_SHORT).show()
+                Log.e("SettingsActivity", "Error loading user options", e)
             }
         }
     }
@@ -108,7 +106,7 @@ class SettingsActivity : AppCompatActivity() {
         binding.switchAiringNotifications.isChecked = viewer.options?.airingNotifications == true
     }
 
-    private fun getCurrentSettingsSnapshot(): UserSettingsSnapshot {
+    private fun captureCurrentSettings(): UserSettingsSnapshot {
         return UserSettingsSnapshot(
             titleLanguage = binding.spinnerTitleLanguage.selectedItem.toString(),
             scoreFormat = binding.spinnerScoreFormat.selectedItem.toString(),
@@ -138,27 +136,29 @@ class SettingsActivity : AppCompatActivity() {
                 ).fetchPolicy(FetchPolicy.NetworkFirst).execute()
 
                 if (!response.hasErrors()) {
-                    Toast.makeText(this@SettingsActivity, "Settings updated", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SettingsActivity, "Settings updated successfully", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@SettingsActivity, SplashActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                 } else {
                     Log.e("SettingsActivity", "Mutation errors: ${response.errors}")
+                    Toast.makeText(this@SettingsActivity, "Failed to update settings", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Log.e("SettingsActivity", "Mutation exception", e)
+                Toast.makeText(this@SettingsActivity, "Error updating settings", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     override fun onBackPressed() {
-        val current = getCurrentSettingsSnapshot()
-        if (initialSettings != null && current != initialSettings) {
+        val currentSettings = captureCurrentSettings()
+        if (initialSettings != null && currentSettings != initialSettings) {
             AlertDialog.Builder(this)
-                .setTitle("Cambios sin guardar")
-                .setMessage("Has realizado cambios. ¿Deseas salir sin guardar?")
-                .setPositiveButton("Salir") { _, _ -> super.onBackPressed() }
-                .setNegativeButton("Cancelar", null)
+                .setTitle("Unsaved Changes")
+                .setMessage("You have unsaved changes. Do you want to exit without saving?")
+                .setPositiveButton("Exit") { _, _ -> super.onBackPressed() }
+                .setNegativeButton("Cancel", null)
                 .show()
         } else {
             super.onBackPressed()

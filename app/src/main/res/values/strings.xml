@@ -32,7 +32,7 @@
     <string name="score_pop_favs">Score: 80 | Pop: 10000 | Favs: 500</string>
     <string name="format_status_source">TV | Finished | Manga</string>
     <string name="dates">Aired: 2019-04-01 to 2020-03-31</string>
-    <string name="studios">Studios: A-1 Pictures</string>
+    <string name="studios">Studios</string>
     <string name="characters">Characters</string>
     <string name="staff">Staff</string>
     <string name="relations">Relations</string>
@@ -76,6 +76,37 @@
     <string name="airing_notifications">Airing notifications</string>
     <string name="save">SAVE</string>
     <string name="seiyuu_image">Seiyuu Image</string>
+    <string name="language">Language</string>
+    <string name="character_name">Character Name</string>
+    <string name="set_as_favourite">Set as favourite</string>
+    <string name="voice_actors">Voice Actors</string>
+    <string name="media_appearances">Media appearances</string>
+    <string name="tags">Tags:</string>
+    <string name="status">Status</string>
+    <string name="review">Review</string>
+    <string name="favorite">Favorite</string>
+    <string name="start_date">Start Date</string>
+    <string name="set_start_date">Set Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="set_end_date">Set End Date</string>
+    <string name="rewatches">Rewatches</string>
+    <string name="private_text">Private</string>
+    <string name="hidden_from_status_list">Hidden from Status List</string>
+    <string name="cancel">Cancel</string>
+    <string name="config">Config</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="bio">Bio</string>
+    <string name="total_anime">Total Anime</string>
+    <string name="episodes_watched">Episodes Watched</string>
+    <string name="days_watched">Days Watched</string>
+    <string name="anime_mean_score">Anime Mean Score</string>
+    <string name="total_manga">Total Manga</string>
+    <string name="chapters_read">Chapters Read</string>
+    <string name="volumes_read">Volumes Read</string>
+    <string name="manga_mean_score">Manga Mean Score</string>
+    <string name="weekly_calendar">Weekly Calendar</string>
+    <string name="characterimage">CharacterImage</string>
+    <string name="mediaimage">MediaImage</string>
     <string-array name="seasons_array">
         <item>WINTER</item>
         <item>SPRING</item>

@@ -15,7 +15,6 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <!-- Imagen personaje -->
         <ImageView
             android:id="@+id/characterImage"
             android:layout_width="120dp"
@@ -24,7 +23,6 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/character_image" />
 
-        <!-- Nombre personaje -->
         <TextView
             android:id="@+id/characterName"
             android:layout_width="match_parent"
@@ -34,7 +32,6 @@
             android:textSize="16sp"
             android:paddingTop="4dp" />
 
-        <!-- Contenedor Seiyuu -->
         <LinearLayout
             android:id="@+id/layoutSeiyuu"
             android:layout_width="match_parent"
@@ -44,7 +41,6 @@
             android:paddingTop="8dp"
             android:paddingBottom="4dp">
 
-            <!-- Imagen seiyuu -->
             <ImageView
                 android:id="@+id/seiyuuImage"
                 android:layout_width="40dp"
@@ -55,7 +51,6 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 />
 
-            <!-- Nombre seiyuu -->
             <TextView
                 android:id="@+id/seiyuuName"
                 android:layout_width="0dp"

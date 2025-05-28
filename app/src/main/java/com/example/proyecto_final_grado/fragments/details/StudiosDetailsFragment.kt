@@ -6,11 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.adapters.details.StudioAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
@@ -51,7 +54,7 @@ class StudiosDetailsFragment : Fragment(), OnAnimeClickListener {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apolloClient.query(GetStudioDetailQuery(studioName)).execute()
+                val response = apolloClient.query(GetStudioDetailQuery(studioName)).fetchPolicy(FetchPolicy.NetworkOnly).execute()
                 val studio = response.data?.Studio
                 val studioID = studio?.id
 
@@ -73,7 +76,7 @@ class StudiosDetailsFragment : Fragment(), OnAnimeClickListener {
                     }
                 }
             } catch (e: Exception){
-                e.printStackTrace()
+                Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -110,7 +113,7 @@ class StudiosDetailsFragment : Fragment(), OnAnimeClickListener {
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
         }

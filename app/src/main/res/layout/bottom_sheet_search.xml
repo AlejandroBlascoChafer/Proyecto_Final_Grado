@@ -6,7 +6,8 @@
         android:id="@+id/optionAnime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Anime"
+        android:focusable="true"
+        android:text="@string/anime"
         android:padding="16dp"
         android:clickable="true"
         android:background="?attr/selectableItemBackground" />
@@ -15,7 +16,8 @@
         android:id="@+id/optionManga"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manga"
+        android:focusable="true"
+        android:text="@string/manga"
         android:padding="16dp"
         android:clickable="true"
         android:background="?attr/selectableItemBackground" />
@@ -24,7 +26,8 @@
         android:id="@+id/optionCharacters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Characters"
+        android:focusable="true"
+        android:text="@string/characters"
         android:padding="16dp"
         android:clickable="true"
         android:background="?attr/selectableItemBackground" />
@@ -33,7 +36,8 @@
         android:id="@+id/optionStaff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Staff"
+        android:focusable="true"
+        android:text="@string/staff"
         android:padding="16dp"
         android:clickable="true"
         android:background="?attr/selectableItemBackground" />
@@ -42,7 +46,8 @@
         android:id="@+id/optionStudios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Studios"
+        android:focusable="true"
+        android:text="@string/studios"
         android:padding="16dp"
         android:clickable="true"
         android:background="?attr/selectableItemBackground" />

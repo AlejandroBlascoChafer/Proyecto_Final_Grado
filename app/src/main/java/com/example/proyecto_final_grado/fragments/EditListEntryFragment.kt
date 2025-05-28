@@ -1,5 +1,6 @@
 package com.example.proyecto_final_grado.fragments
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
@@ -65,7 +66,6 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
 
         binding.mediaTitle.text = entry.title
 
-        // Status
         val statusOptions = listOf("CURRENT", "COMPLETED", "DROPPED", "PAUSED", "PLANNING")
         val statusAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, statusOptions)
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -84,18 +84,15 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
         val statusIndex = statusOptions.indexOf(entry.status)
         if (statusIndex != -1) binding.spinnerStatus.setSelection(statusIndex)
 
-        // Score
         binding.textViewScore.text = entry.score.toString()
         binding.textViewScore.setOnClickListener{
             entry.score?.let { it1 -> onScoreClick(it1, entry.mediaID, entry.status, binding.textViewScore) }
         }
-        // Review
+
         binding.editTextReview.setText(entry.review)
 
-        // Favorite switch
         binding.switchFavorite.isChecked = entry.favourite == true
 
-        // Start date
         val startLocalDate = Instant.ofEpochMilli(entry.startDate)
             .atZone(ZoneId.systemDefault())
             .toLocalDate()
@@ -104,7 +101,6 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
             showDatePickerDialog(binding.buttonStartDate)
         }
 
-        // End Date
         val endLocalDate = Instant.ofEpochMilli(entry.endDate)
             .atZone(ZoneId.systemDefault())
             .toLocalDate()
@@ -118,12 +114,10 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
         }
 
 
-        // Rewatches
         binding.numberPickerRewatches.maxValue = 99
         binding.numberPickerRewatches.minValue = 0
         binding.numberPickerRewatches.value = entry.rewatches!!
 
-        // Private and Hidden
         binding.switchPrivate.isChecked = entry.private == true
         binding.switchHidden.isChecked = entry.hideFromList == true
 
@@ -210,7 +204,6 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
 
         val datePicker = android.app.DatePickerDialog(requireContext(),
             { _, year, month, dayOfMonth ->
-                // month es 0-based en DatePickerDialog, por eso sumamos 1 para la cadena ISO
                 val selectedDate = org.threeten.bp.LocalDate.of(year, month + 1, dayOfMonth)
                 button.text = selectedDate.toString()
             },
@@ -222,6 +215,7 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onScoreClick(score: Double, mediaId: Int, status: String, scoreText: TextView) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_score, null)
         val binding = DialogScoreBinding.bind(dialogView)
@@ -246,7 +240,7 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
                     "POINT_10" -> 10 to 1
                     "POINT_5" -> 5 to 1
                     "POINT_3" -> 3 to 1
-                    else -> 100 to 1 // fallback
+                    else -> 100 to 1
                 }
 
                 binding.seekBarScore.max = max
@@ -274,9 +268,9 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
                 })
 
                 AlertDialog.Builder(context)
-                    .setTitle("Cambiar puntuación")
+                    .setTitle("Change Score")
                     .setView(binding.root)
-                    .setPositiveButton("Aceptar") { _, _ ->
+                    .setPositiveButton("OK") { _, _ ->
                         val value = binding.seekBarScore.progress
                         val finalScore = when (scoreFormat) {
                             "POINT_10_DECIMAL" -> value / 10f
@@ -284,7 +278,7 @@ class EditListEntryFragment : Fragment(), OnScoreClickListener {
                         }
                         scoreText.text = finalScore.toString()
                     }
-                    .setNegativeButton("Cancelar", null)
+                    .setNegativeButton("Cancel", null)
                     .show()
             }
         }

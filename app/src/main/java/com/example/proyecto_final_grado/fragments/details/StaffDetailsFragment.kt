@@ -6,12 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.adapters.details.CharactersStaffAdapter
 import com.example.proyecto_final_grado.adapters.details.MediaStaffAdapter
@@ -66,7 +69,7 @@ class StaffDetailsFragment : Fragment(), OnMangaClickListener, OnAnimeClickListe
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
         lifecycleScope.launch {
             try {
-                val response = apolloClient.query(GetStaffDetailQuery(mediaID)).execute()
+                val response = apolloClient.query(GetStaffDetailQuery(mediaID)).fetchPolicy(FetchPolicy.NetworkOnly).execute()
 
                 val staff = response.data?.Staff
                 if (staff != null){
@@ -134,8 +137,7 @@ class StaffDetailsFragment : Fragment(), OnMangaClickListener, OnAnimeClickListe
                 }
 
             } catch (e: Exception) {
-                e.printStackTrace()
-                // Manejo de errores (opcional: mostrar un mensaje o una vista vacía)
+                Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -164,7 +166,7 @@ class StaffDetailsFragment : Fragment(), OnMangaClickListener, OnAnimeClickListe
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
         }

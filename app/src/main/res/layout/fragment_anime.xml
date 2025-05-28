@@ -17,7 +17,6 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <!-- Título -->
             <TextView
                 android:id="@+id/tvAnimeTitle"
                 android:layout_width="wrap_content"
@@ -25,9 +24,9 @@
                 android:text="@string/anime_list"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="12dp"
+                android:layout_gravity="center"/>
 
-            <!-- Chips de filtro -->
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroupStatus"
                 android:layout_width="match_parent"
@@ -65,7 +64,6 @@
 
             </com.google.android.material.chip.ChipGroup>
 
-            <!-- Lista de animes -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/animeRecyclerView"
                 android:layout_width="match_parent"
@@ -93,13 +91,16 @@
             android:id="@+id/progressCircle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            app:indicatorColor="#FF9800"
+            app:trackColor="#FF9800"/>
         <TextView
             android:id="@+id/loadingText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/loading"
-            android:textColor="@color/textSecondary"
+            android:textColor="#FF9800"
             android:textSize="14sp"
             android:layout_marginTop="12dp"/>
     </LinearLayout>

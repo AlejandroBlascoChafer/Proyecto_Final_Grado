@@ -12,10 +12,10 @@
     <color name="textSecondary">#B0BEC5</color>
 
     <!-- Backgrounds -->
-    <color name="background">#3A3737</color> <!-- Fondo general -->
-    <color name="surfaceColor">#1E1E1E</color>     <!-- Tarjetas o paneles -->
-    <color name="profileBackground">#1A1A1A</color> <!-- Fondo específico del perfil -->
-    <color name="circleBackground">#2A2F3D</color> <!-- Fondo circular detrás del avatar -->
+    <color name="background">#3A3737</color>
+    <color name="surfaceColor">#1E1E1E</color>
+    <color name="profileBackground">#1A1A1A</color>
+    <color name="circleBackground">#2A2F3D</color>
 
     <!-- Others -->
     <color name="dividerColor">#333C57</color>
@@ -29,7 +29,7 @@
     <color name="anitrack_blue_light">#BBDEFB</color>
     <color name="anitrack_white">#FFFFFF</color>
 
-    <color name="anitrack_fav_added_bg">#FFEB3B</color> <!-- amarillo estilo "favorito" -->
+    <color name="anitrack_fav_added_bg">#FFEB3B</color>
     <color name="anitrack_fav_added_text">#000000</color>
 
 </resources>

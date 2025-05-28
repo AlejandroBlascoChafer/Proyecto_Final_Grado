@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Banner como fondo -->
         <ImageView
             android:id="@+id/bannerImageView"
             android:layout_width="0dp"
@@ -49,12 +48,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!-- Cover Image -->
                 <ImageView
                     android:id="@+id/coverImageView"
                     android:layout_width="120dp"
                     android:layout_height="180dp"
                     android:layout_marginTop="16dp"
+                    android:contentDescription="@string/cover"
                     android:scaleType="centerCrop"
                     android:layout_gravity="center"/>
 
@@ -65,7 +64,6 @@
                     android:layout_gravity="center"
                     >
 
-                    <!-- Title -->
                     <TextView
                         android:id="@+id/titleTextView"
                         android:layout_width="match_parent"
@@ -77,7 +75,6 @@
                         android:textColor="@color/title_text_color"
                         />
 
-                    <!-- Native Title -->
                     <TextView
                         android:id="@+id/nativeTitleTextView"
                         android:layout_width="match_parent"
@@ -96,10 +93,9 @@
                 android:id="@+id/favButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Set as favourite"
+                android:text="@string/set_as_favourite"
                 style="@style/AniTrackButton.Default"/>
 
-            <!-- Description -->
             <TextView
                 android:id="@+id/synopsisTextView"
                 android:layout_width="match_parent"
@@ -136,17 +132,15 @@
                 android:layout_height="wrap_content"
                 android:scrollbars="none">
 
-                <!-- Genres -->
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/genresChipGroup"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     app:singleLine="true"
                     app:chipSpacing="8dp" />
             </HorizontalScrollView>
 
-            <!-- Score, Popularity, Favourites -->
             <TextView
                 android:id="@+id/scoreTextView"
                 android:layout_width="match_parent"
@@ -154,7 +148,7 @@
                 android:text=""
                 android:layout_marginTop="8dp" />
 
-            <!-- Format, Status, Source -->
+
             <TextView
                 android:id="@+id/formatTextView"
                 android:layout_width="match_parent"
@@ -162,7 +156,6 @@
                 android:text=""
                 android:layout_marginTop="8dp" />
 
-            <!-- Dates -->
             <TextView
                 android:id="@+id/dateTextView"
                 android:layout_width="match_parent"
@@ -177,7 +170,6 @@
                 android:background="@android:color/darker_gray"
                 android:layout_marginVertical="8dp"/>
 
-            <!-- Studios -->
             <TextView
                 android:id="@+id/studiosTextView"
                 android:layout_width="match_parent"
@@ -199,7 +191,6 @@
                 android:background="@android:color/darker_gray"
                 android:layout_marginVertical="8dp" />
 
-            <!-- Synonyms -->
             <TextView
                 android:id="@+id/synonymsTextView"
                 android:layout_width="match_parent"
@@ -214,12 +205,11 @@
                 android:background="@android:color/darker_gray"
                 android:layout_marginVertical="8dp" />
 
-            <!-- Tags -->
             <TextView
                 android:id="@+id/tagTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tags:"
+                android:text="@string/tags"
                 android:layout_marginTop="8dp" />
 
             <TextView
@@ -270,7 +260,7 @@
                     android:clickable="true"/>
             </LinearLayout>
 
-            <!-- Characters RecyclerView -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/charactersRecyclerView"
                 android:layout_width="match_parent"
@@ -291,7 +281,6 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="16dp">
 
-                <!-- Staff RecyclerView -->
                 <TextView
                     android:id="@+id/staffTitle"
                     android:layout_width="0dp"
@@ -325,7 +314,7 @@
                 android:background="@android:color/darker_gray"
                 android:layout_marginVertical="8dp" />
 
-            <!-- Relations RecyclerView -->
+
             <TextView
                 android:id="@+id/relationsTitle"
                 android:layout_width="wrap_content"
@@ -348,7 +337,7 @@
                 android:background="@android:color/darker_gray"
                 android:layout_marginVertical="8dp" />
 
-            <!-- Recommendations RecyclerView -->
+
             <TextView
                 android:id="@+id/recommendationsTitle"
                 android:layout_width="wrap_content"
@@ -371,7 +360,7 @@
                 android:background="@android:color/darker_gray"
                 android:layout_marginVertical="8dp" />
 
-            <!-- External Links -->
+
             <TextView
                 android:id="@+id/externalLinksTitle"
                 android:layout_width="wrap_content"

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -18,12 +17,11 @@
             android:text=""
             android:textAppearance="?attr/textAppearanceTitleLarge" />
 
-        <!-- Status Spinner -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Status"
+            android:text="@string/status"
             android:textAppearance="?attr/textAppearanceSubtitle1" />
 
         <Spinner
@@ -36,10 +34,9 @@
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Score:"
+            android:text="@string/score"
             android:textAppearance="?attr/textAppearanceSubtitle1" />
 
-        <!-- Score Input -->
         <TextView
             android:id="@+id/textViewScore"
             android:layout_marginTop="16dp"
@@ -49,12 +46,11 @@
             android:textAppearance="?attr/textAppearanceSubtitle1" />
 
 
-        <!-- Review -->
         <TextView
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Review"
+            android:text="@string/review"
             android:textAppearance="?attr/textAppearanceSubtitle1" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -69,51 +65,46 @@
                 android:inputType="textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Favorite Switch -->
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchFavorite"
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Favorite" />
+            android:text="@string/favorite" />
 
-        <!-- Start Date -->
         <TextView
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Date"
+            android:text="@string/start_date"
             android:textAppearance="?attr/textAppearanceSubtitle1" />
 
         <Button
             android:id="@+id/buttonStartDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Set Start Date" />
+            android:text="@string/set_start_date" />
 
-        <!-- End Date -->
         <TextView
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="End Date"
+            android:text="@string/end_date"
             android:textAppearance="?attr/textAppearanceSubtitle1" />
 
         <Button
             android:id="@+id/buttonEndDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Set End Date" />
+            android:text="@string/set_end_date" />
 
-        <!-- Rewatches -->
         <TextView
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rewatches"
+            android:text="@string/rewatches"
             android:textAppearance="?attr/textAppearanceSubtitle1" />
 
-        <!-- Private Switch -->
         <NumberPicker
             android:id="@+id/numberPickerRewatches"
             android:layout_width="wrap_content"
@@ -126,18 +117,17 @@
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Private" />
+            android:text="@string/private_text" />
 
-        <!-- Hidden Switch -->
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchHidden"
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hidden from Status List" />
+            android:text="@string/hidden_from_status_list" />
 
-        <!-- Buttons -->
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_marginTop="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,17 +136,19 @@
 
             <Button
                 android:id="@+id/buttonCancel"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancel" />
+                android:text="@string/cancel" />
 
             <Button
                 android:id="@+id/buttonSave"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_marginStart="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save" />
+                android:text="@string/save" />
         </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

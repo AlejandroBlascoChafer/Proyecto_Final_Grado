@@ -9,7 +9,7 @@ class SessionManager(context: Context) {
 
     companion object {
         private const val ACCESS_TOKEN = "access_token"
-        private val KEY_USERNAME = "username"
+        private const val KEY_USERNAME = "username"
     }
 
     fun saveAccessToken(token: String) {

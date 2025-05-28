@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!-- Imagen sin padding -->
         <ImageView
             android:id="@+id/ivCover"
             android:layout_width="100dp"
@@ -21,7 +20,6 @@
             android:contentDescription="@string/cover"
             android:adjustViewBounds="true" />
 
-        <!-- Contenido con padding -->
         <LinearLayout
             android:id="@+id/layoutEdit"
             android:layout_width="0dp"
@@ -30,7 +28,6 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <!-- Título -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
@@ -49,7 +46,7 @@
                 android:textSize="13sp"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
-            <!-- Fila inferior: Score + Contenedores -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +54,6 @@
                 android:gravity="center_vertical"
                 android:layout_marginTop="40dp">
 
-                <!-- Score con icono -->
                 <TextView
                     android:id="@+id/tvScore"
                     android:layout_width="0dp"
@@ -74,14 +70,12 @@
                     android:paddingEnd="4dp"
                     app:drawableStartCompat="@drawable/ic_star" />
 
-                <!-- Contenedor capítulos y volúmenes -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="end">
 
-                    <!-- Episodios -->
                     <LinearLayout
                         android:id="@+id/episodeLayout"
                         android:layout_width="wrap_content"
@@ -99,7 +93,6 @@
 
                     </LinearLayout>
 
-                    <!-- Volúmenes -->
                     <LinearLayout
                         android:id="@+id/volumeLayout"
                         android:layout_width="wrap_content"
@@ -121,7 +114,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Barra de progreso al fondo -->
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleHorizontal"

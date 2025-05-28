@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.databinding.ItemCharacterBinding
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.squareup.picasso.Picasso

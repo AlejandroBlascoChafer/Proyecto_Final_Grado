@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -89,7 +90,7 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
 
 
 
-        sharedViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+        sharedViewModel.loadingAnime.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading == true) {
                 binding.loadingLayout.apply {
                     visibility = View.VISIBLE
@@ -156,7 +157,7 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -170,11 +171,11 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response: ApolloResponse<GetUserProfileInfoQuery.Data> = apolloClient.query(GetUserProfileInfoQuery()).execute()
+                val response: ApolloResponse<GetUserProfileInfoQuery.Data> = apolloClient.query(GetUserProfileInfoQuery()).fetchPolicy(FetchPolicy.NetworkOnly).execute()
                 scoreFormat = response.data?.Viewer?.mediaListOptions?.scoreFormat.toString()
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -213,9 +214,9 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
                 })
 
                 AlertDialog.Builder(context)
-                    .setTitle("Cambiar puntuación")
+                    .setTitle("Change Score")
                     .setView(binding.root)
-                    .setPositiveButton("Aceptar") { _, _ ->
+                    .setPositiveButton("OK") { _, _ ->
                         val value = binding.seekBarScore.progress
                         val finalScore = when (scoreFormat) {
                             "POINT_10_DECIMAL" -> value / 10f
@@ -235,12 +236,12 @@ class AnimeFragment : Fragment(), OnAddEpClickListener, OnScoreClickListener, On
                                 }
                             } catch (e: Exception) {
                                 withContext(Dispatchers.Main) {
-                                    Log.d("Error", "Error al actualizar puntuación: ${e.message}")
+                                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }
                     }
-                    .setNegativeButton("Cancelar", null)
+                    .setNegativeButton("Cancel", null)
                     .show()
             }
         }

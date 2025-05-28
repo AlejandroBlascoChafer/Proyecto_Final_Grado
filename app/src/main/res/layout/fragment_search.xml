@@ -22,7 +22,8 @@
         android:padding="12dp"
         android:inputType="text"
         android:imeOptions="actionSearch"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:labelFor="@+id/searchEditText"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSearch"

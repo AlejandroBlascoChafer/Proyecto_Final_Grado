@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!-- Imagen sin padding -->
         <ImageView
             android:id="@+id/ivCover"
             android:layout_width="100dp"
@@ -21,7 +20,6 @@
             android:contentDescription="@string/cover"
             android:adjustViewBounds="true" />
 
-        <!-- Contenido con padding -->
         <LinearLayout
             android:id="@+id/layoutEdit"
             android:layout_width="0dp"
@@ -30,7 +28,6 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <!-- Título -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
@@ -42,7 +39,6 @@
                 android:ellipsize="end"
                 android:textSize="15sp" />
 
-            <!-- Media (ANIME / MANGA) -->
             <TextView
                 android:id="@+id/tvMedia"
                 android:layout_width="wrap_content"
@@ -52,7 +48,6 @@
                 android:textStyle="bold"
                 android:layout_marginTop="2dp" />
 
-            <!-- Fila inferior: Score + Contenedores -->
             <LinearLayout
                 android:id="@+id/layoutContainers"
                 android:layout_width="match_parent"
@@ -61,7 +56,6 @@
                 android:gravity="center_vertical"
                 android:layout_marginTop="4dp">
 
-                <!-- Score con icono -->
                 <TextView
                     android:id="@+id/tvScore"
                     android:layout_width="0dp"
@@ -78,14 +72,12 @@
                     android:paddingEnd="4dp"
                     app:drawableStartCompat="@drawable/ic_star" />
 
-                <!-- Contenedor capítulos y volúmenes -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="end">
 
-                    <!-- Episodios -->
                     <LinearLayout
                         android:id="@+id/episodeLayout"
                         android:layout_width="wrap_content"
@@ -116,7 +108,6 @@
                             style="@style/Widget.Material3.Button" />
                     </LinearLayout>
 
-                    <!-- Volúmenes -->
                     <LinearLayout
                         android:id="@+id/volumeLayout"
                         android:layout_width="wrap_content"

@@ -6,11 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.adapters.details.CharactersMediaAdapter
 import com.example.proyecto_final_grado.adapters.details.RelationsAdapter
@@ -69,7 +72,7 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apolloClient.query(GetMediaDetailQuery(mediaID)).execute()
+                val response = apolloClient.query(GetMediaDetailQuery(mediaID)).fetchPolicy(FetchPolicy.NetworkOnly).execute()
                 val media = response.data?.Media
 
                 withContext(Dispatchers.Main) {
@@ -94,14 +97,13 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                         isExpanded = !isExpanded
                     }
 
-                    binding.genresChipGroup.removeAllViews()  // Limpiar chips previos
+                    binding.genresChipGroup.removeAllViews()
 
                     media?.genres?.forEach { genre ->
                         val chip = Chip(binding.genresChipGroup.context).apply {
                             text = genre
                             isClickable = false
                             isCheckable = false
-                            // Si quieres, puedes aplicar estilo o color aquí
                         }
                         binding.genresChipGroup.addView(chip)
                     }
@@ -204,7 +206,7 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                     binding.externalLinksRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                         val links = media?.externalLinks?.filterNotNull() ?: emptyList()
-                        adapter = ExternalLinksAdapter(links, this@MangaDetailsFragment, this@MangaDetailsFragment)
+                        adapter = ExternalLinksAdapter(links)
                     }
 
                     binding.showMoreCharacters.setOnClickListener{
@@ -226,7 +228,7 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.e("Error", "Error fetching manga details: ${e.message}")
+                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -255,7 +257,7 @@ class MangaDetailsFragment : Fragment(), OnCharacterClickListener, OnMangaClickL
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
         }

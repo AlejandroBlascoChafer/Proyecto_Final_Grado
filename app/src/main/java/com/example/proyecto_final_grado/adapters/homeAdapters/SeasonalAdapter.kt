@@ -1,5 +1,6 @@
 package com.example.proyecto_final_grado.adapters.homeAdapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -46,6 +47,7 @@ class SeasonalAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(newList: List<GetSeasonalAnimeQuery.Medium?>) {
         animeList = newList
         notifyDataSetChanged()

@@ -34,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
+        // Launch OAuth authorization in external browser when login button is clicked
         binding.loginButton.setOnClickListener {
             val authUri = Uri.parse(Constants.AUTH_URL)
                 .buildUpon()

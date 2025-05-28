@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -12,6 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.adapters.details.MediaCharacterAdapter
 import com.example.proyecto_final_grado.adapters.details.SeiyuuAdapter
@@ -67,7 +70,7 @@ class CharacterDetailsFragment : Fragment(), OnAnimeClickListener, OnMangaClickL
 
         lifecycleScope.launch {
             try {
-                val response = apolloClient.query(GetCharacterDetailQuery(characterId)).execute()
+                val response = apolloClient.query(GetCharacterDetailQuery(characterId)).fetchPolicy(FetchPolicy.NetworkOnly).execute()
 
                 val character = response.data?.Character
                 if (character != null) {
@@ -120,8 +123,7 @@ class CharacterDetailsFragment : Fragment(), OnAnimeClickListener, OnMangaClickL
                 }
 
             } catch (e: Exception) {
-                e.printStackTrace()
-                // Manejo de errores (opcional: mostrar un mensaje o una vista vacía)
+                Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -149,7 +151,7 @@ class CharacterDetailsFragment : Fragment(), OnAnimeClickListener, OnMangaClickL
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
         }

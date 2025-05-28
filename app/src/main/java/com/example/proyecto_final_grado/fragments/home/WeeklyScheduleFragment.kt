@@ -6,12 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import com.apollographql.apollo.cache.normalized.FetchPolicy
-import com.apollographql.apollo.cache.normalized.apolloStore
 import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.adapters.homeAdapters.WeeklyScheduleAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
@@ -36,7 +36,6 @@ class WeeklyScheduleFragment : Fragment(), OnAnimeClickListener {
     private lateinit var apolloClient: ApolloClient
     private lateinit var adapter: WeeklyScheduleAdapter
 
-    // Cambiar esto con un botón más adelante
     private var onlyOnList = true
 
     override fun onCreateView(
@@ -68,7 +67,7 @@ class WeeklyScheduleFragment : Fragment(), OnAnimeClickListener {
             try {
                 val response = apolloClient.query(
                     GetAiringScheduleQuery(onList = Optional.presentIfNotNull(onlyOnList.takeIf { it }))
-                ).fetchPolicy(FetchPolicy.NetworkFirst).execute()
+                ).fetchPolicy(FetchPolicy.NetworkOnly).execute()
 
 
 
@@ -105,7 +104,7 @@ class WeeklyScheduleFragment : Fragment(), OnAnimeClickListener {
                 adapter.submitList(result)
 
             } catch (e: Exception) {
-                Log.e("WeeklySchedule", "Error loading schedule", e)
+                Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -79,14 +79,12 @@ class ProfileFragment : Fragment(), OnCharacterClickListener, OnStaffClickListen
                 Picasso.get().load(viewer.bannerImage).into(binding.backgroundImage)
                 binding.bioText.text = viewer.about
 
-                // Estadísticas de anime
                 binding.statTotalAnime.text = viewer.statistics?.anime?.count?.toString() ?: "0"
                 binding.statEpisodes.text = viewer.statistics?.anime?.episodesWatched?.toString() ?: "0"
                 val daysWatched = viewer.statistics?.anime?.minutesWatched?.toDouble()?.div(60 * 24) ?: 0.0
                 binding.statDays.text = String.format(Locale.getDefault(), "%.1f", daysWatched)
                 binding.statAnimeScore.text = viewer.statistics?.anime?.meanScore?.toString() ?: "-"
 
-                // Estadísticas de manga
                 binding.statTotalManga.text = viewer.statistics?.manga?.count?.toString() ?: "0"
                 binding.statChapters.text = viewer.statistics?.manga?.chaptersRead?.toString() ?: "0"
                 binding.statVolumes.text = viewer.statistics?.manga?.volumesRead?.toString() ?: "0"

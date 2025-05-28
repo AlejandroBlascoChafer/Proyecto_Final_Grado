@@ -12,15 +12,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.databinding.ItemLinkBinding
-import com.example.proyecto_final_grado.listeners.OnAnimeClickListener
-import com.example.proyecto_final_grado.listeners.OnMangaClickListener
 import com.squareup.picasso.Picasso
 import graphql.GetMediaDetailQuery
 
 class ExternalLinksAdapter(
-    private val externalLinksList: List<GetMediaDetailQuery.ExternalLink?>,
-    private val listenerManga: OnMangaClickListener,
-    private val listenerAnime: OnAnimeClickListener
+    private val externalLinksList: List<GetMediaDetailQuery.ExternalLink?>
 ) :
     RecyclerView.Adapter<ExternalLinksAdapter.ExternalLinksViewHolder>() {
     private lateinit var binding: ItemLinkBinding
@@ -42,7 +38,8 @@ class ExternalLinksAdapter(
         if (link?.language == null){
             holder.textView.text = link?.site
         } else {
-            holder.textView.text = link.site + " (" +link.language + ")"
+            val text = link.site + " (" +link.language + ")"
+            holder.textView.text = text
         }
 
         val backgroundColor = try {

@@ -7,12 +7,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.activities.MainActivity
 import com.example.proyecto_final_grado.adapters.homeAdapters.SearchAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
@@ -102,7 +105,7 @@ class SearchFragment : Fragment(), OnCharacterClickListener, OnStaffClickListene
                     "anime" -> {
                         apolloClient.query(
                             SearchAnimeMangaQuery(Optional.present(query), Optional.present(MediaType.ANIME))
-                        ).execute().data?.Page?.media?.mapNotNull {
+                        ).fetchPolicy(FetchPolicy.NetworkOnly).execute().data?.Page?.media?.mapNotNull {
                             it?.takeIf { media -> allowAdult || media.isAdult == false }?.let { media ->
                                 SearchItem.AnimeMangaItem(
                                     id = media.id,
@@ -119,7 +122,7 @@ class SearchFragment : Fragment(), OnCharacterClickListener, OnStaffClickListene
                     "manga" -> {
                         apolloClient.query(
                             SearchAnimeMangaQuery(Optional.present(query), Optional.present(MediaType.MANGA))
-                        ).execute().data?.Page?.media?.mapNotNull {
+                        ).fetchPolicy(FetchPolicy.NetworkOnly).execute().data?.Page?.media?.mapNotNull {
                             it?.takeIf { media -> allowAdult || media.isAdult == false }?.let { media ->
                                 SearchItem.AnimeMangaItem(
                                     id = media.id,
@@ -136,7 +139,7 @@ class SearchFragment : Fragment(), OnCharacterClickListener, OnStaffClickListene
                     "characters" -> {
                         apolloClient.query(
                             SearchCharactersQuery(Optional.present(query))
-                        ).execute().data?.Page?.characters?.mapNotNull {
+                        ).fetchPolicy(FetchPolicy.NetworkOnly).execute().data?.Page?.characters?.mapNotNull {
                             it?.let { char ->
                                 SearchItem.CharacterItem(
                                     id = char.id,
@@ -150,7 +153,7 @@ class SearchFragment : Fragment(), OnCharacterClickListener, OnStaffClickListene
                     "staff" -> {
                         apolloClient.query(
                             SearchStaffQuery(Optional.present(query))
-                        ).execute().data?.Page?.staff?.mapNotNull {
+                        ).fetchPolicy(FetchPolicy.NetworkOnly).execute().data?.Page?.staff?.mapNotNull {
                             it?.let { staff ->
                                 SearchItem.StaffItem(
                                     id = staff.id,
@@ -164,7 +167,7 @@ class SearchFragment : Fragment(), OnCharacterClickListener, OnStaffClickListene
                     "studios" -> {
                         apolloClient.query(
                             SearchStudioQuery(query)
-                        ).execute().data?.Page?.studios?.mapNotNull {
+                        ).fetchPolicy(FetchPolicy.NetworkOnly).execute().data?.Page?.studios?.mapNotNull {
                             it?.let { studio ->
                                 Log.d("Studio",studio.name + " " + query)
                                 val coverImage = studio.media?.nodes?.firstOrNull()?.coverImage?.large ?: ""
@@ -187,7 +190,7 @@ class SearchFragment : Fragment(), OnCharacterClickListener, OnStaffClickListene
 
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.e("SearchError", "Error: ${e.message}")
+                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
         }

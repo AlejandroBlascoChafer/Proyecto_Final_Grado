@@ -1,5 +1,6 @@
 package com.example.proyecto_final_grado.adapters.homeAdapters
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ class SearchAdapter(private var list: List<SearchItem>,
                     private val studioClickListener: OnStudioClickListener
 ) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(newList: List<SearchItem>) {
         list = newList
         notifyDataSetChanged()

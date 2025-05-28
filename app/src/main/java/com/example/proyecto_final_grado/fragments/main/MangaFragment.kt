@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -86,7 +87,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
             filteredList?.filterNotNull()?.let { mangaAdapter.submitList(it) }
         }
 
-        sharedViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+        sharedViewModel.loadingManga.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading == true) {
                 binding.loadingLayout.apply {
                     visibility = View.VISIBLE
@@ -95,7 +96,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
             } else {
                 binding.loadingLayout.apply {
                     startAnimation(fadeOut)
-                    postDelayed({ visibility = View.GONE }, 250) // Espera a que termine el fadeOut
+                    postDelayed({ visibility = View.GONE }, 250)
                 }
             }
         }
@@ -157,7 +158,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -180,7 +181,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -199,7 +200,7 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
                 Log.d("ScoreDebug", "score: $score, scoreFormat: $scoreFormat")
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
             withContext(Dispatchers.Main){
@@ -236,9 +237,9 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
                 })
 
                 AlertDialog.Builder(context)
-                    .setTitle("Cambiar puntuación")
+                    .setTitle("Change Score")
                     .setView(binding.root)
-                    .setPositiveButton("Aceptar") { _, _ ->
+                    .setPositiveButton("OK") { _, _ ->
                         val value = binding.seekBarScore.progress
                         val finalScore = when (scoreFormat) {
                             "POINT_10_DECIMAL" -> value / 10f
@@ -258,12 +259,12 @@ class MangaFragment : Fragment(), OnAddChClickListener, OnScoreClickListener, On
                                 }
                             } catch (e: Exception) {
                                 withContext(Dispatchers.Main) {
-                                    Log.d("Error", "Error al actualizar puntuación: ${e.message}")
+                                    Toast.makeText(context, "Error Fetching from network", Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }
                     }
-                    .setNegativeButton("Cancelar", null)
+                    .setNegativeButton("Cancel", null)
                     .show()
             }
         }

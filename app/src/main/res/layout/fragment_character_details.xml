@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Banner -->
         <ImageView
             android:id="@+id/characterBannerImageView"
             android:layout_width="0dp"
@@ -21,23 +20,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Overlay para mejorar legibilidad del texto -->
         <View
             android:id="@+id/bannerOverlay"
             android:layout_width="0dp"
-            android:layout_height="250dp"
+            android:layout_height="270dp"
             android:background="#80000000"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Nombre superpuesto -->
-        <!-- Nombre principal (abajo izquierda del banner) -->
         <TextView
             android:id="@+id/characterNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Character Name"
+            android:text="@string/character_name"
             android:textStyle="bold"
             android:textSize="22sp"
             android:textColor="@android:color/white"
@@ -46,12 +42,11 @@
             app:layout_constraintBottom_toBottomOf="@+id/characterBannerImageView"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- Nombre nativo (justo debajo del nombre principal) -->
         <TextView
             android:id="@+id/characterNativeNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Native name"
+            android:text=""
             android:textSize="18sp"
             android:textColor="@android:color/white"
             android:layout_marginStart="16dp"
@@ -59,12 +54,12 @@
             app:layout_constraintBottom_toBottomOf="@+id/characterBannerImageView"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- Alternativos (más abajo) -->
+
         <TextView
             android:id="@+id/characterAlternativeNamesTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alternative names"
+            android:text=""
             android:textColor="@android:color/white"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="12dp"
@@ -72,7 +67,6 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-        <!-- Contenedor de contenido inferior -->
         <LinearLayout
             android:id="@+id/characterDetailContainer"
             android:layout_width="0dp"
@@ -88,15 +82,14 @@
                 android:id="@+id/favButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Set as favourite"
+                android:text="@string/set_as_favourite"
                 style="@style/AniTrackButton.Default"/>
 
-            <!-- Descripción -->
             <TextView
                 android:id="@+id/characterDescriptionTitleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description"
+                android:text="@string/description"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_marginTop="8dp" />
@@ -105,7 +98,7 @@
                 android:id="@+id/characterDescriptionTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Character description..."
+                android:text=""
                 android:maxLines="5"
                 android:layout_marginTop="4dp" />
 
@@ -125,19 +118,18 @@
                 android:background="@android:color/darker_gray"
                 android:layout_marginVertical="8dp"/>
 
-            <!-- Género y favoritos -->
             <TextView
                 android:id="@+id/characterGenderTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gender: Female"
+                android:text="Gender:"
                 android:layout_marginTop="12dp" />
 
             <TextView
                 android:id="@+id/characterFavouritesTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Favourites: 123456"
+                android:text="Favourites:"
                 android:layout_marginTop="4dp" />
 
             <View
@@ -147,12 +139,11 @@
                 android:background="@android:color/darker_gray"
                 android:layout_marginVertical="8dp"/>
 
-            <!-- Voice Actors -->
             <TextView
                 android:id="@+id/characterSeiyuuTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Voice Actors"
+                android:text="@string/voice_actors"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp" />
 
@@ -176,7 +167,7 @@
                 android:id="@+id/characterMediaTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Media appearances"
+                android:text="@string/media_appearances"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp" />
 

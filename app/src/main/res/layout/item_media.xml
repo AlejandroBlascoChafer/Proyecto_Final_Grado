@@ -10,6 +10,7 @@
         android:id="@+id/mediaImageView"
         android:layout_width="100dp"
         android:layout_height="140dp"
+        android:contentDescription="@string/mediaimage"
         android:scaleType="centerCrop" />
 
     <TextView

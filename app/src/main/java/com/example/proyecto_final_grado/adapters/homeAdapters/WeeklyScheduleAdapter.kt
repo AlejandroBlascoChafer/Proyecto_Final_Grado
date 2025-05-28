@@ -67,7 +67,8 @@ class WeeklyScheduleAdapter(private val listenerAnime: OnAnimeClickListener) : L
         fun bind(item: WeeklyScheduleItem.Episode) {
             val entry = item.entry
             titleText.text = entry.title
-            episodeTimeText.text = "Episode ${entry.episode} at ${entry.time.format(timeFormatter)}"
+            val text ="Episode ${entry.episode} at ${entry.time.format(timeFormatter)}"
+            episodeTimeText.text = text
 
             if (!entry.imageUrl.isNullOrEmpty()) {
                 Picasso.get()

@@ -1,5 +1,6 @@
 package com.example.proyecto_final_grado.adapters.homeAdapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -65,6 +66,7 @@ class AnimeTrendAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(newList: List<GetTrendingAnimeQuery.Medium?>) {
         animeList = newList
         notifyDataSetChanged()

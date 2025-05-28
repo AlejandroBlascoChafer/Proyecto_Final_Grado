@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.adapters.details.AllCharactersAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentAllCharactersBinding
@@ -88,14 +91,12 @@ class AllCharactersFragment : Fragment(), OnCharacterClickListener, OnStaffClick
             }
         }
 
-        // Inicializa el adapter con el idioma actual
         (binding.allCharactersRecyclerView.adapter as? AllCharactersAdapter)?.setVoiceActorLanguage(currentLanguage)
     }
 
 
     override fun onResume() {
         super.onResume()
-        // Cada vez que el fragmento está visible, resetea el adapter con todos los idiomas y el texto actual
         setupLanguageSelector(currentLanguage)
     }
 
@@ -104,7 +105,7 @@ class AllCharactersFragment : Fragment(), OnCharacterClickListener, OnStaffClick
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apolloClient.query(GetMediaDetailQuery(mediaID)).execute()
+                val response = apolloClient.query(GetMediaDetailQuery(mediaID)).fetchPolicy(FetchPolicy.NetworkOnly).execute()
 
                 withContext(Dispatchers.Main) {
                     allCharacters = response.data?.Media?.characters?.edges ?: emptyList()
@@ -117,7 +118,7 @@ class AllCharactersFragment : Fragment(), OnCharacterClickListener, OnStaffClick
 
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.e("Error", "Error fetching manga details: ${e.message}")
+                    Toast.makeText(context, "Error fetching all characters", Toast.LENGTH_SHORT).show()
                 }
             }
         }

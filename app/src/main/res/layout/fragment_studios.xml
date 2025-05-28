@@ -24,11 +24,9 @@
             android:id="@+id/favButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Set as favourite"
+            android:text="@string/set_as_favourite"
             style="@style/AniTrackButton.Default"/>
 
-
-        <!-- Separator -->
         <View
             android:id="@+id/separatorRecycler"
             android:layout_width="match_parent"
@@ -40,7 +38,7 @@
             android:id="@+id/mediaRecyclerStudio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Media: "
+            android:text="@string/media"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginBottom="8dp" />

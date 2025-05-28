@@ -8,7 +8,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_grado.adapters.homeAdapters.SeasonalAdapter
 import com.example.proyecto_final_grado.databinding.FragmentSeasonalBinding
@@ -50,7 +49,7 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
 
         setupUI(initialSeason, initialYear)
 
-        viewModel.seasonalAnimeList.observe(viewLifecycleOwner, Observer { animeList ->
+        viewModel.seasonalAnimeList.observe(viewLifecycleOwner) { animeList ->
             if (binding.animeRecyclerView.adapter == null) {
                 binding.animeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
                 binding.animeRecyclerView.adapter = SeasonalAdapter(animeList, this)
@@ -58,7 +57,7 @@ class SeasonalFragment : Fragment(), OnAnimeClickListener {
                 (binding.animeRecyclerView.adapter as SeasonalAdapter).updateList(animeList)
             }
             binding.animeRecyclerView.scrollToPosition(0)
-        })
+        }
 
         viewModel.season.observe(viewLifecycleOwner) { season ->
             val index = seasonsList.indexOf(season.name)

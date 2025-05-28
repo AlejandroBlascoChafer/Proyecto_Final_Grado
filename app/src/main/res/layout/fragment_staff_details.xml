@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
 
-        <!-- Imagen y nombre -->
         <ImageView
             android:id="@+id/imageStaff"
             android:layout_width="120dp"
@@ -38,7 +37,6 @@
             android:textSize="14sp"
             android:layout_marginBottom="8dp" />
 
-        <!-- Ocupaciones -->
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupOccupations"
             android:layout_width="wrap_content"
@@ -51,10 +49,9 @@
             android:id="@+id/favButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Set as favourite"
+            android:text="@string/set_as_favourite"
             style="@style/AniTrackButton.Default"/>
 
-        <!-- Staff details -->
         <TextView
             android:id="@+id/textStaffDetails"
             android:layout_width="match_parent"
@@ -62,7 +59,6 @@
             android:textSize="14sp"
             android:layout_marginBottom="12dp" />
 
-        <!-- Separator -->
         <View
             android:id="@+id/separatorDescription"
             android:layout_width="match_parent"
@@ -70,7 +66,6 @@
             android:background="@android:color/darker_gray"
             android:layout_marginVertical="8dp" />
 
-        <!-- Descripción -->
         <TextView
             android:id="@+id/textStaffDescription"
             android:layout_width="match_parent"
@@ -88,8 +83,6 @@
             android:background="@color/transparent"
             android:layout_gravity="center" />
 
-
-        <!-- Separator -->
         <View
             android:id="@+id/separatorStaffMedia"
             android:layout_width="match_parent"
@@ -97,12 +90,11 @@
             android:background="@android:color/darker_gray"
             android:layout_marginVertical="8dp" />
 
-        <!-- Staff Media -->
         <TextView
             android:id="@+id/titleStaffMedia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Media"
+            android:text="@string/media"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginBottom="8dp" />
@@ -114,7 +106,6 @@
             android:nestedScrollingEnabled="false"
             android:layout_marginBottom="16dp" />
 
-        <!-- Separator -->
         <View
             android:id="@+id/separatorCharacters"
             android:layout_width="match_parent"
@@ -123,12 +114,11 @@
             android:layout_marginVertical="8dp"
             android:visibility="gone" />
 
-        <!-- Characters -->
         <TextView
             android:id="@+id/titleCharacters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Characters"
+            android:text="@string/characters"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginBottom="8dp"

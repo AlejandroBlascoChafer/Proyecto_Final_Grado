@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto_final_grado.R
 import com.example.proyecto_final_grado.databinding.ItemAllCharactersBinding
 import com.example.proyecto_final_grado.listeners.OnCharacterClickListener
 import com.example.proyecto_final_grado.listeners.OnStaffClickListener
@@ -78,7 +77,6 @@ class AllCharactersAdapter(
     fun setVoiceActorLanguage(language: String) {
         if (voiceActorLanguage != language) {
             voiceActorLanguage = language
-            // Actualiza solo los ítems visibles para mejorar rendimiento
             notifyItemRangeChanged(0, allCharactersList.size)
         }
     }

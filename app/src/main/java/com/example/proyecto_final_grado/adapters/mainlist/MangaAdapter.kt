@@ -1,5 +1,7 @@
 package com.example.proyecto_final_grado.adapters.mainlist
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -63,6 +65,7 @@ class MangaAdapter(
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(newList: List<GetUserMangaListQuery.Entry>) {
         mangaList = newList
         this.notifyDataSetChanged()
@@ -70,7 +73,7 @@ class MangaAdapter(
 
     inner class FullViewHolder(private val binding: ItemMediaFullMangaBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            val context = binding.root.context
+            val context: Context = binding.root.context
         fun bind(manga: GetUserMangaListQuery.Entry) {
             val chaptersRead = manga.progress ?: 0
             val totalChapters = manga.media?.chapters
@@ -169,7 +172,7 @@ class MangaAdapter(
     inner class SimpleViewHolder(private val binding: ItemMediaSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        val context = binding.root.context
+        val context: Context = binding.root.context
         fun bind(manga: GetUserMangaListQuery.Entry) {
             val volumesRead = manga.progressVolumes ?: 0
             val totalVolumes = manga.media?.volumes ?: "?"
@@ -252,10 +255,8 @@ class MangaAdapter(
     fun formatScore(score: Double?): String {
         if (score != null) {
             return if (score % 1.0 == 0.0) {
-                // Es entero, quitar decimales
                 score.toInt().toString()
             } else {
-                // Tiene decimales, mostrar tal cual (o con formato)
                 score.toString()
             }
         }

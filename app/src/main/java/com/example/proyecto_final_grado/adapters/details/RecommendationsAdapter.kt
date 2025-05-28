@@ -45,9 +45,9 @@ class RecommendationsAdapter(
         val chapters = recommendation.node?.mediaRecommendation?.chapters
         val episodes = recommendation.node?.mediaRecommendation?.episodes
         if ( recommendation.node?.mediaRecommendation?.type?.name == "MANGA" ){
-            holder.formatEpisodesView.text = if (chapters != null) "$format · ${chapters} chapters" else "$format"
+            holder.formatEpisodesView.text = if (chapters != null) "$format · $chapters chapters" else "$format"
         } else{
-            holder.formatEpisodesView.text = if (episodes != null) "$format · ${episodes} episodes" else "$format"
+            holder.formatEpisodesView.text = if (episodes != null) "$format · $episodes episodes" else "$format"
         }
 
         holder.scoreView.text = recommendation.node?.mediaRecommendation?.meanScore.toString()

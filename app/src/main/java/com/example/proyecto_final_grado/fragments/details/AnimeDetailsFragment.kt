@@ -1,5 +1,6 @@
 package com.example.proyecto_final_grado.fragments.details
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -71,15 +73,14 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Obtener el mediaId del Bundle
         mediaId = arguments?.getInt("MEDIA_ID")
 
-        // Realizar la consulta si el mediaId no es null
         mediaId?.let { id ->
             fetchAnimeDetails(id)
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun fetchAnimeDetails(mediaID: Int){
         apolloClient = ApolloClientProvider.getApolloClient(requireContext())
 
@@ -115,14 +116,13 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                         isDescriptionExpanded = !isDescriptionExpanded
                     }
 
-                    binding.genresChipGroup.removeAllViews()  // Limpiar chips previos
+                    binding.genresChipGroup.removeAllViews()
 
                     media?.genres?.forEach { genre ->
                         val chip = Chip(binding.genresChipGroup.context).apply {
                             text = genre
                             isClickable = false
                             isCheckable = false
-                            // Si quieres, puedes aplicar estilo o color aquí
                         }
                         binding.genresChipGroup.addView(chip)
                     }
@@ -250,7 +250,7 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                     binding.externalLinksRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                         val links = media?.externalLinks?.filterNotNull() ?: emptyList()
-                        adapter = ExternalLinksAdapter(links, this@AnimeDetailsFragment, this@AnimeDetailsFragment)
+                        adapter = ExternalLinksAdapter(links)
                     }
 
                     binding.showMoreCharacters.setOnClickListener{
@@ -272,11 +272,7 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                     }
 
 
-                    if (media?.isFavourite == true){
-                        isFavourite = true
-                    } else {
-                        isFavourite = false
-                    }
+                    isFavourite = media?.isFavourite == true
 
                     Log.d("Favorito", "ID: ${mediaID}, Favorito: ${media?.isFavourite}")
                     updateFavouriteButtonStyle()
@@ -286,7 +282,7 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Toast.makeText(context, "Error fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -301,7 +297,7 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                     characterId = Optional.absent(),
                     studioId = Optional.absent(),
                     staffId = Optional.absent()
-                )).fetchPolicy(FetchPolicy.NetworkFirst).execute()
+                )).fetchPolicy(FetchPolicy.NetworkOnly).execute()
 
                 val updatedEntry = response.data?.ToggleFavourite?.anime
                 if (updatedEntry != null) {
@@ -314,7 +310,7 @@ class AnimeDetailsFragment : Fragment(), OnCharacterClickListener, OnAnimeClickL
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.d("Error", "${e.message}")
+                    Toast.makeText(context, "Error fetching from network", Toast.LENGTH_SHORT).show()
                 }
             }
         }

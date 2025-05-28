@@ -39,19 +39,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
-                        <!-- Imagen de perfil -->
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/profileImage"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:contentDescription="Profile Picture"
+                            android:contentDescription="@string/profile_picture"
                             android:scaleType="centerCrop"
                             android:background="@drawable/circle_background"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent" />
 
-                        <!-- Nombre de usuario -->
                         <TextView
                             android:id="@+id/usernameText"
                             android:layout_width="wrap_content"
@@ -64,24 +62,13 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent" />
 
-                        <!-- Botones menú -->
-                        <ImageButton
-                            android:id="@+id/editProfileButton"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_activity"
-                            android:contentDescription="Edit Profile"
-                            app:layout_constraintEnd_toStartOf="@id/settingsButton"
-                            app:layout_constraintTop_toTopOf="parent" />
-
                         <ImageButton
                             android:id="@+id/settingsButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_more"
-                            android:contentDescription="Config"
+                            android:contentDescription="@string/config"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -103,7 +90,7 @@
                 android:id="@+id/bioTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bio"
+                android:text="@string/bio"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"
                 app:layout_constraintTop_toBottomOf="@id/usernameText"
@@ -128,33 +115,32 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <!-- Aquí pones pares: título / valor -->
-                <TextView android:text="Total Anime" />
+                <TextView android:text="@string/total_anime" />
                 <TextView android:id="@+id/statTotalAnime" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Episodes Watched"/>
+                <TextView android:text="@string/episodes_watched"/>
                 <TextView android:id="@+id/statEpisodes" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Days Watched"/>
+                <TextView android:text="@string/days_watched"/>
                 <TextView android:id="@+id/statDays" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Anime Mean Score" />
+                <TextView android:text="@string/anime_mean_score" />
                 <TextView android:id="@+id/statAnimeScore" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Total Manga" />
+                <TextView android:text="@string/total_manga" />
                 <TextView android:id="@+id/statTotalManga" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Chapters Read" />
+                <TextView android:text="@string/chapters_read" />
                 <TextView android:id="@+id/statChapters" android:text=""  android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Volumes Read" />
+                <TextView android:text="@string/volumes_read" />
                 <TextView android:id="@+id/statVolumes" android:text="" android:layout_marginStart="10dp"/>
 
-                <TextView android:text="Manga Mean Score"/>
+                <TextView android:text="@string/manga_mean_score"/>
                 <TextView android:id="@+id/statMangaScore" android:text="" android:layout_marginStart="10dp"/>
 
             </GridLayout>
 
-            <!-- com.example.proyecto_final_grado.Anime Likes -->
             <TextView
                 android:id="@+id/tvAnime"
                 android:layout_width="wrap_content"
@@ -173,7 +159,6 @@
                 android:layout_marginBottom="16dp"
                 android:orientation="horizontal" />
 
-            <!-- Manga Likes -->
             <TextView
                 android:id="@+id/tvManga"
                 android:layout_width="wrap_content"
@@ -192,7 +177,6 @@
                 android:layout_marginBottom="16dp"
                 android:orientation="horizontal" />
 
-            <!-- Characters Likes -->
             <TextView
                 android:id="@+id/tvCharacters"
                 android:layout_width="wrap_content"
@@ -211,7 +195,6 @@
                 android:layout_marginBottom="16dp"
                 android:orientation="horizontal" />
 
-            <!-- Staff Likes -->
             <TextView
                 android:id="@+id/tvStaff"
                 android:layout_width="wrap_content"
@@ -230,7 +213,6 @@
                 android:layout_marginBottom="24dp"
                 android:orientation="horizontal" />
 
-            <!-- Studio Likes -->
             <TextView
                 android:id="@+id/tvStudio"
                 android:layout_width="wrap_content"

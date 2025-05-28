@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!-- Imagen sin padding -->
         <ImageView
             android:id="@+id/ivCover"
             android:layout_width="100dp"
@@ -29,7 +28,6 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <!-- Título -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
@@ -41,7 +39,6 @@
                 android:ellipsize="end"
                 android:textSize="15sp" />
 
-            <!-- Año de salida -->
             <TextView
                 android:id="@+id/tvStudio"
                 android:layout_width="match_parent"
@@ -60,7 +57,6 @@
                 android:layout_marginTop="25dp"
                 android:baselineAligned="false">
 
-                <!-- Score con icono -->
                 <TextView
                     android:id="@+id/tvScore"
                     android:layout_width="match_parent"

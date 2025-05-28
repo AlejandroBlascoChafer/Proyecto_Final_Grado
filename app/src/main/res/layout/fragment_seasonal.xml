@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/animeRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,7 +11,6 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <!-- Título -->
         <TextView
             android:id="@+id/tvAnimeTitle"
             android:layout_width="wrap_content"
@@ -20,10 +18,8 @@
             android:text="@string/seasonal_list"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/textPrimary"
             android:layout_marginBottom="12dp" />
 
-        <!-- Botón mostrar/ocultar filtros -->
         <Button
             android:id="@+id/btnToggleFilters"
             android:layout_width="wrap_content"
@@ -32,17 +28,14 @@
             android:layout_gravity="end"
             android:layout_marginBottom="8dp" />
 
-        <!-- Texto con info de filtros activos -->
         <TextView
             android:id="@+id/textFilterInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textSecondary"
             android:textSize="14sp"
             android:layout_marginBottom="8dp"
             />
 
-        <!-- Contenedor de filtros -->
         <LinearLayout
             android:id="@+id/layoutFilters"
             android:layout_width="match_parent"
@@ -50,7 +43,6 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <!-- Chips de filtro -->
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroupFormat"
                 android:layout_width="match_parent"
@@ -126,7 +118,6 @@
 
             </LinearLayout>
 
-            <!-- Spinners para ordenar (ahora dentro del layoutFilters) -->
             <Spinner
                 android:id="@+id/spinnerSortBy"
                 android:layout_width="match_parent"
@@ -141,7 +132,6 @@
 
         </LinearLayout>
 
-        <!-- Lista de animes -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/animeRecyclerView"
             android:layout_width="match_parent"

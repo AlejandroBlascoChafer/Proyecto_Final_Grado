@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
 import com.example.proyecto_final_grado.adapters.details.AllStaffAdapter
 import com.example.proyecto_final_grado.apollo.ApolloClientProvider
 import com.example.proyecto_final_grado.databinding.FragmentAllStaffBinding
@@ -46,7 +49,7 @@ class AllStaffFragment : Fragment(), OnStaffClickListener {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apolloClient.query(GetMediaDetailQuery(mediaID)).execute()
+                val response = apolloClient.query(GetMediaDetailQuery(mediaID)).fetchPolicy(FetchPolicy.NetworkOnly).execute()
                 withContext(Dispatchers.Main) {
                     binding.allStaffRecyclerView.apply {
                         layoutManager = GridLayoutManager(requireContext(), 2)
@@ -56,7 +59,7 @@ class AllStaffFragment : Fragment(), OnStaffClickListener {
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.e("Error", "Error fetching staff details: ${e.message}")
+                    Toast.makeText(context, "Error fetching all staff", Toast.LENGTH_SHORT).show()
                 }
             }
         }

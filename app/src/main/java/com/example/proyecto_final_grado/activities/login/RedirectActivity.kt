@@ -25,11 +25,12 @@ class RedirectActivity : AppCompatActivity() {
         if (code != null) {
             exchangeCodeForToken(code)
         } else {
-            Toast.makeText(this, "No se pudo obtener el código de autorización", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Could not obtain authorization code", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
 
+    // Exchange OAuth authorization code for access token asynchronously
     private fun exchangeCodeForToken(code: String) {
         val requestBody = FormBody.Builder()
             .add("grant_type", "authorization_code")
@@ -47,7 +48,7 @@ class RedirectActivity : AppCompatActivity() {
         OkHttpClient().newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    Toast.makeText(this@RedirectActivity, "Error de red", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RedirectActivity, "Network error", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -67,20 +68,20 @@ class RedirectActivity : AppCompatActivity() {
                         } else {
                             Log.e("RedirectActivity", "No access_token found in response")
                             runOnUiThread {
-                                Toast.makeText(this@RedirectActivity, "Error: access_token no encontrado", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@RedirectActivity, "Error: access_token not found", Toast.LENGTH_SHORT).show()
                             }
                         }
                     } catch (e: Exception) {
                         Log.e("RedirectActivity", "Error parsing response: ${e.message}")
                         runOnUiThread {
-                            Toast.makeText(this@RedirectActivity, "Error al procesar la respuesta", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@RedirectActivity, "Error processing response", Toast.LENGTH_SHORT).show()
                         }
                     }
                 } else {
                     Log.e("RedirectActivity", "Error ${response.code}")
-                    Log.e("RedirectActivity", "Cuerpo: $responseString")
+                    Log.e("RedirectActivity", "Body: $responseString")
                     runOnUiThread {
-                        Toast.makeText(this@RedirectActivity, "Error autenticando", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@RedirectActivity, "Authentication error", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
